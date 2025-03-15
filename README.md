@@ -4,6 +4,7 @@
 SQL (MySQL), Node.js, React
 
 ### How to run client side
+- `cd client`
 - `cd inoculyst`
 - `npm start`
 
