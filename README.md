@@ -16,3 +16,5 @@ SQL (MySQL), Node.js, React
 This will start the development build in your browser.
 
 ### How to run server side
+- `cd server`
+- `node index.js`
