@@ -21,7 +21,7 @@ This will start the development build in your browser.
 ### versions
 - react: 19.0.0
 - node: v22.14.0
-- npm: 11.2.0
+- npm: 10.9.2
 
 ### Installs
 - npm install axios
