@@ -4,13 +4,13 @@
 SQL (MySQL), Node.js, React
 
 ### How to run client side
+#### Set up
+- `cd client`
+- `npm install --legacy-peer-deps`
+
+#### Running it
 - `cd client`
 - `npm start`
-
-#### versions
-- react: 19.0.0
-- node: v22.14.0
-- npm: 11.2.0
 
 This will start the development build in your browser.
 
@@ -18,6 +18,10 @@ This will start the development build in your browser.
 - `cd server`
 - `node index.js`
 
+### versions
+- react: 19.0.0
+- node: v22.14.0
+- npm: 11.2.0
 
 ### Installs
 - npm install axios
