@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-//import './App.css';
+// import logo from './logo.svg';
+// import './App.css';
 
 // function App() {
 //   return (
@@ -21,6 +21,9 @@ import logo from './logo.svg';
 //     </div>
 //   );
 // }
+
+// export default App;
+
 
 import axios from 'axios';
 import './App.css';
