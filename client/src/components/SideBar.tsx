@@ -89,7 +89,7 @@ export default function SideBar() {
             </div>
             <div className="bg-dark1/30 p-6">
                 <p className="font-semibold">Admin name</p>
-                <p className="text-dark_green text-gray-400">Owner</p>
+                <p className="text-dark_green">Owner</p>
             </div>
 
             <ul className="flex flex-col w-full">
