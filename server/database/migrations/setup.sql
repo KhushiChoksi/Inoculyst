@@ -7,7 +7,7 @@ USE INOCULYST;
 -- table: ADMIN
 CREATE TABLE IF NOT EXISTS ADMIN (
   ID CHAR(10) NOT NULL,
-  First_name VARCHAR(20),
+  First_name VARCHAR(20) NOT NULL,
   Last_name VARCHAR(20) NOT NULL,
   Email VARCHAR(20),
   Phone_Number CHAR(10),
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS ACCOUNT (
   ID CHAR(10) NOT NULL,
   Account_type VARCHAR(10) NOT NULL,
   Username VARCHAR(20) NOT NULL,
-  -- Password VARCHAR(20) NOT NULL,
+  Password VARCHAR(20) NOT NULL,
   PRIMARY KEY(ID),
   FOREIGN KEY(ID) REFERENCES ADMIN(ID) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(ID) REFERENCES EMPLOYEE(ID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -68,5 +68,36 @@ CREATE TABLE IF NOT EXISTS ASSISTANT (
 );
 
 
--- run this to initalize: mysql -u root -p < database/migrations/init.sql
+
+
+----- INVENTORY RELATED TABLES ------
+-- table: INVENTORY
+CREATE TABLE IF NOT EXISTS INVENTORY (
+  Pharmacy_Name varchar(20) NOT NULL,
+  Batch_Number char(10),
+  PRIMARY KEY(Pharmacy_Name),
+  FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE 
+);
+
+-- table: BATCH
+CREATE TABLE IF NOT EXISTS BATCH (
+  Batch_Number char(10) NOT NULL
+  Order_status varchar(10) 
+  Date_Added date,
+  Batch_Quantity int,
+  Expiry_Date date,
+  PRIMARY KEY(Batch_Number)
+);
+
+-- table: VACCINE
+CREATE TABLE IF NOT EXISTS VACCINE (
+  Vaccine_Name varchar(20) NOT NULL,
+  Brand_Name varchar(20) NOT NULL,
+  Diseases varchar(20),
+  Batch_Number char(10),
+  PRIMARY KEY(Vaccine_Name),
+  FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE
+);
+
+-- run this to initalize: mysql -u root -p < database/migrations/setup.sql
 -- (don't run it right now)
