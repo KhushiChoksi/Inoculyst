@@ -4,4 +4,10 @@ const controller = require('../../controllers/roles/adminController');
 
 router.get('/', controller.getAllAdmins);
 
+// update information
+router.put('/:id/first-name', controller.updateFirstName);
+router.put('/:id/last-name', controller.updateLastName);
+router.put('/:id/email', controller.updateEmail);
+router.put('/:id/phone', controller.updatePhone);
+
 module.exports = router;
