@@ -16,6 +16,7 @@ This will start the development build in your browser.
 
 ### How to run server side
 - `cd server`
+- `npm install`
 - `node index.js`
 
 ### versions
@@ -23,9 +24,13 @@ This will start the development build in your browser.
 - node: v22.14.0
 - npm: 10.9.2
 
-### Installs
+### Client-Side Installs
 - npm install axios
 - npm install react-router-dom
 - npm install react-icons
 - npm install --save typescript @types/node @types/react @types/react-dom @types/jest
 - npm install -D tailwindcss postcss autoprefixer --legacy-peer-deps 
+
+### Server-Side Installs
+- npm install mysql2 (and npm install mysql), we are using mysql2 though
+- npm install cors

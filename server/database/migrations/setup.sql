@@ -3,13 +3,13 @@ CREATE DATABASE IF NOT EXISTS INOCULYST;
 USE INOCULYST;
 
 
------ USER / ROLE TABLES ------
+-- --- USER / ROLE TABLES ---- --
 -- table: ADMIN
 CREATE TABLE IF NOT EXISTS ADMIN (
   ID CHAR(10) NOT NULL,
-  First_name VARCHAR(20),
+  First_name VARCHAR(20) NOT NULL,
   Last_name VARCHAR(20) NOT NULL,
-  Email VARCHAR(20),
+  Email VARCHAR(100),
   Phone_Number CHAR(10),
   PRIMARY KEY(ID)
 );
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS ADMIN (
 -- table: EMPLOYEE
 CREATE TABLE IF NOT EXISTS EMPLOYEE (
   ID CHAR(10) NOT NULL,
-  First_name VARCHAR(20),
+  First_name VARCHAR(20) NOT NULL,
   Last_name VARCHAR(20) NOT NULL,
-  Email VARCHAR(20),
+  Email VARCHAR(100),
   Phone_number CHAR(10),
   PRIMARY KEY(ID)
 );
@@ -27,18 +27,18 @@ CREATE TABLE IF NOT EXISTS EMPLOYEE (
 -- table: ACCOUNT
 CREATE TABLE IF NOT EXISTS ACCOUNT (
   ID CHAR(10) NOT NULL,
-  Account_type VARCHAR(10) NOT NULL,
+  Account_type VARCHAR(20) NOT NULL CHECK (Account_type IN ('OWNER', 'PHARMACIST', 'TECHNICIAN', 'ASSISTANT')),
   Username VARCHAR(20) NOT NULL,
-  -- Password VARCHAR(20) NOT NULL,
-  PRIMARY KEY(ID),
-  FOREIGN KEY(ID) REFERENCES ADMIN(ID) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY(ID) REFERENCES EMPLOYEE(ID) ON DELETE CASCADE ON UPDATE CASCADE
+  Password VARCHAR(20) NOT NULL,
+  PRIMARY KEY(ID)
+  -- FOREIGN KEY(ID) REFERENCES ADMIN(ID) ON DELETE CASCADE ON UPDATE CASCADE,
+  -- FOREIGN KEY(ID) REFERENCES EMPLOYEE(ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- table: OWNER
 CREATE TABLE IF NOT EXISTS OWNER (
   Owner_ID CHAR(10) NOT NULL,
-  ID CHAR(10) NOT NULL,
+  ID CHAR(10),
   PRIMARY KEY(Owner_ID),
   FOREIGN KEY(Owner_ID) REFERENCES ADMIN(ID) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(ID) REFERENCES ACCOUNT(ID) ON UPDATE CASCADE
@@ -67,6 +67,129 @@ CREATE TABLE IF NOT EXISTS ASSISTANT (
   FOREIGN KEY(Assistant_ID) REFERENCES EMPLOYEE(ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- table: DISTRIBUTOR
+CREATE TABLE IF NOT EXISTS DISTRIBUTOR (
+  Name varchar(20) NOT NULL, 
+  Phone_Number char(10),
+  Email varchar(20),
+  PRIMARY KEY(Name)
+);
 
--- run this to initalize: mysql -u root -p < database/migrations/init.sql
--- (don't run it right now)
+
+
+-- --- INVENTORY RELATED TABLES ---- --
+-- table: BATCH
+CREATE TABLE IF NOT EXISTS BATCH (
+  Batch_Number char(10) NOT NULL,
+  Order_status varchar(10),
+  Date_Added date,
+  Batch_Quantity int,
+  Expiry_Date date,
+  PRIMARY KEY(Batch_Number)
+);
+
+-- table: INVENTORY
+CREATE TABLE IF NOT EXISTS INVENTORY (
+  Pharmacy_Name varchar(20) NOT NULL,
+  Batch_Number char(10),
+  PRIMARY KEY(Pharmacy_Name),
+  FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE 
+);
+
+-- table: REQUEST
+CREATE TABLE IF NOT EXISTS REQUEST (
+  Request_ID char(10) NOT NULL,
+  Technician_ID char(10) NOT NULL,
+  Batch_Number char(10) NOT NULL, 
+  Status varchar(10),
+  PRIMARY KEY(Request_ID, Technician_ID, Batch_Number),
+  FOREIGN KEY(Technician_ID) REFERENCES EMPLOYEE(ID) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- table: BATCH_PENDING_REQUESTS
+CREATE TABLE IF NOT EXISTS BATCH_PENDING_REQUESTS (
+  Batch_Number char(10) NOT NULL,
+  B_Pending_Requests varchar(20),
+  PRIMARY KEY(Batch_Number),
+  FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- table: VACCINE
+CREATE TABLE IF NOT EXISTS VACCINE (
+  Vaccine_Name varchar(20) NOT NULL,
+  Brand_Name varchar(20) NOT NULL,
+  Diseases varchar(20),
+  Batch_Number char(10),
+  PRIMARY KEY(Vaccine_Name),
+  FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE
+);
+
+
+-- --- ANALYTICS RELATED TABLES ---- --
+-- table: ANALYTICS
+CREATE TABLE IF NOT EXISTS ANALYTICS (
+  Pharmacy_Name varchar(20) NOT NULL,
+  Update_Date date,
+  PRIMARY KEY(Pharmacy_Name),
+  FOREIGN KEY(Pharmacy_Name) REFERENCES INVENTORY(Pharmacy_Name) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- table: ANALYTICS_EXPIRED_BATCHES
+CREATE TABLE IF NOT EXISTS ANALYTICS_EXPIRED_BATCHES (
+  Pharmacy_Name varchar(20) NOT NULL,
+  A_Expired_Batches varchar(20) NOT NULL,
+  PRIMARY KEY(Pharmacy_Name, A_Expired_Batches),
+  FOREIGN KEY(Pharmacy_Name) REFERENCES ANALYTICS(Pharmacy_Name) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- table: ANALYTICS_NEWLY_ADDED_BATCHES
+CREATE TABLE IF NOT EXISTS ANALYTICS_NEWLY_ADDED_BATCHES (
+  Pharmacy_Name varchar(20) NOT NULL,
+  A_Newly_Added_Batches varchar(20) NOT NULL,
+  PRIMARY KEY(Pharmacy_Name, A_Newly_Added_Batches),
+  FOREIGN KEY(Pharmacy_Name) REFERENCES ANALYTICS(Pharmacy_Name) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- table: ANALYTICS_UPCOMING_EXPIRING_BATCHES
+CREATE TABLE IF NOT EXISTS ANALYTICS_UPCOMING_EXPIRING_BATCHES (
+  Pharmacy_Name varchar(20) NOT NULL,
+  A_Upcoming_expring_Batches varchar(20) NOT NULL,
+  PRIMARY KEY(Pharmacy_Name, A_Upcoming_expring_Batches),
+  FOREIGN KEY(Pharmacy_Name) REFERENCES ANALYTICS(Pharmacy_Name) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+-- --- GENERAL/OTHER TABLES ---- --
+-- table: RETURNS_TO
+CREATE TABLE IF NOT EXISTS RETURNS_TO (
+  Admin_id char(10) NOT NULL,
+  Distributor_Name varchar(20) NOT NULL,
+  Return_ID char(10) NOT NULL,
+  Return_Status varchar(10),
+  PRIMARY KEY(Admin_id, Distributor_Name),
+  FOREIGN KEY(Distributor_Name) REFERENCES DISTRIBUTOR(Name) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- table: RETURNS_TO_RETURNED_BATCHES
+CREATE TABLE IF NOT EXISTS RETURNS_TO_RETURNED_BATCHES (
+  Admin_id char(10) NOT NULL,
+  R_Returned_batches varchar(20) NOT NULL,
+  PRIMARY KEY(Admin_id, R_Returned_batches),
+  FOREIGN KEY(Admin_id) REFERENCES RETURNS_TO(Admin_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+-- table: VACCINE_ACTIVE_INGREDIENTS
+CREATE TABLE VACCINE_ACTIVE_INGREDIENTS (
+  Vaccine_Name varchar(20) NOT NULL,
+  V_Active_Ingredients varchar(100) NOT NULL, 
+  PRIMARY KEY(Vaccine_Name, V_Active_Ingredients),
+  FOREIGN KEY(Vaccine_Name) REFERENCES VACCINE(Vaccine_Name) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+-- (make sure you are in `server` folder)
+-- run this to initalize: mysql -u inoculyst_user -p < database/migrations/setup.sql
+-- pass is inoculyst.
+-- set up details for this user account is in discord
