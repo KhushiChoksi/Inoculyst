@@ -189,5 +189,7 @@ CREATE TABLE VACCINE_ACTIVE_INGREDIENTS (
 );
 
 
--- run this to initalize: mysql -u root -p < database/migrations/setup.sql
--- (don't run it right now)
+-- (make sure you are in `server` folder)
+-- run this to initalize: mysql -u inoculyst_user -p < database/migrations/setup.sql
+-- pass is inoculyst.
+-- set up details for this user account is in discord
