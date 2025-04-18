@@ -1,20 +1,11 @@
 import React from 'react';
 
+import { useUser } from './UserContext.tsx';
 
-interface userInformation {
-    id: string;
-    accountType: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phoneNumber: string;
-    certificationNumber: string;
-  }
-  interface allUserInfo {
-    userData: userInformation;
-}
 
-const GetUserInformation: React.FC<allUserInfo> = ({ userData }) => {
+const GetUserInformation: React.FC = () => {
+  const { userData } = useUser();
+
     return (
         <div className="bg-light_screen/50 p-6 mb-8">
           <div className="grid md:grid-cols-2 gap-6">
