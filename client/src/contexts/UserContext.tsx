@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, ReactNode } from 'react';
 
 export interface UserInformation {
   id: string;
@@ -24,7 +24,7 @@ const defaultInfo: UserInformation = {
   certificationNumber: ''
 };
 
-const UserContext = createContext<UserContextType>({ userData: defaultInfo });
+export const UserContext = createContext<UserContextType>({ userData: defaultInfo });
 
 interface UserProviderProps {
   children: ReactNode;
@@ -37,9 +37,4 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, userData }
       {children}
     </UserContext.Provider>
   );
-};
-
-export const useUser = () => {
-  const context = useContext(UserContext);
-  return context;
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import GetUserInformation from "./GetUserInformation.tsx";
-import { UserProvider } from './UserContext.tsx';
+import { UserProvider } from '../../contexts/UserContext.tsx';
 
 const sampleData = {
   id: '30141345',

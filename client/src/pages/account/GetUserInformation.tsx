@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useUser } from './UserContext.tsx';
+import { useUser } from '../../hooks/useUser.tsx';
 
 
 const GetUserInformation: React.FC = () => {
