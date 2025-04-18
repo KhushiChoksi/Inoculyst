@@ -47,7 +47,7 @@ function App() {
         <Route path="/" element={<Login />} />
       </Routes>
 
-      <div className="ml-[265px]">    {/* margin from left side to account for side bar */}
+      <div className="ml-[255px]">    {/* margin from left side to account for side bar */}
         <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/inventory" element={<Inventory />} />
