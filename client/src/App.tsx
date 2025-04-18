@@ -14,7 +14,7 @@ import DistributorDetails from './pages/distributor-details/DistributorDetails.t
 import Account from './pages/account/Account.tsx';
 
 import SideBar from './components/SideBar.tsx';
-
+import HeaderBlock from './components/HeaderBlock.tsx';
 // (ignore this for now) data will be the string we send from our server
 // const apiCall = () => {
 //   axios.get('http://localhost:8080').then((data) => {
@@ -37,10 +37,12 @@ function App() {
     // </div>
 
     // later on, you will need to wrap these with the providers
-    <div>
-      {!hideNavbarRoutes.includes(location.pathname) && <SideBar />}    {/* conditionally render sidebar on pages except login */}
-
-      {/* separate route for login, to remove left margin */}
+    <div className="flex">
+      {!hideNavbarRoutes.includes(location.pathname) && <SideBar />}
+      
+      <div className="flex-1">
+        {!hideNavbarRoutes.includes(location.pathname) && <HeaderBlock />}
+        
       <Routes>
         <Route path="/" element={<Login />} />
       </Routes>
@@ -55,6 +57,7 @@ function App() {
             <Route path="/distributor-details" element={<DistributorDetails />} />
             <Route path="/account" element={<Account />} />
           </Routes>
+      </div>
       </div>
     </div>
   );
