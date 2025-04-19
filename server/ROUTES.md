@@ -16,7 +16,7 @@
 
 ### General/other tables
 - http://localhost:8080/vaccine
-  - http://localhost:8080/vaccines/ingredients
+  - http://localhost:8080/vaccine/ingredients
 - http://localhost:8080/analytics (this will just get you the update date)
   - http://localhost:8080/analytics/expired-batches
   - http://localhost:8080/analytics/expiring-batches
