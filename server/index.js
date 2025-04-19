@@ -22,6 +22,23 @@ app.use('/owner', ownerRoutes);
 app.use('/pharmacist', pharmacistRoutes);
 app.use('/technician', technicianRoutes);
 
+
+// routing to inventory related tables
+const inventoryRoutes = require('./routes/inventory/inventory');
+const batchRoutes = require('./routes/inventory/batches');
+
+app.use('/inventory', inventoryRoutes);
+app.use('/batches', batchRoutes);
+
+
+// routing to general tables
+const vaccineRoutes = require('./routes/general/vaccines');
+const analyticsRoutes = require('./routes/general/analytics');
+
+app.use('/vaccine', vaccineRoutes);
+app.use('/analytics', analyticsRoutes);
+
+
 app.listen(8080, () => {
   console.log('server listening on port 8080');
 });
