@@ -78,6 +78,16 @@ CREATE TABLE IF NOT EXISTS DISTRIBUTOR (
 
 
 -- --- INVENTORY RELATED TABLES ---- --
+-- table: VACCINE
+CREATE TABLE IF NOT EXISTS VACCINE (
+  Vaccine_Name varchar(100) NOT NULL,
+  Brand_Name varchar(100) NOT NULL,
+  Diseases varchar(100),
+  -- Batch_Number char(10),
+  PRIMARY KEY(Vaccine_Name)
+  -- FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE
+);
+
 -- table: BATCH
 CREATE TABLE IF NOT EXISTS BATCH (
   Batch_Number char(10) NOT NULL,
@@ -94,7 +104,7 @@ CREATE TABLE IF NOT EXISTS BATCH (
 CREATE TABLE IF NOT EXISTS INVENTORY (
   Pharmacy_Name varchar(20) NOT NULL,
   Batch_Number char(10),
-  PRIMARY KEY(Pharmacy_Name),
+  -- PRIMARY KEY(Pharmacy_Name),
   FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE 
 );
 
@@ -115,16 +125,6 @@ CREATE TABLE IF NOT EXISTS BATCH_PENDING_REQUESTS (
   B_Pending_Requests varchar(20),
   PRIMARY KEY(Batch_Number),
   FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
--- table: VACCINE
-CREATE TABLE IF NOT EXISTS VACCINE (
-  Vaccine_Name varchar(20) NOT NULL,
-  Brand_Name varchar(20) NOT NULL,
-  Diseases varchar(100),
-  -- Batch_Number char(10),
-  PRIMARY KEY(Vaccine_Name)
-  -- FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE
 );
 
 
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS RETURNS_TO_RETURNED_BATCHES (
 -- table: VACCINE_ACTIVE_INGREDIENTS
 CREATE TABLE VACCINE_ACTIVE_INGREDIENTS (
   Vaccine_Name varchar(20) NOT NULL,
-  V_Active_Ingredients varchar(100) NOT NULL, 
+  V_Active_Ingredients varchar(200) NOT NULL, 
   PRIMARY KEY(Vaccine_Name, V_Active_Ingredients),
   FOREIGN KEY(Vaccine_Name) REFERENCES VACCINE(Vaccine_Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
