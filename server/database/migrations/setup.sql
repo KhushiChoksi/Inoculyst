@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS ADMIN (
   First_name VARCHAR(20) NOT NULL,
   Last_name VARCHAR(20) NOT NULL,
   Email VARCHAR(100),
-  Phone_Number CHAR(10),
+  Phone_number CHAR(10),
   PRIMARY KEY(ID)
 );
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS ASSISTANT (
 -- table: DISTRIBUTOR
 CREATE TABLE IF NOT EXISTS DISTRIBUTOR (
   Name varchar(20) NOT NULL, 
-  Phone_Number char(10),
+  Phone_number char(10),
   Email varchar(20),
   PRIMARY KEY(Name)
 );

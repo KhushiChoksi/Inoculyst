@@ -58,7 +58,7 @@ exports.updatePhone = (req, res) => {
   const { id } = req.params;
   const { phone } = req.body;
 
-  const query = 'UPDATE ADMIN SET Phone_Number = ? WHERE ID = ?';
+  const query = 'UPDATE ADMIN SET Phone_number = ? WHERE ID = ?';
   db.query(query, [phone, id], (err, results) => {
     if (err) {
       console.error('DB error:', err);
