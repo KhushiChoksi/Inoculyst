@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS BATCH (
 CREATE TABLE IF NOT EXISTS INVENTORY (
   Pharmacy_Name varchar(20) NOT NULL,
   Batch_Number char(10),
-  -- PRIMARY KEY(Pharmacy_Name),
+  PRIMARY KEY(Pharmacy_Name, Batch_Number),
   FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE 
 );
 
@@ -156,8 +156,8 @@ CREATE TABLE IF NOT EXISTS ANALYTICS_NEWLY_ADDED_BATCHES (
 -- table: ANALYTICS_UPCOMING_EXPIRING_BATCHES
 CREATE TABLE IF NOT EXISTS ANALYTICS_UPCOMING_EXPIRING_BATCHES (
   Pharmacy_Name varchar(20) NOT NULL,
-  A_Upcoming_expring_Batches varchar(20) NOT NULL,
-  PRIMARY KEY(Pharmacy_Name, A_Upcoming_expring_Batches),
+  A_Upcoming_expiring_Batches varchar(20) NOT NULL,
+  PRIMARY KEY(Pharmacy_Name, A_Upcoming_expiring_Batches),
   FOREIGN KEY(Pharmacy_Name) REFERENCES ANALYTICS(Pharmacy_Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

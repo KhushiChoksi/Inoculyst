@@ -33,8 +33,10 @@ app.use('/batches', batchRoutes);
 
 // routing to general tables
 const vaccineRoutes = require('./routes/general/vaccines');
+const analyticsRoutes = require('./routes/general/analytics');
 
 app.use('/vaccine', vaccineRoutes);
+app.use('/analytics', analyticsRoutes);
 
 
 app.listen(8080, () => {
