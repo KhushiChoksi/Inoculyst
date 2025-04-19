@@ -1,0 +1,46 @@
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const useAuth = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [accountType, setAccountType] = useState('');
+    const navigate = useNavigate();
+
+
+    const login = async () => {
+        try {
+            const res = await axios.get("http://localhost:8080/account");
+            const user = res.data.find( (acc) => acc.Username == username && acc.Password == password);
+
+            if (user) {
+                setAccountType(user.Account_type);
+                localStorage.setItem('accountType', user.Account_type);
+                localStorage.setItem('username', user.Username);
+                navigate('/dashboard')
+            }
+            else {
+                setErrorMessage("Invalid username or password.");
+            }
+        }
+        catch (err) {
+            console.error(err);
+            setErrorMessage("Server error. Try again");
+        }
+        
+    };
+
+    return {
+        username, 
+        setUsername, 
+        password, 
+        setPassword, 
+        errorMessage, 
+        login,
+        accountType,
+    };
+    
+};
+export default useAuth;

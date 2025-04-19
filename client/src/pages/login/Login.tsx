@@ -1,14 +1,20 @@
-// client/src/pages/login/Login.tsx
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth.tsx';
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
+  const {
+    username, 
+    setUsername, 
+    password, 
+    setPassword, 
+    errorMessage, 
+    login,
+    accountType
+  }  = useAuth();
 
-  const handleLogin = () => {
-    navigate('/dashboard');
-  };
+
+  
 
 return (
   <div className="flex justify-center items-center min-h-screen bg-background">
@@ -19,6 +25,8 @@ return (
         <label className="block mb-1 text-sm font-semibold text-dark2">Username</label>
         <input 
           type="text" 
+          value = {username}
+          onChange={(e) => setUsername(e.target.value)}
           className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-dark_green"
         />
       </div>
@@ -27,12 +35,15 @@ return (
         <label className="block mb-1 text-sm font-semibold text-dark2">Password</label>
         <input 
           type="password" 
+          value = {password}
+          onChange = {(e) => setPassword(e.target.value)}
           className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-dark_green"
         />
       </div>
-
+      {errorMessage && <p className = "text-red-500 mb-4 text-sn"> {errorMessage}</p>}
+      
       <button 
-        onClick={handleLogin}
+        onClick={login}
         className="w-full bg-dark1 text-white py-3 rounded hover:bg-dark_green transition-colors"
       >
         Login

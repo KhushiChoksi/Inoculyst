@@ -15,6 +15,7 @@ import Account from './pages/account/Account.tsx';
 
 import SideBar from './components/SideBar.tsx';
 import HeaderBlock from './components/HeaderBlock.tsx';
+import { AuthProvider } from './contexts/AuthContext.tsx';
 // (ignore this for now) data will be the string we send from our server
 // const apiCall = () => {
 //   axios.get('http://localhost:8080').then((data) => {
@@ -29,14 +30,13 @@ function App() {
   const hideNavbarRoutes = ['/'];       // hide sidebar in these locations
 
   return (
-
-    // <div className="App">
+    <AuthProvider>
+    {/* // <div className="App">
     //   <header className="App-header">
     //     <button onClick={apiCall}>Make API Call</button>
     //   </header>
-    // </div>
+    // </div> */}
 
-    // later on, you will need to wrap these with the providers
     <div className="flex">
       {!hideNavbarRoutes.includes(location.pathname) && <SideBar />}
       
@@ -60,6 +60,7 @@ function App() {
       </div>
       </div>
     </div>
+    </AuthProvider>
   );
 }
 
