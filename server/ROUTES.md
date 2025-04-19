@@ -22,7 +22,7 @@
   - http://localhost:8080/analytics/expiring-batches
   - http://localhost:8080/analytics/newly-added-batches
 
-## Inserting data in tables (PUT requests)
+## Updating data in tables (PUT requests)
 ### Role/user tables
 - http://localhost:8080/account/:id/account-type
   - :id = user's account id
@@ -37,16 +37,29 @@
 - http://localhost:8080/employee/:id/phone
 
 ### Inventory related tables
+- http://localhost:8080/batches/:id/quantity (update quantity)
+- http://localhost:8080/batches/:id/expiry (update expiry)
+- http://localhost:8080/batches/:id/vaccine (update vaccine type)
 
 ### General/other tables
 
 
-## Updating data in tables (POST requests)
+## Inserting data in tables (POST requests)
 ### Role/user tables
 
 ### Inventory related tables
+- http://localhost:8080/batches/add-batch (add a new batch)
 
 ### General/other tables
 - http://localhost:8080/analytics/update/expired
 - http://localhost:8080/analytics/update/upcoming
 - http://localhost:8080/analytics/update/new
+
+
+## Deleting data in tables (DELETE requests)
+### Role/user tables
+
+### Inventory related tables
+- http://localhost:8080/batches/:id (delete an existing batch)
+
+### General/other tables
