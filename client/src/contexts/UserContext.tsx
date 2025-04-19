@@ -1,6 +1,7 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import GetUserInformation from '../pages/account/GetUserInformation';
 import { useAuthContext } from '../contexts/AuthContext.tsx';
+import axios from 'axios';
 
 export interface UserInformation {
   id: string;
@@ -47,13 +48,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, userId }) 
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const accountRes = await fetch('http://localhost:8080/account');
-        const adminRes  = await fetch('http://localhost:8080/admin')
-        const employeeRes = await fetch('http://localhost:8080/employee')
+        const accountRes = await axios.get('http://localhost:8080/account');
+        const adminRes  = await axios.get('http://localhost:8080/admin')
+        const employeeRes = await axios.get('http://localhost:8080/employee')
 
-        const accountData = await accountRes.json();
-        const adminData  = await adminRes.json();
-        const employeeData = await employeeRes.json();
+        const accountData = await accountRes.data;
+        const adminData  = await adminRes.data;
+        const employeeData = await employeeRes.data;
 
         
         const currentAccount = userId ? accountData.find((account) => account.ID === userId) : null;
@@ -82,7 +83,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, userId }) 
           firstName: additionalInfo ? additionalInfo.First_name: '',
           lastName: additionalInfo ? additionalInfo.Last_name: '',
           email: additionalInfo ? additionalInfo.Email: '',
-          phoneNumber: additionalInfo ? additionalInfo.Phone_Number: '',
+          phoneNumber: additionalInfo ? additionalInfo.Phone_number: '',
         };
 
         setUserData(combinedData);
