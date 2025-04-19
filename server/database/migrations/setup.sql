@@ -85,7 +85,9 @@ CREATE TABLE IF NOT EXISTS BATCH (
   Date_Added date,
   Batch_Quantity int,
   Expiry_Date date,
-  PRIMARY KEY(Batch_Number)
+  Vaccine_Name VARCHAR(20) NOT NULL,
+  PRIMARY KEY(Batch_Number),
+  FOREIGN KEY(Vaccine_Name) REFERENCES VACCINE(Vaccine_Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- table: INVENTORY
@@ -119,10 +121,10 @@ CREATE TABLE IF NOT EXISTS BATCH_PENDING_REQUESTS (
 CREATE TABLE IF NOT EXISTS VACCINE (
   Vaccine_Name varchar(20) NOT NULL,
   Brand_Name varchar(20) NOT NULL,
-  Diseases varchar(20),
-  Batch_Number char(10),
-  PRIMARY KEY(Vaccine_Name),
-  FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE
+  Diseases varchar(100),
+  -- Batch_Number char(10),
+  PRIMARY KEY(Vaccine_Name)
+  -- FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE
 );
 
 
