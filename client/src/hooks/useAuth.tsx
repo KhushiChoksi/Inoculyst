@@ -19,6 +19,7 @@ const useAuth = () => {
                 setAccountType(user.Account_type);
                 localStorage.setItem('accountType', user.Account_type);
                 localStorage.setItem('username', user.Username);
+                localStorage.setItem('userID', user.ID);
                 navigate('/dashboard')
             }
             else {

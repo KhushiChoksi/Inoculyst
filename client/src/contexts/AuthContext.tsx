@@ -3,7 +3,8 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 interface AuthContextType {
   username: string;
   accountType: string;
-  updateAuth: (username: string, accountType: string) => void;
+  userID: string;
+  updateAuth: (username: string, accountType: string, userID: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -11,16 +12,19 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [username, setUsername] = useState(localStorage.getItem('username') || '');
   const [accountType, setAccountType] = useState(localStorage.getItem('accountType') || '');
+  const [userID, setUserID] = useState(localStorage.getItem('userID') || "");
 
   const updateAuth = (username: string, accountType: string) => {
     localStorage.setItem('username', username);
     localStorage.setItem('accountType', accountType);
+    localStorage.setItem('userID', userID);
     setUsername(username);
     setAccountType(accountType);
+    setUserID(userID);
   };
 
   return (
-    <AuthContext.Provider value={{ username, accountType, updateAuth }}>
+    <AuthContext.Provider value={{ username, accountType, userID, updateAuth }}>
       {children}
     </AuthContext.Provider>
   );

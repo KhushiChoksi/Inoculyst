@@ -1,20 +1,23 @@
 import React from "react";
 import GetUserInformation from "./GetUserInformation.tsx";
 import { UserProvider } from '../../contexts/UserContext.tsx';
+import { useAuthContext } from '../../contexts/AuthContext.tsx';
 
-const sampleData = {
-  id: '30141345',
-  accountType: 'Technician',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'John_doe@gmail.com',
-  phoneNumber: '597******',
-  certificationNumber: '111111111111111111111'
-};
+// const sampleData = {
+//   id: '30141345',
+//   accountType: 'Technician',
+//   firstName: 'John',
+//   lastName: 'Doe',
+//   email: 'John_doe@gmail.com',
+//   phoneNumber: '597******',
+//   certificationNumber: '111111111111111111111'
+// };
 
 export default function Account() {
+  const { username, accountType, userID } = useAuthContext();
+  const user = "A001";
     return (
-      <UserProvider userData={sampleData}>
+      <UserProvider userId={userID}>
 
         <div className="p-6 bg-[#F7F7F2]">
           <h1 className="text-2xl font-bold mb-4">Account Settings</h1>
