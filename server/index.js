@@ -26,9 +26,11 @@ app.use('/technician', technicianRoutes);
 // routing to inventory related tables
 const inventoryRoutes = require('./routes/inventory/inventory');
 const batchRoutes = require('./routes/inventory/batches');
+const requestRoutes = require('./routes/inventory/requests');
 
 app.use('/inventory', inventoryRoutes);
 app.use('/batches', batchRoutes);
+app.use('/requests', requestRoutes);
 
 
 // routing to general tables

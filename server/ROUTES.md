@@ -13,6 +13,9 @@
 ### Inventory related tables
 - http://localhost:8080/inventory
 - http://localhost:8080/batches
+- http://localhost:8080/requests
+  - http://localhost:8080/requests/pending
+
 
 ### General/other tables
 - http://localhost:8080/vaccine
@@ -52,6 +55,7 @@
 
 ### Inventory related tables
 - http://localhost:8080/batches/add-batch (add a new batch)
+- http://localhost:8080/requests/add-request (add a new unique request)
 
 ### General/other tables
 - http://localhost:8080/analytics/update/expired

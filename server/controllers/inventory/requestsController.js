@@ -1,0 +1,129 @@
+const db = require('../../db');
+const batchController = require('./batchController');
+
+// get all requests regardless of status
+exports.getAllRequests = (req, res) => {
+    db.query('SELECT * FROM REQUEST', (err, results) => {
+        if (err) return res.status(500).send('Error getting all requests');
+        res.json(results);
+    });
+};
+
+// get all pending requests information
+exports.getAllPendingRequests = (req, res) => {
+    db.query(`
+        SELECT r.*, bpr.Batch_Number 
+        FROM BATCH_PENDING_REQUESTS bpr
+        LEFT JOIN REQUEST r ON bpr.Batch_Number = r.Batch_Number
+        WHERE bpr.Batch_Number IS NOT NULL AND r.Status = 'Pending'`, 
+        (err, results) => {
+            if (err) return res.status(500).send('Error getting all pending requests');
+            res.json(results);
+        });
+};
+
+// insert a request
+/* SAMPLE CURL request
+curl -X POST http://localhost:8080/requests/add-request \
+  -H "Content-Type: application/json" \
+  -d '{
+    "technician_id": "E001",
+    "batch_number": "BA00",
+    "order_status": "Arrived",
+    "date_added": "2025-03-31",
+    "batch_quantity": 10,
+    "expiry_date": "2025-04-26",
+    "vaccine_name": "[COVID-19] VAXZEVRIA",
+    "pharmacy_name": "PharmaPlus"
+}'
+*/
+exports.addNewRequest = (req, res) => {
+    const {
+        technician_id,
+        batch_number,
+        status = 'Pending', 
+        order_status,
+        date_added,
+        batch_quantity,
+        expiry_date,
+        vaccine_name,
+        pharmacy_name
+    } = req.body;
+
+    const request_id = technician_id + batch_number;
+
+    // check if this request already exists
+    const checkExistingQuery = `SELECT * FROM REQUEST WHERE Request_ID = ?`;
+
+    db.query(checkExistingQuery, [request_id], (err, existingResults) => {
+        if (err) {
+            console.error('Error checking for existing request:', err);
+            return res.status(500).send('Error checking for existing request');
+        }
+
+        if (existingResults.length > 0) {
+            return res.status(400).json({ message: 'This request already exists' });
+        }
+
+        // insert if request does not already exist
+        const insertRequestQuery = `
+            INSERT INTO REQUEST (Request_ID, Technician_ID, Batch_Number, Status, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        db.query(insertRequestQuery, [request_id, technician_id, batch_number, status, order_status, date_added, batch_quantity, expiry_date, vaccine_name, pharmacy_name], (err, result) => {
+            if (err) {
+                console.error('Error inserting request:', err);
+                return res.status(500).send('Error inserting request');
+            }
+
+            res.json({
+                message: 'Request added successfully',
+                request_id: request_id
+            });
+        });
+    });
+};
+
+// update request status
+exports.updateRequestStatus = (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const statusQuery = 'SELECT Status FROM REQUEST WHERE Request_ID = ?';
+    const query = 'UPDATE REQUEST SET Status = ? WHERE Request_ID = ? AND Status = "Pending"';
+    db.query(query, [status, id], (err, results) => {
+        if (err) {
+            console.error('DB error:', err);
+            return res.status(500).send('Error updating request status');
+        }
+        if (statusQuery != 'Pending') {
+            return res.status(500).send('Cannot update a non-pending request');
+        }
+        res.json({ message: 'Request status updated' });
+    });
+};
+
+// update accepted requests
+exports.updateBatchFromAcceptedRequests = (req, res) => {
+    const updateBatchQuery = `
+        UPDATE BATCH b
+        JOIN REQUEST r ON b.Batch_Number = r.Batch_Number
+        SET 
+            b.Order_status = r.Order_status,
+            b.Batch_Quantity = r.Batch_Quantity
+        WHERE r.Status = "Accepted";
+    `;
+
+    db.query(updateBatchQuery, (err, results) => {
+        if (err) {
+            console.error('Error updating batch table:', err);
+            return res.status(500).send('Error updating batch table');
+        }
+
+        res.json({
+            message: 'Batch table updated successfully from accepted requests',
+            updatedRows: results.affectedRows
+        });
+    });
+};
