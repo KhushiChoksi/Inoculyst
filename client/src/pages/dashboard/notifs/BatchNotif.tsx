@@ -1,11 +1,11 @@
 import React from 'react';
 
 
-interface vaccineNotif {
+interface batchNotif {
   count: number;
 }
 
-const VaccineNotif: React.FC<vaccineNotif> = ({ count }) => {
+const BatchNotif: React.FC<batchNotif> = ({ count }) => {
   return (
       <div className="w-64 bg-white rounded-3xl border border-dark1 shadow-sm overflow-hidden">
         <div className="p-6 flex flex-col items-center">
@@ -13,7 +13,7 @@ const VaccineNotif: React.FC<vaccineNotif> = ({ count }) => {
             {count}
           </div>
           <div className="mt-2 text-sm text-gray-600">
-            Vaccines Available
+            Batches Available
           </div>
         </div>
         <div className="bg-dark1/30 h-9"></div>
@@ -21,4 +21,4 @@ const VaccineNotif: React.FC<vaccineNotif> = ({ count }) => {
     );
   };
 
-export default VaccineNotif;
+export default BatchNotif;
