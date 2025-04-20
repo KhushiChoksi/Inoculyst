@@ -99,34 +99,20 @@ exports.addNewBatch = (req, res) => {
 
     // query to insert into BATCH
     const insertBatchQuery = `
-      INSERT INTO BATCH (Batch_Number, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO BATCH (Batch_Number, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
     // insert into BATCH
-    db.query(insertBatchQuery, [newBatchNumber, order_status, date_added, batch_quantity, expiry_date, vaccine_name], (err, batchResult) => {
+    db.query(insertBatchQuery, [newBatchNumber, order_status, date_added, batch_quantity, expiry_date, vaccine_name, pharmacy_name], (err, batchResult) => {
       if (err) {
         console.error('Error inserting batch:', err);
         return res.status(500).send('Error inserting batch');
       }
 
-      // query to insert into INVENTORY
-      const insertInventoryQuery = `
-        INSERT INTO INVENTORY (Pharmacy_Name, Batch_Number)
-        VALUES (?, ?)
-      `;
-
-      // insert into INVENTORY
-      db.query(insertInventoryQuery, [pharmacy_name, newBatchNumber], (err, inventoryResult) => {
-        if (err) {
-          console.error('Error inserting inventory:', err);
-          return res.status(500).send('Error inserting inventory');
-        }
-
-        res.status(201).json({
-          message: 'Batch and inventory added successfully',
-          batch_number: newBatchNumber
-        });
+      res.json({
+        message: 'Batch added successfully',
+        batch_number: newBatchNumber
       });
     });
   });
@@ -137,44 +123,15 @@ exports.addNewBatch = (req, res) => {
 exports.deleteBatch = (req, res) => {
   const { id } = req.params;
 
-  // transaction, so if one query fails, the whole query fails
-  db.beginTransaction((err) => {
+  // delete from BATCH
+  db.query('DELETE FROM BATCH WHERE Batch_Number = ?', [id], (err, results) => {
     if (err) {
-      console.error('Error starting transaction:', err);
-      return res.status(500).send('Error starting transaction');
-    }
-
-    // delete from INVENTORY
-    db.query('DELETE FROM INVENTORY WHERE Batch_Number = ?', [id], (err, results) => {
-      if (err) {
-        return db.rollback(() => {
-          console.error('Error deleting from INVENTORY:', err);
-          return res.status(500).send('Error deleting from INVENTORY');
-        });
-      }
-
-      // delete from BATCH
-      db.query('DELETE FROM BATCH WHERE Batch_Number = ?', [id], (err, results) => {
-        if (err) {
-          return db.rollback(() => {
-            console.error('Error deleting from BATCH:', err);
-            return res.status(500).send('Error deleting from BATCH');
-          });
-        }
-
-        // commit the full deletion if both deletions are successful
-        db.commit((err) => {
-          if (err) {
-            return db.rollback(() => {
-              console.error('Error committing transaction:', err);
-              return res.status(500).send('Error committing transaction');
-            });
-          }
-
-          res.json({ message: 'Batch deleted successfully' });
-        });
+      return db.rollback(() => {
+        console.error('Error deleting from BATCH:', err);
+        return res.status(500).send('Error deleting from BATCH');
       });
-    });
+    }
+    res.json({ message: 'Batch deleted' });        
   });
 };
 
