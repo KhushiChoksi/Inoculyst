@@ -21,12 +21,15 @@
   - http://localhost:8080/analytics/expired-batches
   - http://localhost:8080/analytics/expiring-batches
   - http://localhost:8080/analytics/newly-added-batches
+  - http://localhost:8080/analytics/counts
 
 ## Updating data in tables (PUT requests)
 ### Role/user tables
 - http://localhost:8080/account/:id/account-type
   - :id = user's account id
   - account-type: the account type you want to change it to
+- http://localhost:8080/account/:id/password
+- http://localhost:8080/account/:id/username
 - http://localhost:8080/admin/:id/first-name
 - http://localhost:8080/admin/:id/last-name
 - http://localhost:8080/admin/:id/email

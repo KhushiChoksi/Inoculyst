@@ -29,6 +29,43 @@ exports.getNewlyAddedBatches = (req, res) => {
     });
 };
 
+// get analytics counts
+exports.getAnalyticsCounts = (req, res) => {
+
+    // queries to retrieve indiviudal batch and analytic counts
+    const queries = {
+      expired: 'SELECT COUNT(*) AS count FROM ANALYTICS_EXPIRED_BATCHES',
+      expiring: 'SELECT COUNT(*) AS count FROM ANALYTICS_UPCOMING_EXPIRING_BATCHES',
+      newlyAdded: 'SELECT COUNT(*) AS count FROM ANALYTICS_NEWLY_ADDED_BATCHES',
+      totalBatches: 'SELECT COUNT(*) AS count FROM BATCH'
+    };
+  
+    const results = {};
+  
+        db.query(queries.expired, (err, expiredResult) => {
+            if (err) return res.status(500).send('Error getting expired batch count');
+            results.expired_batches = expiredResult[0].count;
+        
+            db.query(queries.expiring, (err, expiringResult) => {
+                if (err) return res.status(500).send('Error getting expiring batch count');
+                results.expiring_batches = expiringResult[0].count;
+        
+                db.query(queries.newlyAdded, (err, newlyResult) => {
+                    if (err) return res.status(500).send('Error getting newly added batch count');
+                    results.newly_added_batches = newlyResult[0].count;
+
+                    db.query(queries.totalBatches, (err, totalResult) => {
+                        if (err) return res.status(500).send('Error getting total batch count');
+                        results.total_batches = totalResult[0].count;
+
+                        res.json(results);
+                    });
+                });
+        });
+    });
+};
+  
+
 
 // update expired batches
 exports.updateExpiredBatches = (req, res) => {
@@ -36,7 +73,7 @@ exports.updateExpiredBatches = (req, res) => {
     const insertSql = `
         INSERT INTO ANALYTICS_EXPIRED_BATCHES (Pharmacy_Name, A_Expired_Batches)
         SELECT i.Pharmacy_Name, b.Batch_Number
-        FROM BATCH b JOIN INVENTORY i ON b.Batch_Number = i.Batch_Number
+        FROM BATCH b JOIN INVENTORY i ON b.Pharmacy_Name = i.Pharmacy_Name
         WHERE b.Expiry_Date < CURDATE();
     `;
 
@@ -55,7 +92,7 @@ exports.updateExpiringBatches = (req, res) => {
     const insertSql = `
         INSERT INTO ANALYTICS_UPCOMING_EXPIRING_BATCHES (Pharmacy_Name, A_Upcoming_expiring_Batches)
         SELECT i.Pharmacy_Name, b.Batch_Number
-        FROM BATCH b JOIN INVENTORY i ON b.Batch_Number = i.Batch_Number
+        FROM BATCH b JOIN INVENTORY i ON b.Pharmacy_Name = i.Pharmacy_Name
         WHERE b.Expiry_Date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY);
     `;
 
@@ -74,7 +111,7 @@ exports.updateNewlyAddedBatches = (req, res) => {
     const insertSql = `
         INSERT INTO ANALYTICS_NEWLY_ADDED_BATCHES (Pharmacy_Name, A_Newly_Added_Batches)
         SELECT i.Pharmacy_Name, b.Batch_Number
-        FROM BATCH b JOIN INVENTORY i ON b.Batch_Number = i.Batch_Number
+        FROM BATCH b JOIN INVENTORY i ON b.Pharmacy_Name = i.Pharmacy_Name
         WHERE b.Date_Added BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND CURDATE();
     `;
 
