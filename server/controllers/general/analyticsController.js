@@ -9,21 +9,21 @@ exports.getUpdateDate = (req, res) => {
 };
 
 exports.getExpiredBatches = (req, res) => {
-    db.query('SELECT A_Expired_Batches FROM ANALYTICS_EXPIRED_BATCHES', (err, results) => {
+    db.query('SELECT aeb.A_Expired_Batches, b.Order_status, b.Date_Added, b.Batch_Quantity, b.Expiry_Date, b.Vaccine_Name, b.Pharmacy_Name FROM ANALYTICS_EXPIRED_BATCHES aeb JOIN BATCH b ON aeb.A_Expired_Batches = b.Batch_Number ', (err, results) => {
       if (err) return res.status(500).send('Error getting expired batches');
       res.json(results);
     });
 };
 
 exports.getExpiringBatches = (req, res) => {
-    db.query('SELECT A_Upcoming_expiring_Batches FROM ANALYTICS_UPCOMING_EXPIRING_BATCHES', (err, results) => {
+    db.query('SELECT aueb.A_Upcoming_expiring_Batches, b.Order_status, b.Date_Added, b.Batch_Quantity, b.Expiry_Date, b.Vaccine_Name, b.Pharmacy_Name FROM ANALYTICS_UPCOMING_EXPIRING_BATCHES aueb JOIN BATCH b ON aueb.A_Upcoming_expiring_Batches = b.Batch_Number', (err, results) => {
       if (err) return res.status(500).send('Error getting upcoming expiring batches');
       res.json(results);
     });
 };
 
 exports.getNewlyAddedBatches = (req, res) => {
-    db.query('SELECT A_Newly_Added_Batches FROM ANALYTICS_NEWLY_ADDED_BATCHES', (err, results) => {
+    db.query('SELECT anab.A_Newly_Added_Batches, b.Order_status, b.Date_Added, b.Batch_Quantity, b.Expiry_Date, b.Vaccine_Name, b.Pharmacy_Name FROM ANALYTICS_NEWLY_ADDED_BATCHES anab JOIN BATCH b ON anab.A_Newly_Added_Batches = b.Batch_Number', (err, results) => {
       if (err) return res.status(500).send('Error getting newly added batches');
       res.json(results);
     });
