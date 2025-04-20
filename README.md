@@ -3,7 +3,7 @@
 
 
 ## Running the application
-Please note that you must have the above technologies installed on your computer to run this project successfully. 
+Please note that you must have the listed technologies (Node.js, React, and MySQL) installed on your computer to run this project successfully. 
 
 ### How to run server-side
 #### Set up
