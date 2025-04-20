@@ -57,7 +57,16 @@ INSERT INTO BATCH (Batch_number, Order_status, Date_Added, Batch_Quantity, Expir
 VALUES ('BA009', 'Arrived', '2025-03-31', 11, '2025-04-20', '[COVID-19] JCOVDEN', 'PharmaPlus');
 
 INSERT INTO BATCH (Batch_number, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
-VALUES ('BA010', 'Arrived', '2025-03-31', 3, '2025-04-19', '[COVID-19] VAXZEVRIA', 'PharmaPlus');
+VALUES ('BA010', 'Arrived', '2025-03-31', 3, '2030-04-19', '[COVID-19] VAXZEVRIA', 'PharmaPlus');
+
+INSERT INTO BATCH (Batch_number, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
+VALUES ('BA011', 'Arrived', '2025-04-18', 20, '2030-04-19', '[Inf] Vaxigrip', 'PharmaPlus');
+
+INSERT INTO BATCH (Batch_number, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
+VALUES ('BA012', 'Arrived', '2025-04-19', 35, '2030-04-19', '[COVID-19] VAXZEVRIA', 'PharmaPlus');
+
+INSERT INTO BATCH (Batch_number, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
+VALUES ('BA013', 'Arrived', '2025-04-20', 11, '2030-04-19', '[Pneu-C-7] Prevnar', 'PharmaPlus');
 
 
 

@@ -15,7 +15,7 @@
 - http://localhost:8080/batches
 - http://localhost:8080/requests
   - http://localhost:8080/requests/pending
-
+- http://localhost:8080/returns
 
 ### General/other tables
 - http://localhost:8080/vaccine
@@ -60,6 +60,7 @@
 - http://localhost:8080/requests/add-request
 - http://localhost:8080/requests/update-batch-with-requests (this will add accepted requests to batch)
 - http://localhost:8080/requests/update-pending-requests
+- http://localhost:8080/requests/add-returned-batch (this will add a batch to returned batches **and** delete it everywhere else)
 
 ### General/other tables
 - http://localhost:8080/analytics/update/expired
