@@ -168,22 +168,15 @@ CREATE TABLE IF NOT EXISTS ANALYTICS_UPCOMING_EXPIRING_BATCHES (
 
 
 -- --- GENERAL/OTHER TABLES ---- --
--- table: RETURNS_TO
-CREATE TABLE IF NOT EXISTS RETURNS_TO (
-  Admin_id CHAR(10) NOT NULL,
-  Distributor_Name VARCHAR(20) NOT NULL,
+-- table: RETURNS_BATCHES
+CREATE TABLE IF NOT EXISTS RETURNED_BATCHES (
   Return_ID CHAR(10) NOT NULL,
-  Return_Status VARCHAR(10),
-  PRIMARY KEY(Admin_id, Distributor_Name),
-  FOREIGN KEY(Distributor_Name) REFERENCES DISTRIBUTOR(Name) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
--- table: RETURNS_TO_RETURNED_BATCHES
-CREATE TABLE IF NOT EXISTS RETURNS_TO_RETURNED_BATCHES (
-  Admin_id CHAR(10) NOT NULL,
-  R_Returned_batches VARCHAR(20) NOT NULL,
-  PRIMARY KEY(Admin_id, R_Returned_batches),
-  FOREIGN KEY(Admin_id) REFERENCES RETURNS_TO(Admin_id) ON DELETE CASCADE ON UPDATE CASCADE
+  Admin_ID CHAR(10) NOT NULL,
+  Distributor_Name VARCHAR(20) NOT NULL,
+  Batch_Number CHAR(10) NOT NULL,
+  PRIMARY KEY(Return_ID),
+  FOREIGN KEY(Distributor_Name) REFERENCES DISTRIBUTOR(Name) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(Admin_ID) REFERENCES ADMIN(ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -197,6 +190,6 @@ CREATE TABLE VACCINE_ACTIVE_INGREDIENTS (
 
 
 -- (make sure you are in `server` folder)
--- run this to initalize: mysql -u inoculyst_user -p < database/migrations/setup.sql
+-- run this to initalize: mysql -u root -p < database/migrations/setup.sql
 -- pass is inoculyst.
 -- set up details for this user account is in discord
