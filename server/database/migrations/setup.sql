@@ -66,9 +66,9 @@ CREATE TABLE IF NOT EXISTS ACCOUNT (
 
 -- table: DISTRIBUTOR
 CREATE TABLE IF NOT EXISTS DISTRIBUTOR (
-  Name varchar(20) NOT NULL, 
-  Phone_number char(10),
-  Email varchar(20),
+  Name VARCHAR(50) NOT NULL, 
+  Phone_number CHAR(10),
+  Email VARCHAR(100),
   PRIMARY KEY(Name)
 );
 
@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS DISTRIBUTOR (
 -- --- INVENTORY RELATED TABLES ---- --
 -- table: VACCINE
 CREATE TABLE IF NOT EXISTS VACCINE (
-  Vaccine_Name varchar(100) NOT NULL,
-  Brand_Name varchar(100) NOT NULL,
-  Diseases varchar(100),
+  Vaccine_Name VARCHAR(100) NOT NULL,
+  Brand_Name VARCHAR(100) NOT NULL,
+  Diseases VARCHAR(100),
   -- Batch_Number char(10),
   PRIMARY KEY(Vaccine_Name)
   -- FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE
@@ -93,11 +93,11 @@ CREATE TABLE IF NOT EXISTS INVENTORY (
 
 -- table: BATCH
 CREATE TABLE IF NOT EXISTS BATCH (
-  Batch_Number char(10) NOT NULL,
-  Order_status varchar(10),
-  Date_Added date,
-  Batch_Quantity int,
-  Expiry_Date date,
+  Batch_Number CHAR(10) NOT NULL,
+  Order_status VARCHAR(10),
+  Date_Added DATE,
+  Batch_Quantity INT,
+  Expiry_Date DATE,
   Vaccine_Name VARCHAR(20) NOT NULL,
   Pharmacy_Name VARCHAR(20) NOT NULL,
   PRIMARY KEY(Batch_Number),
@@ -107,10 +107,10 @@ CREATE TABLE IF NOT EXISTS BATCH (
 
 -- table: REQUEST
 CREATE TABLE IF NOT EXISTS REQUEST (
-  Request_ID char(10) NOT NULL,
-  Technician_ID char(10) NOT NULL,
-  Batch_Number char(10) NOT NULL, 
-  Status varchar(10),
+  Request_ID CHAR(10) NOT NULL,
+  Technician_ID CHAR(10) NOT NULL,
+  Batch_Number CHAR(10) NOT NULL, 
+  Status VARCHAR(10),
   PRIMARY KEY(Request_ID, Technician_ID, Batch_Number),
   FOREIGN KEY(Technician_ID) REFERENCES EMPLOYEE(ID) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE
@@ -118,8 +118,8 @@ CREATE TABLE IF NOT EXISTS REQUEST (
 
 -- table: BATCH_PENDING_REQUESTS
 CREATE TABLE IF NOT EXISTS BATCH_PENDING_REQUESTS (
-  Batch_Number char(10) NOT NULL,
-  B_Pending_Requests varchar(20),
+  Batch_Number CHAR(10) NOT NULL,
+  B_Pending_Requests VARCHAR(20),
   PRIMARY KEY(Batch_Number),
   FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -128,32 +128,32 @@ CREATE TABLE IF NOT EXISTS BATCH_PENDING_REQUESTS (
 -- --- ANALYTICS RELATED TABLES ---- --
 -- table: ANALYTICS
 CREATE TABLE IF NOT EXISTS ANALYTICS (
-  Pharmacy_Name varchar(20) NOT NULL,
-  Update_Date date,
+  Pharmacy_Name VARCHAR(20) NOT NULL,
+  Update_Date DATE,
   PRIMARY KEY(Pharmacy_Name),
   FOREIGN KEY(Pharmacy_Name) REFERENCES INVENTORY(Pharmacy_Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- table: ANALYTICS_EXPIRED_BATCHES
 CREATE TABLE IF NOT EXISTS ANALYTICS_EXPIRED_BATCHES (
-  Pharmacy_Name varchar(20) NOT NULL,
-  A_Expired_Batches varchar(20) NOT NULL,
+  Pharmacy_Name VARCHAR(20) NOT NULL,
+  A_Expired_Batches VARCHAR(20) NOT NULL,
   PRIMARY KEY(Pharmacy_Name, A_Expired_Batches),
   FOREIGN KEY(Pharmacy_Name) REFERENCES ANALYTICS(Pharmacy_Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- table: ANALYTICS_NEWLY_ADDED_BATCHES
 CREATE TABLE IF NOT EXISTS ANALYTICS_NEWLY_ADDED_BATCHES (
-  Pharmacy_Name varchar(20) NOT NULL,
-  A_Newly_Added_Batches varchar(20) NOT NULL,
+  Pharmacy_Name VARCHAR(20) NOT NULL,
+  A_Newly_Added_Batches VARCHAR(20) NOT NULL,
   PRIMARY KEY(Pharmacy_Name, A_Newly_Added_Batches),
   FOREIGN KEY(Pharmacy_Name) REFERENCES ANALYTICS(Pharmacy_Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- table: ANALYTICS_UPCOMING_EXPIRING_BATCHES
 CREATE TABLE IF NOT EXISTS ANALYTICS_UPCOMING_EXPIRING_BATCHES (
-  Pharmacy_Name varchar(20) NOT NULL,
-  A_Upcoming_expiring_Batches varchar(20) NOT NULL,
+  Pharmacy_Name VARCHAR(20) NOT NULL,
+  A_Upcoming_expiring_Batches VARCHAR(20) NOT NULL,
   PRIMARY KEY(Pharmacy_Name, A_Upcoming_expiring_Batches),
   FOREIGN KEY(Pharmacy_Name) REFERENCES ANALYTICS(Pharmacy_Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -162,18 +162,18 @@ CREATE TABLE IF NOT EXISTS ANALYTICS_UPCOMING_EXPIRING_BATCHES (
 -- --- GENERAL/OTHER TABLES ---- --
 -- table: RETURNS_TO
 CREATE TABLE IF NOT EXISTS RETURNS_TO (
-  Admin_id char(10) NOT NULL,
-  Distributor_Name varchar(20) NOT NULL,
-  Return_ID char(10) NOT NULL,
-  Return_Status varchar(10),
+  Admin_id CHAR(10) NOT NULL,
+  Distributor_Name VARCHAR(20) NOT NULL,
+  Return_ID CHAR(10) NOT NULL,
+  Return_Status VARCHAR(10),
   PRIMARY KEY(Admin_id, Distributor_Name),
   FOREIGN KEY(Distributor_Name) REFERENCES DISTRIBUTOR(Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- table: RETURNS_TO_RETURNED_BATCHES
 CREATE TABLE IF NOT EXISTS RETURNS_TO_RETURNED_BATCHES (
-  Admin_id char(10) NOT NULL,
-  R_Returned_batches varchar(20) NOT NULL,
+  Admin_id CHAR(10) NOT NULL,
+  R_Returned_batches VARCHAR(20) NOT NULL,
   PRIMARY KEY(Admin_id, R_Returned_batches),
   FOREIGN KEY(Admin_id) REFERENCES RETURNS_TO(Admin_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -181,8 +181,8 @@ CREATE TABLE IF NOT EXISTS RETURNS_TO_RETURNED_BATCHES (
 
 -- table: VACCINE_ACTIVE_INGREDIENTS
 CREATE TABLE VACCINE_ACTIVE_INGREDIENTS (
-  Vaccine_Name varchar(20) NOT NULL,
-  V_Active_Ingredients varchar(200) NOT NULL, 
+  Vaccine_Name VARCHAR(20) NOT NULL,
+  V_Active_Ingredients VARCHAR(200) NOT NULL, 
   PRIMARY KEY(Vaccine_Name, V_Active_Ingredients),
   FOREIGN KEY(Vaccine_Name) REFERENCES VACCINE(Vaccine_Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
