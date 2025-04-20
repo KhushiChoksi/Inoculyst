@@ -58,3 +58,22 @@ VALUES ('BA009', 'Arrived', '2025-03-31', 11, '2025-04-20', '[COVID-19] JCOVDEN'
 
 INSERT INTO BATCH (Batch_number, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
 VALUES ('BA010', 'Arrived', '2025-03-31', 3, '2025-04-19', '[COVID-19] VAXZEVRIA', 'PharmaPlus');
+
+
+
+-- Create Batch Requests made by Technician
+INSERT INTO REQUEST (Request_ID, Technician_ID, Batch_Number, Status, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
+VALUES ('R001', 'E001', 'BA001', 'Pending', 'Arrived', '2025-03-31', 10, '2026-03-04', '[Pneu-C-7] Prevnar', 'PharmaPlus');
+
+INSERT INTO REQUEST (Request_ID, Technician_ID, Batch_Number, Status, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
+VALUES ('R001', 'E001', 'BA008', 'Rejected', 'Arrived', '2025-03-31', 5, '2025-04-02', '[Inf] Vaxigrip', 'PharmaPlus');
+
+INSERT INTO REQUEST (Request_ID, Technician_ID, Batch_Number, Status, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
+VALUES ('R001', 'E001', 'BA010', 'Accepted', 'Arrived', '2025-03-31', 1, '2025-04-19', '[COVID-19] VAXZEVRIA', 'PharmaPlus');
+
+
+-- Insert into BATCH_PENDING_REQUESTS only if Status == 'Pending'
+INSERT INTO BATCH_PENDING_REQUESTS (Batch_Number, Request_ID, Technician_ID)
+SELECT r.Batch_Number, r.Request_ID, r.Technician_ID
+FROM REQUEST r
+WHERE r.Status = 'Pending';

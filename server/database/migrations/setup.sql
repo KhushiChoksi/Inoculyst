@@ -111,6 +111,12 @@ CREATE TABLE IF NOT EXISTS REQUEST (
   Technician_ID CHAR(10) NOT NULL,
   Batch_Number CHAR(10) NOT NULL, 
   Status VARCHAR(10),
+  Order_status VARCHAR(10),
+  Date_Added DATE,
+  Batch_Quantity INT,
+  Expiry_Date DATE,
+  Vaccine_Name VARCHAR(20) NOT NULL,
+  Pharmacy_Name VARCHAR(20) NOT NULL,
   PRIMARY KEY(Request_ID, Technician_ID, Batch_Number),
   FOREIGN KEY(Technician_ID) REFERENCES EMPLOYEE(ID) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE
@@ -119,9 +125,11 @@ CREATE TABLE IF NOT EXISTS REQUEST (
 -- table: BATCH_PENDING_REQUESTS
 CREATE TABLE IF NOT EXISTS BATCH_PENDING_REQUESTS (
   Batch_Number CHAR(10) NOT NULL,
-  B_Pending_Requests VARCHAR(20),
-  PRIMARY KEY(Batch_Number),
-  FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE
+  Request_ID CHAR(10) NOT NULL,           -- this was B_Pending_Requests
+  Technician_ID CHAR(10) NOT NULL,
+  PRIMARY KEY(Batch_Number, Request_ID, Technician_ID),
+  FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(Request_ID, Technician_ID, Batch_Number) REFERENCES REQUEST(Request_ID, Technician_ID, Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
