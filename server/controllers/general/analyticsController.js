@@ -36,7 +36,7 @@ exports.updateExpiredBatches = (req, res) => {
     const insertSql = `
         INSERT INTO ANALYTICS_EXPIRED_BATCHES (Pharmacy_Name, A_Expired_Batches)
         SELECT i.Pharmacy_Name, b.Batch_Number
-        FROM BATCH b JOIN INVENTORY i ON b.Batch_Number = i.Batch_Number
+        FROM BATCH b JOIN INVENTORY i ON b.Pharmacy_Name = i.Pharmacy_Name
         WHERE b.Expiry_Date < CURDATE();
     `;
 
@@ -55,7 +55,7 @@ exports.updateExpiringBatches = (req, res) => {
     const insertSql = `
         INSERT INTO ANALYTICS_UPCOMING_EXPIRING_BATCHES (Pharmacy_Name, A_Upcoming_expiring_Batches)
         SELECT i.Pharmacy_Name, b.Batch_Number
-        FROM BATCH b JOIN INVENTORY i ON b.Batch_Number = i.Batch_Number
+        FROM BATCH b JOIN INVENTORY i ON b.Pharmacy_Name = i.Pharmacy_Name
         WHERE b.Expiry_Date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY);
     `;
 
@@ -74,7 +74,7 @@ exports.updateNewlyAddedBatches = (req, res) => {
     const insertSql = `
         INSERT INTO ANALYTICS_NEWLY_ADDED_BATCHES (Pharmacy_Name, A_Newly_Added_Batches)
         SELECT i.Pharmacy_Name, b.Batch_Number
-        FROM BATCH b JOIN INVENTORY i ON b.Batch_Number = i.Batch_Number
+        FROM BATCH b JOIN INVENTORY i ON b.Pharmacy_Name = i.Pharmacy_Name
         WHERE b.Date_Added BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND CURDATE();
     `;
 
