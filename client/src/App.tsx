@@ -16,6 +16,8 @@ import Account from './pages/account/Account.tsx';
 import SideBar from './components/SideBar.tsx';
 import HeaderBlock from './components/HeaderBlock.tsx';
 import { AuthProvider } from './contexts/AuthContext.tsx';
+import { VaccineGroupsProvider } from './contexts/VaccineGroupsContext.tsx';
+
 // (ignore this for now) data will be the string we send from our server
 // const apiCall = () => {
 //   axios.get('http://localhost:8080').then((data) => {
@@ -30,6 +32,7 @@ function App() {
   const hideNavbarRoutes = ['/'];       // hide sidebar in these locations
 
   return (
+    <VaccineGroupsProvider>
     <AuthProvider>
     {/* // <div className="App">
     //   <header className="App-header">
@@ -37,7 +40,7 @@ function App() {
     //   </header>
     // </div> */}
 
-    <div className="flex">
+    <div className="flex bg-[#F7F7F2] min-h-screen">
       {!hideNavbarRoutes.includes(location.pathname) && <SideBar />}
       
       <div className="flex-1">
@@ -61,6 +64,8 @@ function App() {
       </div>
     </div>
     </AuthProvider>
+    </VaccineGroupsProvider>
+
   );
 }
 
