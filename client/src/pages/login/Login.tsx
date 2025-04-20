@@ -18,8 +18,8 @@ const Login: React.FC = () => {
 
 return (
   <div className="flex justify-center items-center min-h-screen bg-background">
-    <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
-      <h1 className="text-lg font-bold mb-6 text-center text-dark1 tracking-widest">INOCULYST</h1>
+    <div className="bg-white p-8 rounded-lg shadow-md w-[500px]">
+      <h1 className="text-2xl font-bold mb-6 text-center text-dark1 tracking-widest">INOCULYST</h1>
 
       <div className="mb-4">
         <label className="block mb-1 text-sm font-semibold text-dark2">Username</label>
