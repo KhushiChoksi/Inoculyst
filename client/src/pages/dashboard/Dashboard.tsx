@@ -52,14 +52,14 @@ export default function Dashboard() {
         <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-1 border border-gray-300 rounded shadow-sm bg-white">
                 <div className="border-b border-gray-300 p-4">
-                    <h1 className="text-ml font-semibold text-gray-800">Quick Report</h1>
+                    <h1 className="text-ml font-semibold text-gray-800">List of Expired Batches</h1>
                 </div>
                     <div className="p-4 h-96">hi</div>
                 </div>
 
                 <div className="flex-1 border border-gray-300 rounded shadow-sm bg-white">
                     <div className="border-b border-gray-300 p-4">
-                        <h1 className="text-ml font-semibold text-gray-800">Quick Report</h1>
+                        <h1 className="text-ml font-semibold text-gray-800">List of Upcoming Expired Batches</h1>
                     </div>
                     <div className="p-4 h-96">hi</div>
                 </div>
