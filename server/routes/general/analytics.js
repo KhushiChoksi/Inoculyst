@@ -7,6 +7,7 @@ router.get('/', controller.getUpdateDate);
 router.get('/expired-batches', controller.getExpiredBatches);
 router.get('/expiring-batches', controller.getExpiringBatches);
 router.get('/newly-added-batches', controller.getNewlyAddedBatches);
+router.get('/counts', controller.getAnalyticsCounts);
 
 // update analytics data
 router.post('/update/expired', controller.updateExpiredBatches);

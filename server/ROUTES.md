@@ -21,6 +21,7 @@
   - http://localhost:8080/analytics/expired-batches
   - http://localhost:8080/analytics/expiring-batches
   - http://localhost:8080/analytics/newly-added-batches
+  - http://localhost:8080/analytics/counts
 
 ## Updating data in tables (PUT requests)
 ### Role/user tables

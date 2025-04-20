@@ -29,6 +29,43 @@ exports.getNewlyAddedBatches = (req, res) => {
     });
 };
 
+// get analytics counts
+exports.getAnalyticsCounts = (req, res) => {
+
+    // queries to retrieve indiviudal batch and analytic counts
+    const queries = {
+      expired: 'SELECT COUNT(*) AS count FROM ANALYTICS_EXPIRED_BATCHES',
+      expiring: 'SELECT COUNT(*) AS count FROM ANALYTICS_UPCOMING_EXPIRING_BATCHES',
+      newlyAdded: 'SELECT COUNT(*) AS count FROM ANALYTICS_NEWLY_ADDED_BATCHES',
+      totalBatches: 'SELECT COUNT(*) AS count FROM BATCH'
+    };
+  
+    const results = {};
+  
+        db.query(queries.expired, (err, expiredResult) => {
+            if (err) return res.status(500).send('Error getting expired batch count');
+            results.expired_batches = expiredResult[0].count;
+        
+            db.query(queries.expiring, (err, expiringResult) => {
+                if (err) return res.status(500).send('Error getting expiring batch count');
+                results.expiring_batches = expiringResult[0].count;
+        
+                db.query(queries.newlyAdded, (err, newlyResult) => {
+                    if (err) return res.status(500).send('Error getting newly added batch count');
+                    results.newly_added_batches = newlyResult[0].count;
+
+                    db.query(queries.totalBatches, (err, totalResult) => {
+                        if (err) return res.status(500).send('Error getting total batch count');
+                        results.total_batches = totalResult[0].count;
+
+                        res.json(results);
+                    });
+                });
+        });
+    });
+};
+  
+
 
 // update expired batches
 exports.updateExpiredBatches = (req, res) => {
