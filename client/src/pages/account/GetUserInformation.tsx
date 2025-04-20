@@ -1,11 +1,14 @@
 import React from 'react';
 
-import { useUser } from '../../hooks/useUser.tsx';
+import { useUser } from '../../contexts/UserContext.tsx';
 
 
 const GetUserInformation: React.FC = () => {
-  const { userData } = useUser();
-
+  const { userData, error} = useUser();
+  
+  if (error) {
+    return <div className="text-center py-8 text-red-600">{error}</div>;
+  }
     return (
         <div className="bg-light_screen/50 p-6 mb-8">
           <div className="grid md:grid-cols-2 gap-6">
@@ -38,8 +41,8 @@ const GetUserInformation: React.FC = () => {
             </div>
             
             <div className="space-y-2 md:col-span-2">
-              <h3 className="text-ml font-bold mb-4">Certification Number</h3>
-              <p className="text-lg  text-gray-900">{userData.certificationNumber}</p>
+              <h3 className="text-ml font-bold mb-4">Username</h3>
+              <p className="text-lg  text-gray-900">{userData.username}</p>
             </div>
           </div>
           

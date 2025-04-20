@@ -1,7 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import useAuth from '../hooks/useAuth.tsx';
+import { useAuthContext } from '../contexts/AuthContext.tsx';
+
+// const accountType1 = localStorage.getItem('accountType');
+// const username = localStorage.getItem('username');
+
 
 export default function SideBar() {
+    const { username, accountType } = useAuthContext();
 
     const createNavLink = (to, label, icon) => (
         <li className="my-2">
@@ -87,17 +94,50 @@ export default function SideBar() {
             </div>
 
             <div className="bg-dark1/30 p-6">
-                <p className="font-semibold">Admin name</p>
-                <p className="text-dark_green">Owner</p>
+            <p className="font-semibold">{username}</p>
+            <p className="text-dark_green">{accountType}</p>
             </div>
 
             <ul className="flex flex-col w-full">
                 {createNavLink('/dashboard', 'Dashboard', dashboardIcon)}
-                {createNavLink('/inventory', 'Inventory', inventoryIcon)}
-                {createNavLink('/requests', 'Pending Requests', requestsIcon)}
-                {createNavLink('/vaccine-groups', 'Vaccine Groups', vaccineIcon)}
-                {createNavLink('/configure-accounts', 'Configure Accounts', configureIcon)}
-                {createNavLink('/distributor-details', 'Distributor Details', distributorIcon)}
+
+                {/*Owner */}
+                {accountType === 'owner' && (
+                    <>
+                    {createNavLink('/inventory', 'Inventory', inventoryIcon)}
+                    {createNavLink('/requests', 'Pending Requests', requestsIcon)}
+                    {createNavLink('/vaccine-groups', 'Vaccine Groups', vaccineIcon)}
+                    {createNavLink('/configure-accounts', 'Configure Accounts', configureIcon)}
+                    {createNavLink('/distributor-details', 'Distributor Details', distributorIcon)}
+                    </>
+                )}
+                
+                {/*Pharmacist */}
+                {accountType === 'pharmacist' && (
+                    <>
+                    {createNavLink('/inventory', 'Inventory', inventoryIcon)}
+                    {createNavLink('/requests', 'Pending Requests', requestsIcon)}
+                    {createNavLink('/vaccine-groups', 'Vaccine Groups', vaccineIcon)}
+                    {createNavLink('/distributor-details', 'Distributor Details', distributorIcon)}
+                    </>
+                )}
+
+                {/*Technician */}
+                {accountType === 'technician' && (
+                    <>
+                    {createNavLink('/inventory', 'Inventory', inventoryIcon)}
+                    {createNavLink('/requests', 'Pending Requests', requestsIcon)}
+                    </>
+                )}
+
+                {/*Assistant */}
+
+                {accountType === 'assistant' && (
+                    <>
+                    {createNavLink('/inventory', 'Inventory', inventoryIcon)}
+                    </>
+                )}
+
             </ul>
                 
             <ul className="mt-auto mb-6">
