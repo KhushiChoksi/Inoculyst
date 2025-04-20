@@ -41,6 +41,7 @@
 - http://localhost:8080/employee/:id/last-name
 - http://localhost:8080/employee/:id/email
 - http://localhost:8080/employee/:id/phone
+- http://localhost:8080/requests/:id/status
 
 ### Inventory related tables
 - http://localhost:8080/batches/:id/quantity (update quantity)
@@ -56,6 +57,9 @@
 ### Inventory related tables
 - http://localhost:8080/batches/add-batch (add a new batch)
 - http://localhost:8080/requests/add-request (add a new unique request)
+- http://localhost:8080/requests/add-request
+- http://localhost:8080/requests/update-batch-with-requests (this will add accepted requests to batch)
+- http://localhost:8080/requests/update-pending-requests
 
 ### General/other tables
 - http://localhost:8080/analytics/update/expired
@@ -68,5 +72,7 @@
 
 ### Inventory related tables
 - http://localhost:8080/batches/:id (delete an existing batch)
+- http://localhost:8080/requests/:id (delete an existing request)
+
 
 ### General/other tables

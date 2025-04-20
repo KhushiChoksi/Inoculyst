@@ -22,6 +22,27 @@ exports.getAllPendingRequests = (req, res) => {
         });
 };
 
+// refresh pending requests table
+exports.updatePendingRequestsTable = (req, res) => {
+    const clearSql = `DELETE FROM BATCH_PENDING_REQUESTS`;
+    const insertSql = `
+        INSERT INTO BATCH_PENDING_REQUESTS (Batch_Number, Request_ID, Technician_ID)
+        SELECT r.Batch_Number, r.Request_ID, r.Technician_ID
+        FROM REQUEST r
+        WHERE r.Status = 'Pending';
+    `;
+
+    db.query(clearSql, (err) => {
+        if (err) return res.status(500).send('Error clearing pending requests');
+        db.query(insertSql, (err, results) => {
+            if (err) return res.status(500).send('Error inserting pending requests');
+            res.json({ message: 'Pending requests refreshed', inserted: results.affectedRows });
+        });
+    });
+};
+
+
+
 // insert a request
 /* SAMPLE CURL request
 curl -X POST http://localhost:8080/requests/add-request \
@@ -125,5 +146,21 @@ exports.updateBatchFromAcceptedRequests = (req, res) => {
             message: 'Batch table updated successfully from accepted requests',
             updatedRows: results.affectedRows
         });
+    });
+};
+
+// delete a request
+exports.deleteRequest = (req, res) => {
+    const { id } = req.params;
+  
+    // delete from BATCH
+    db.query('DELETE FROM REQUEST WHERE Request_ID = ?', [id], (err, results) => {
+        if (err) {
+            return db.rollback(() => {
+                console.error('Error deleting from REQUEST:', err);
+                return res.status(500).send('Error deleting from REQUEST');
+            });
+        }
+        res.json({ message: 'Request deleted' });        
     });
 };
