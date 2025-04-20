@@ -25,12 +25,14 @@
   - http://localhost:8080/analytics/expiring-batches
   - http://localhost:8080/analytics/newly-added-batches
   - http://localhost:8080/analytics/counts
+- http://localhost:8080/distributors
 
 ## Updating data in tables (PUT requests)
 ### Role/user tables
 - http://localhost:8080/account/:id/account-type
   - :id = user's account id
   - account-type: the account type you want to change it to
+  - you will also need to input the certificate number (format CERT555777)
 - http://localhost:8080/account/:id/password
 - http://localhost:8080/account/:id/username
 - http://localhost:8080/admin/:id/first-name
