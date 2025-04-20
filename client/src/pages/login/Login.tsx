@@ -40,7 +40,7 @@ return (
           className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-dark_green"
         />
       </div>
-      {errorMessage && <p className = "text-red-500 mb-4 text-sn"> {errorMessage}</p>}
+      {errorMessage && <p className = "text-red-500 mb-4 text-center"> {errorMessage}</p>}
       
       <button 
         onClick={login}
