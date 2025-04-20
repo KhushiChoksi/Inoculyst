@@ -3,6 +3,8 @@ import BatchCard from './notifs/BatchNotif.tsx';
 import ExpiredBatchesCard from './notifs/ExpiredBatchesNotif.tsx';
 import UpcomingExpiryCard from './notifs/UpcomingExpiryNotif.tsx';
 import axios from "axios";
+import ReportOneNotif from './notifs/ReportOneNotif.tsx'; 
+import ReportTwoNotif from './notifs/ReportTwoNotif.tsx'; 
 
 interface Counts {
     total_batches: number;
@@ -54,14 +56,14 @@ export default function Dashboard() {
                 <div className="border-b border-gray-300 p-4">
                     <h1 className="text-ml font-semibold text-gray-800">List of Expired Batches</h1>
                 </div>
-                    <div className="p-4 h-96">hi</div>
+                    <div className="p-4 h-96"> <ReportOneNotif/> </div>
                 </div>
 
                 <div className="flex-1 border border-gray-300 rounded shadow-sm bg-white">
                     <div className="border-b border-gray-300 p-4">
                         <h1 className="text-ml font-semibold text-gray-800">List of Upcoming Expired Batches</h1>
                     </div>
-                    <div className="p-4 h-96">hi</div>
+                    <div className="p-4 h-96"> <ReportTwoNotif/></div>
                 </div>
             </div>
         </div>
