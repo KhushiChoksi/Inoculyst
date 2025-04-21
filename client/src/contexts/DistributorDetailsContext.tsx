@@ -52,6 +52,7 @@ export const DistributorDetailsProvider: React.FC<DistributorDetailsProviderProp
 
     useEffect(() => {
         getDistributors();
+        // window.location.reload();
     }, []);
 
     const value = {

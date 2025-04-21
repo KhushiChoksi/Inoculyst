@@ -19,6 +19,7 @@ import { AuthProvider } from './contexts/AuthContext.tsx';
 import { VaccineGroupsProvider } from './contexts/VaccineGroupsContext.tsx';
 import { DistributorDetailsProvider } from './contexts/DistributorDetailsContext.tsx';
 import { ReturnsProvider } from './contexts/ReturnsContext.tsx';
+import { UserProvider } from './contexts/UserContext.tsx';
 
 // (ignore this for now) data will be the string we send from our server
 // const apiCall = () => {
@@ -38,6 +39,7 @@ function App() {
     <DistributorDetailsProvider>
     <VaccineGroupsProvider>
     <AuthProvider>
+      <UserProvider>
     {/* // <div className="App">
     //   <header className="App-header">
     //     <button onClick={apiCall}>Make API Call</button>
@@ -68,7 +70,9 @@ function App() {
       </div>
       </div>
     </div>
+    </UserProvider>
     </AuthProvider>
+    
     </VaccineGroupsProvider>
     </DistributorDetailsProvider>
     </ReturnsProvider>

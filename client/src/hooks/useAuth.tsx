@@ -30,6 +30,7 @@ const useAuth = () => {
             console.error(err);
             setErrorMessage("Server error. Try again");
         }
+        window.location.reload();
         
     };
 

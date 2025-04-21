@@ -71,6 +71,7 @@ export const ChangeUsernameProvider: React.FC<{children: React.ReactNode}> = ({c
       console.error("Username update error: ", error);
       setMessage('Username could not be saved. Try again');
     }
+    window.location.reload();
   };
   const value: ChangeUsernameContextType = {
     formUsername,

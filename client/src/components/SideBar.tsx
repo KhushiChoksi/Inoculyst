@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import useAuth from '../hooks/useAuth.tsx';
 import { useAuthContext } from '../contexts/AuthContext.tsx';
+import { useUser } from '../contexts/UserContext.tsx';
 
 // const accountType1 = localStorage.getItem('accountType');
 // const username = localStorage.getItem('username');
@@ -9,6 +10,7 @@ import { useAuthContext } from '../contexts/AuthContext.tsx';
 
 export default function SideBar() {
     const { username, accountType } = useAuthContext();
+    const { userData, error} = useUser();
 
     const createNavLink = (to, label, icon) => (
         <li className="my-2">
@@ -94,7 +96,7 @@ export default function SideBar() {
             </div>
 
             <div className="bg-dark1/30 p-6">
-            <p className="font-semibold">{username}</p>
+            <p className="font-semibold">{userData.firstName} {userData.lastName}</p>
             <p className="text-dark_green">{accountType}</p>
             </div>
 

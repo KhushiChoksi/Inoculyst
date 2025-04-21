@@ -1,11 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../contexts/AuthContext.tsx"; 
 
 export default function HeaderBlock() {
   const navigate = useNavigate();
-  
+  const { logout } = useAuthContext();
+
   const handleLogout = () => {
-    // logout();
+    logout();    
     navigate("/");
   };
 
