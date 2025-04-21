@@ -31,19 +31,33 @@ const ConfigureAccountsForm: React.FC = () => {
                 </div>
                 {/* User Change form*/}
                 <div>
-                    <div className = "mb-4">
-                        <label className = "block mb-2" > Change Account Type</label>
-                        <select name="Account_type"
-                                className="w-full p-2 border border-gray-300 rounded-md"
-                                value={form.Account_type}
-                                onChange={handleInputChange}
-                                disabled={!selectedUser}>
-                            
-                            <option> Account Type </option>
-                            <option value="technician"> technician </option>
-                            <option value="pharmacist"> pharmacist </option>
-                        </select>
-                    </div>
+                    {selectedUser && selectedUser.Account_type === "assistant" && (
+                        <div className = "mb-4">
+                            <label className = "block mb-2" > Change Account Type</label>
+                            <select name="Account_type"
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    value={form.Account_type}
+                                    onChange={handleInputChange}
+                                    disabled={!selectedUser}>
+                                
+                                <option> Account Type </option>
+                                <option value="technician"> technician </option>
+                            </select>
+                        </div> 
+                    )}
+                    {selectedUser && selectedUser.Account_type === "assistant" && form.Account_type !== selectedUser.Account_type && (
+                        <div className="mb-4">
+                            <label className="block mb-2">Certificate ID</label>
+                            <input type="text"
+                                   name="Certificate_id"
+                                   placeholder="Format: CERT555777"
+                                   className="w-full p-2 border border-gray-300 rounded-md"
+                                   value={form.Certificate_id}
+                                   onChange={handleInputChange}
+                            />
+                        </div>
+                    )}
+                    
                     {/* Name*/}
                     <div className = "grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className = "mb-4">
@@ -94,14 +108,18 @@ const ConfigureAccountsForm: React.FC = () => {
                                         />
                         </div>
                     </div>
+
+                    <div className="flex justify-center">
                     <div className = "flex justify-center">
                     <button className = "w-40  py-3 center p-3 bg-dark1 hover:bg-dark_green text-white rounded-md transition-colors"
                             onClick={handleSave}
                             disabled={!selectedUser}>
                         Save Details
                     </button>
+                    </div>
+
                     {message && (
-                        <div className={`mt-4 p-2 rounded-md ${message.includes("Failed") ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
+                        <div className={"mt-4 p-2 rounded-md bg-red-100 text-red-700"}>
                         {message}
                         </div>
                     )}

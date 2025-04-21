@@ -31,6 +31,7 @@ export interface changeInformationForm {
     Last_name: string;
     Email: string;
     Phone_number: string;
+    Certificate_id: string;
 }
 
 interface ConfigureAccountsContextType {
@@ -57,7 +58,8 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
         First_name: "",
         Last_name: "",
         Email: "",
-        Phone_number: ""
+        Phone_number: "",
+        Certificate_id: "",
     });
 
     const [message, setMessage] = useState("");
@@ -67,16 +69,21 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
             const accountRes = await axios.get<AccountInformation[]> ("http://localhost:8080/account");
             const employeeAccountRes = accountRes.data.filter(account => account.ID.startsWith('E'));
             const employeeRes = await axios.get<UserInformation[]> ("http://localhost:8080/employee");
+            const adminRes = await axios.get<UserInformation[]> ("http://localhost:8080/admin");
+            console.log("Account types:", accountRes.data.map(acc => acc.Account_type));
+
 
             const accountInfo = accountRes.data;
             const employeeInfo = employeeRes.data;
+            const adminInfo = adminRes.data;
 
+            const combinedUsersInfo = [...employeeInfo, ...adminInfo];
 
-            const combinedUsers: CombinedUserInformation[] = employeeAccountRes.map( account => {
+            const combinedUsers: CombinedUserInformation[] = accountInfo.map( account => {
 
                 let userDetails: UserInformation | undefined;
 
-                userDetails = employeeInfo.find(employee => employee.ID === account.ID);
+                userDetails = combinedUsersInfo.find(employee => employee.ID === account.ID);
                 const combinedUser: CombinedUserInformation = {
                     ID: account.ID,
                     Account_type: account.Account_type,
@@ -106,7 +113,8 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
                         First_name: updatedUser.First_name || "",
                         Last_name: updatedUser.Last_name || "",
                         Email: updatedUser.Email || "",
-                        Phone_number: updatedUser.Phone_number || ""                    
+                        Phone_number: updatedUser.Phone_number || "" ,
+                        Certificate_id: "",                   
                     });
                 }
             }
@@ -126,7 +134,8 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
           First_name: "",
           Last_name: "",
           Email: "",
-          Phone_number: ""
+          Phone_number: "",
+          Certificate_id: "",
         });
         setMessage("");
       };
@@ -148,7 +157,8 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
                 First_name: user.First_name || "",
                 Last_name: user.Last_name || "",
                 Email: user.Email || "",
-                Phone_number: user.Phone_number || ""
+                Phone_number: user.Phone_number || "",
+                Certificate_id: "",
             });
         }
     };
@@ -166,28 +176,44 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
         setMessage("");
 
         try { 
-            if (form.Account_type && form.Account_type !== selectedUser.Account_type) {
-                await axios.put(`http://localhost:8080/account/employee/${selectedUser.ID}/account-type`, {
-                    accountType: form.Account_type
+            if (selectedUser.Account_type === "assistant" && 
+                form.Account_type && 
+                form.Account_type !== selectedUser.Account_type) {
+                
+                if (!form.Certificate_id || !form.Certificate_id.match(/^CERT\d{6}$/)) {
+                    setMessage("Certificate ID must be in format CERT555777");
+                    return;
+                }
+                
+                await axios.put(`http://localhost:8080/account/${selectedUser.ID}/account-type`, {
+                    account_type: form.Account_type,
+                    certification_number: form.Certificate_id
                 });
             }
+
             if (form.First_name && form.First_name !== selectedUser.First_name) {
-                await axios.put(`http://localhost:8080/account/employee/${selectedUser.ID}/first-name`, {
+                const userType = selectedUser.ID.startsWith("E") ? "employee" : "admin";
+                await axios.put(`http://localhost:8080/${userType}/${selectedUser.ID}/first-name`, {
                     firstName: form.First_name
                 });
             }
+            
             if (form.Last_name && form.Last_name !== selectedUser.Last_name) {
-                await axios.put(`http://localhost:8080/account/employee/${selectedUser.ID}/last-name`, {
+                const userType = selectedUser.ID.startsWith("E") ? "employee" : "admin";
+                await axios.put(`http://localhost:8080/${userType}/${selectedUser.ID}/last-name`, {
                     lastName: form.Last_name
                 });
             }
+            
             if (form.Email && form.Email !== selectedUser.Email) {
-                await axios.put(`http://localhost:8080/account/employee/${selectedUser.ID}/email`, {
+                const userType = selectedUser.ID.startsWith("E") ? "employee" : "admin";
+                await axios.put(`http://localhost:8080/${userType}/${selectedUser.ID}/email`, {
                     email: form.Email
                 });
             }
             if (form.Phone_number && form.Phone_number !== selectedUser.Phone_number) {
-                await axios.put(`http://localhost:8080/account/employee/${selectedUser.ID}/phone`, {
+                const userType = selectedUser.ID.startsWith("E") ? "employee" : "admin";
+                await axios.put(`http://localhost:8080/${userType}/${selectedUser.ID}/phone`, {
                     phone: form.Phone_number
                 });
             }
