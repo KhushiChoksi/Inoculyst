@@ -21,6 +21,7 @@ const useAuth = () => {
                 localStorage.setItem('username', user.Username);
                 localStorage.setItem('userID', user.ID);
                 navigate('/dashboard')
+                window.location.reload();
             }
             else {
                 setErrorMessage("Invalid username or password.");
@@ -30,7 +31,6 @@ const useAuth = () => {
             console.error(err);
             setErrorMessage("Server error. Try again");
         }
-        window.location.reload();
         
     };
 
