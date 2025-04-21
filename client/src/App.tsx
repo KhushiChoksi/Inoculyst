@@ -12,12 +12,13 @@ import VaccineGroups from './pages/vaccine-groups/VaccineGroups.tsx';
 import ConfigureAccounts from './pages/configure-accounts/ConfigureAccounts.tsx';
 import DistributorDetails from './pages/distributor-details/DistributorDetails.tsx';
 import Account from './pages/account/Account.tsx';
-
+import Returns from './pages/returns/Returns.tsx';
 import SideBar from './components/SideBar.tsx';
 import HeaderBlock from './components/HeaderBlock.tsx';
 import { AuthProvider } from './contexts/AuthContext.tsx';
 import { VaccineGroupsProvider } from './contexts/VaccineGroupsContext.tsx';
 import { DistributorDetailsProvider } from './contexts/DistributorDetailsContext.tsx';
+import { ReturnsProvider } from './contexts/ReturnsContext.tsx';
 
 // (ignore this for now) data will be the string we send from our server
 // const apiCall = () => {
@@ -33,6 +34,7 @@ function App() {
   const hideNavbarRoutes = ['/'];       // hide sidebar in these locations
 
   return (
+    <ReturnsProvider>
     <DistributorDetailsProvider>
     <VaccineGroupsProvider>
     <AuthProvider>
@@ -58,6 +60,7 @@ function App() {
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/requests" element={<Requests />} />
             <Route path="/vaccine-groups" element={<VaccineGroups />} />
+            <Route path="/returns" element={<Returns/>} />
             <Route path="/configure-accounts" element={<ConfigureAccounts />} />
             <Route path="/distributor-details" element={<DistributorDetails />} />
             <Route path="/account" element={<Account />} />
@@ -68,7 +71,7 @@ function App() {
     </AuthProvider>
     </VaccineGroupsProvider>
     </DistributorDetailsProvider>
-
+    </ReturnsProvider>
   );
 }
 
