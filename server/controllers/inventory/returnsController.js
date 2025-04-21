@@ -18,47 +18,47 @@ curl -X POST http://localhost:8080/returns/add-returned-batch \
 }'
 */
 exports.addReturnedBatch = (req, res) => {
-    const { 
-        admin_id, 
-        distributor_name, 
-        batch_number 
-    } = req.body;
+  const { 
+      admin_id, 
+      distributor_name, 
+      batch_number 
+  } = req.body;
 
-    const return_id = admin_id + batch_number;
+  const return_id = admin_id + batch_number;
+  
+  // query to insert into RETURNED_BATCHES
+  const insertQuery = `
+    INSERT INTO RETURNED_BATCHES (Return_ID, Admin_ID, Distributor_Name, Batch_Number)
+    VALUES (?, ?, ?, ?)
+  `;
     
-    // query to insert into RETURNED_BATCHES
-    const insertQuery = `
-      INSERT INTO RETURNED_BATCHES (Return_ID, Admin_ID, Distributor_Name, Batch_Number)
-      VALUES (?, ?, ?, ?)
+  db.query(insertQuery, [return_id, admin_id, distributor_name, batch_number], (err, insertResult) => {
+    if (err) {
+      console.error('Error inserting returned batch:', err);
+      return res.status(500).send('Error inserting returned batch');
+    }
+    
+    // query to delete returned batch from BATCH (which will cascade to other tables)
+    const deleteQuery = `
+      DELETE FROM BATCH
+      WHERE Batch_Number IN (
+        SELECT Batch_Number
+        FROM RETURNED_BATCHES
+        WHERE Return_ID = ?
+      )
     `;
-    
-    db.query(insertQuery, [return_id, admin_id, distributor_name, batch_number], (err, insertResult) => {
+      
+    db.query(deleteQuery, [return_id], (err, deleteResult) => {
       if (err) {
-        console.error('Error inserting returned batch:', err);
-        return res.status(500).send('Error inserting returned batch');
+        console.error('Error deleting batch:', err);
+        return res.status(500).send('Error deleting batch');
       }
       
-      // query to delete returned batch from BATCH (which will cascade to other tables)
-      const deleteQuery = `
-        DELETE FROM BATCH
-        WHERE Batch_Number IN (
-          SELECT Batch_Number
-          FROM RETURNED_BATCHES
-          WHERE Return_ID = ?
-        )
-      `;
-      
-      db.query(deleteQuery, [return_id], (err, deleteResult) => {
-        if (err) {
-          console.error('Error deleting batch:', err);
-          return res.status(500).send('Error deleting batch');
-        }
-        
-        res.status(200).json({
-          message: 'Batch successfully returned and removed from inventory',
-          insertedId: insertResult.insertId,
-          deletedRows: deleteResult.affectedRows
-        });
+      res.status(200).json({
+        message: 'Batch successfully returned and removed from inventory',
+        insertedId: insertResult.insertId,
+        deletedRows: deleteResult.affectedRows
       });
     });
-  };
+  });
+};
