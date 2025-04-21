@@ -107,6 +107,7 @@ export default function SideBar() {
                     {createNavLink('/inventory', 'Inventory', inventoryIcon)}
                     {createNavLink('/requests', 'Pending Requests', requestsIcon)}
                     {createNavLink('/vaccine-groups', 'Vaccine Groups', vaccineIcon)}
+                    {createNavLink('/returns', 'Returns', vaccineIcon)}
                     {createNavLink('/configure-accounts', 'Configure Accounts', configureIcon)}
                     {createNavLink('/distributor-details', 'Distributor Details', distributorIcon)}
                     </>
@@ -118,6 +119,7 @@ export default function SideBar() {
                     {createNavLink('/inventory', 'Inventory', inventoryIcon)}
                     {createNavLink('/requests', 'Pending Requests', requestsIcon)}
                     {createNavLink('/vaccine-groups', 'Vaccine Groups', vaccineIcon)}
+                    {createNavLink('/returns', 'Returns', vaccineIcon)}
                     {createNavLink('/distributor-details', 'Distributor Details', distributorIcon)}
                     </>
                 )}
