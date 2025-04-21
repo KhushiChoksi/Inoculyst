@@ -126,6 +126,7 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
 
     useEffect(() => {
         getUsers();
+        // window.location.reload();
     }, []);
 
     const resetForm = () => {

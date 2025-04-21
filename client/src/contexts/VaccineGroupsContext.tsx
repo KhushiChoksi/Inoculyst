@@ -85,6 +85,8 @@ export const VaccineGroupsProvider: React.FC<VaccineGroupsProviderProps> = ({ ch
 
     useEffect(() => {
         getVaccines();
+        // window.location.reload();
+
     }, []);
 
     const value = {

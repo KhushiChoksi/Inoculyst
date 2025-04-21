@@ -41,65 +41,65 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children, userId }) => {
-  const [userData, setUserData] = useState<UserInformation>(defaultInfo);
-  const[error, setError] = useState<string | null>(null);
+  const [userData, setUserData] = useState(defaultInfo);
+  const [error, setError] = useState(null);
   const { username, accountType, userID } = useAuthContext();
+  
+  // If userId isn't provided, use the userID from auth context
+  const UserId = userId || userID;
 
   useEffect(() => {
     const getUserData = async () => {
       try {
         const accountRes = await axios.get('http://localhost:8080/account');
-        const adminRes  = await axios.get('http://localhost:8080/admin')
-        const employeeRes = await axios.get('http://localhost:8080/employee')
-
-        const accountData = await accountRes.data;
-        const adminData  = await adminRes.data;
-        const employeeData = await employeeRes.data;
-
+        const adminRes = await axios.get('http://localhost:8080/admin');
+        const employeeRes = await axios.get('http://localhost:8080/employee');
         
-        const currentAccount = userId ? accountData.find((account) => account.ID === userId) : null;
-
+        const accountData = await accountRes.data;
+        const adminData = await adminRes.data;
+        const employeeData = await employeeRes.data;
+        
+        const currentAccount = UserId 
+          ? accountData.find((account) => account.ID === UserId) 
+          : accountData.find((account) => account.Username === username);
+        
         if (!currentAccount) {
           throw new Error('User information not found.');
         }
-
+        
         const isEmployee = currentAccount.ID.startsWith('E');
         const isAdmin = currentAccount.ID.startsWith('A');
-
-        let additionalInfo = null;
-
-        if (isAdmin) {
-          additionalInfo = adminData.find((admin) => admin.ID === userId);
-        }
-        else if (isEmployee) {
-          additionalInfo = employeeData.find((employee) => employee.ID === userId);
         
+        let additionalInfo = null;
+        
+        if (isAdmin) {
+          additionalInfo = adminData.find((admin) => admin.ID === currentAccount.ID);
+        } else if (isEmployee) {
+          additionalInfo = employeeData.find((employee) => employee.ID === currentAccount.ID);
         }
-
+        
         const combinedData: UserInformation = {
           id: currentAccount.ID,
-          accountType: currentAccount.Account_type, 
+          accountType: currentAccount.Account_type,
           username: currentAccount.Username,
-          firstName: additionalInfo ? additionalInfo.First_name: '',
-          lastName: additionalInfo ? additionalInfo.Last_name: '',
-          email: additionalInfo ? additionalInfo.Email: '',
-          phoneNumber: additionalInfo ? additionalInfo.Phone_number: '',
+          firstName: additionalInfo ? additionalInfo.First_name : '',
+          lastName: additionalInfo ? additionalInfo.Last_name : '',
+          email: additionalInfo ? additionalInfo.Email : '',
+          phoneNumber: additionalInfo ? additionalInfo.Phone_number : '',
         };
-
+        
         setUserData(combinedData);
         setError(null);
-
-
-      }
-      catch (err) {
-        setError('Failed to load user data.');
+      } catch (err) {
         console.error(err);
       }
-      
     };
-    getUserData();
-
-  }, [userId]);
+    
+    if (UserId || username) {
+      getUserData();
+      // window.location.reload();
+    }
+  }, [UserId, username]);
 
   return (
     <UserContext.Provider value={{ userData, error }}>

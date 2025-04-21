@@ -5,6 +5,7 @@ interface AuthContextType {
   accountType: string;
   userID: string;
   updateAuth: (username: string, accountType: string, userID: string) => void;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -21,10 +22,21 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
     setUsername(username);
     setAccountType(accountType);
     setUserID(userID);
+    window.location.reload();
+
+  };
+  
+  const logout = () => {
+    localStorage.removeItem('username');
+    localStorage.removeItem('accountType');
+    localStorage.removeItem('userID');
+    setUsername('');
+    setAccountType('');
+    setUserID('');
   };
 
   return (
-    <AuthContext.Provider value={{ username, accountType, userID, updateAuth }}>
+    <AuthContext.Provider value={{ username, accountType, userID, updateAuth, logout }}>
       {children}
     </AuthContext.Provider>
   );

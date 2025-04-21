@@ -6,5 +6,6 @@ export const useChangeUsername = () => {
   if (!context) {
     throw new Error('useChangeUsername must be used within a ChangeUsernameProvider');
   }
+  
   return context;
 };

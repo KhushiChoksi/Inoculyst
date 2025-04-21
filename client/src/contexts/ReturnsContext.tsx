@@ -54,6 +54,7 @@ export const ReturnsProvider: React.FC<ReturnsProviderProps> = ({ children }) =>
 
     useEffect(() => {
         getReturns();
+        // window.location.reload();
     }, []);
 
     const value = {

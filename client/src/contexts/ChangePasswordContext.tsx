@@ -71,6 +71,7 @@ export const ChangePasswordProvider: React.FC<{children: React.ReactNode}> = ({c
       console.error("Password update error: ", error);
       setMessage('Password could not be saved. Try again');
     }
+    window.location.reload();
   };
   const value: ChangePasswordContextType = {
     form,
