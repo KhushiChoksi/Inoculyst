@@ -17,6 +17,7 @@ import SideBar from './components/SideBar.tsx';
 import HeaderBlock from './components/HeaderBlock.tsx';
 import { AuthProvider } from './contexts/AuthContext.tsx';
 import { VaccineGroupsProvider } from './contexts/VaccineGroupsContext.tsx';
+import { DistributorDetailsProvider } from './contexts/DistributorDetailsContext.tsx';
 
 // (ignore this for now) data will be the string we send from our server
 // const apiCall = () => {
@@ -32,6 +33,7 @@ function App() {
   const hideNavbarRoutes = ['/'];       // hide sidebar in these locations
 
   return (
+    <DistributorDetailsProvider>
     <VaccineGroupsProvider>
     <AuthProvider>
     {/* // <div className="App">
@@ -65,6 +67,7 @@ function App() {
     </div>
     </AuthProvider>
     </VaccineGroupsProvider>
+    </DistributorDetailsProvider>
 
   );
 }
