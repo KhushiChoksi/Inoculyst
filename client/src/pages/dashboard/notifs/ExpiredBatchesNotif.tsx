@@ -1,6 +1,7 @@
 import React from 'react';
 import { AiOutlineWarning } from "react-icons/ai";
 
+// function to display the total expired batches, uses count as a parameter. 
 
 interface expiredBatchesNotif {
   count: number;

@@ -1,6 +1,9 @@
 import React from 'react';
 import { AiOutlineWarning } from "react-icons/ai";
 
+
+// function to display the upcoming expiries, uses count as a parameter. 
+
 interface upcomingExpiryNotif {
   count: number;
 }

@@ -15,6 +15,7 @@ export interface UserInformation {
     Phone_number: string;
 }
 
+//to store Account Database info and User database info
 export interface CombinedUserInformation {
     ID: string;
     Account_type: string;
@@ -53,6 +54,8 @@ const ConfigureAccountsContext = createContext<ConfigureAccountsContextType | nu
 export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const [users, setUsers] = useState<CombinedUserInformation[]>([]);
     const [selectedUser, setSelectedUser] = useState<CombinedUserInformation | null> (null);
+
+    //get information from the form
     const [form , setForm] = useState<changeInformationForm> ({
         Account_type: "",
         First_name: "",
@@ -77,13 +80,17 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
             const employeeInfo = employeeRes.data;
             const adminInfo = adminRes.data;
 
+            //combine admin and employee database
             const combinedUsersInfo = [...employeeInfo, ...adminInfo];
+
 
             const combinedUsers: CombinedUserInformation[] = accountInfo.map( account => {
 
                 let userDetails: UserInformation | undefined;
 
                 userDetails = combinedUsersInfo.find(employee => employee.ID === account.ID);
+
+                //get all their information from database
                 const combinedUser: CombinedUserInformation = {
                     ID: account.ID,
                     Account_type: account.Account_type,
@@ -93,6 +100,8 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
                     Email: "",
                     Phone_number: ""
                 };
+
+
                 if (userDetails) {
                     combinedUser.First_name = userDetails.First_name;
                     combinedUser.Last_name = userDetails.Last_name;
@@ -102,8 +111,11 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
                 
                 return combinedUser;
             });
-            setUsers(combinedUsers);
 
+
+            setUsers(combinedUsers);
+            
+            //set the form with the selected usernames old information. 
             if (selectedUser) {
                 const updatedUser = combinedUsers.find(user => user.ID === selectedUser.ID);
                 if (updatedUser){
@@ -119,8 +131,9 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
                 }
             }
         }
+
         catch (error) {
-            console.error("Couldn't fetch users:", error);
+            console.error("Couldn't get users:", error);
         }
     };
 
@@ -129,6 +142,7 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
         // window.location.reload();
     }, []);
 
+    //reset form after use
     const resetForm = () => {
         setForm({
           Account_type: "",
@@ -141,6 +155,7 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
         setMessage("");
       };
 
+      //handle a different user being used
     const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const userID = event.target.value;
         if (!userID || userID === " Select User") {
@@ -149,10 +164,12 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
             return;
         }
 
+
         const user = users.find(user => user.ID === userID);
+
+
         if (user) {
             setSelectedUser(user);
-
             setForm({
                 Account_type: user.Account_type || "",
                 First_name: user.First_name || "",
@@ -163,6 +180,9 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
             });
         }
     };
+
+
+    //function when information is changed
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setForm(prev => ({
@@ -171,6 +191,7 @@ export const ConfigureAccountsProvider: React.FC<{children: React.ReactNode}> = 
         }));
       };
     
+    //saves the information
     const handleSave = async () => {
         if (!selectedUser) return;
 

@@ -6,11 +6,13 @@ export default function HeaderBlock() {
   const navigate = useNavigate();
   const { logout } = useAuthContext();
 
+  // call logout button from AuthContext.tsx
   const handleLogout = () => {
     logout();    
     navigate("/");
   };
 
+  //return the header block
   return (
     <div className="bg-light_green/50 p-6 h-[76px] flex justify-end items-center">
       <button 

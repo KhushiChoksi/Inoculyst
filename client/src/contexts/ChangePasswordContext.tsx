@@ -10,9 +10,9 @@ interface ChangePasswordForm {
 interface ChangePasswordContextType {
   form: ChangePasswordForm;
   message: string;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSave: () => Promise<void>;
-  resetForm: () => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void; //function to see whats being inputted
+  handleSave: () => Promise<void>; //funtion to sve
+  resetForm: () => void; //function to reset the form to empty after its been saved
 }
 
 export const ChangePasswordContext = createContext<ChangePasswordContextType | null> (null);
@@ -25,7 +25,7 @@ export const ChangePasswordProvider: React.FC<{children: React.ReactNode}> = ({c
     newPassword:'',
   });
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(""); 
 
   const resetForm = () => {
     setForm({
@@ -34,6 +34,8 @@ export const ChangePasswordProvider: React.FC<{children: React.ReactNode}> = ({c
     });
     setMessage("");
   };
+
+  //store the new input
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
     const {name, value} = e.target;
     setForm(prevForm => ({
@@ -55,6 +57,7 @@ export const ChangePasswordProvider: React.FC<{children: React.ReactNode}> = ({c
 
       const currentAcc = accountInfo.find((account:any ) => account.ID === userID); 
 
+      //check password with old
       if (currentAcc.Password !== form.oldPassword) {
         setMessage('Current password is incorrect');
         return;
@@ -71,7 +74,7 @@ export const ChangePasswordProvider: React.FC<{children: React.ReactNode}> = ({c
       console.error("Password update error: ", error);
       setMessage('Password could not be saved. Try again');
     }
-    window.location.reload();
+    window.location.reload(); //reload page to show updated settings
   };
   const value: ChangePasswordContextType = {
     form,
@@ -92,7 +95,7 @@ export const ChangePasswordProvider: React.FC<{children: React.ReactNode}> = ({c
 export const useChangePassword = () => {
   const context = useContext(ChangePasswordContext);
   if (!context) {
-    throw new Error('useChangePassword must be used within a ChangePasswordProvider');
+    throw new Error('provider error');
   }
   return context;
 };

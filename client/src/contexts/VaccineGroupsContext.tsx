@@ -1,16 +1,19 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
 
+//most of the vaccine info
 interface Vaccine {
     Vaccine_Name: string;
     Brand_Name: string;
     Diseases: string;
 }
 
+//get the ingredient info
 interface VaccineWithIngredients extends Vaccine {
   V_Active_Ingredients: string;
 }
 
+//functions and everthing
 interface VaccineGroupsContextProps {
     vaccines: Vaccine[];
     vaccinesWithIngredients: VaccineWithIngredients[];
@@ -35,6 +38,7 @@ interface VaccineGroupsProviderProps {
     children: ReactNode;
 }
 
+//get all the information from the databases through the routes
 export const VaccineGroupsProvider: React.FC<VaccineGroupsProviderProps> = ({ children }) => {
     const [vaccines, setVaccines] = useState<Vaccine[]>([]);
     const [vaccinesWithIngredients, setVaccinesWithIngredients] = useState<VaccineWithIngredients[]>([]);
@@ -62,7 +66,7 @@ export const VaccineGroupsProvider: React.FC<VaccineGroupsProviderProps> = ({ ch
                 ingredientsInfo = ingredientsRes.data;
             }
             catch (error) {
-                console.error('Error getting vaccine ingredients .', error);
+                console.error('Error getting vaccine ingredients.', error);
                 setMessage('Failed to load vaccine ingredients list.')
                 throw error;
             }
@@ -79,6 +83,7 @@ export const VaccineGroupsProvider: React.FC<VaccineGroupsProviderProps> = ({ ch
         }
     };
 
+    //refresh
     const refreshVaccines = async() => {
         await getVaccines();
     }

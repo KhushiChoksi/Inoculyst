@@ -6,11 +6,16 @@ import axios from "axios";
 import ReportOneNotif from './notifs/ReportOneNotif.tsx'; 
 import ReportTwoNotif from './notifs/ReportTwoNotif.tsx'; 
 
+//function that displays all the notifactions on the page
+
+//get the count
 interface Counts {
     total_batches: number;
     expired_batches: number;
     expiring_batches: number;
 }
+
+
 export default function Dashboard() {
     const [counts, setCounts] = useState<Counts>({
         total_batches: 0,
@@ -20,7 +25,7 @@ export default function Dashboard() {
     const [lastRefreshed, setLastRefreshed] = useState<Date | null>(null);
 
 
-
+    //get the count through the route and give it to the functions 
     const getBatchCounts = async () => {
         try {
             const countsRes = await axios.get("http://localhost:8080/analytics/counts");
@@ -35,6 +40,7 @@ export default function Dashboard() {
         }
     };
 
+    //function to occasionally refresh the page incase anaylitics change -> every 10min
     const refreshAnalytics = async () => {
 
         try {
@@ -53,6 +59,7 @@ export default function Dashboard() {
 
     };
 
+    //refreshes and calls the fucntions above
     useEffect(() => {
         getBatchCounts();
         refreshAnalytics();
@@ -64,7 +71,7 @@ export default function Dashboard() {
         return () => clearInterval(interval);
     }, []);
 
-    
+    //design part to return each notifcation card and the lists. 
     return (
         <div>
             <div className="p-6 bg-[#F7F7F2]">

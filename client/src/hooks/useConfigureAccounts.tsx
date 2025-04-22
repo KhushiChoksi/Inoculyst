@@ -1,5 +1,6 @@
 import { useConfigureAccounts as useContextConfigureAccounts } from '../contexts/ConfigureAccountsContext.tsx';
 
+//call the functions
 export const useConfigureAccounts = useContextConfigureAccounts;
 
 export const useUserSelection = () => {

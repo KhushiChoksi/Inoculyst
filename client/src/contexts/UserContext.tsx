@@ -59,6 +59,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, userId }) 
         const adminData = await adminRes.data;
         const employeeData = await employeeRes.data;
         
+        //get the current account information
         const currentAccount = UserId 
           ? accountData.find((account) => account.ID === UserId) 
           : accountData.find((account) => account.Username === username);
@@ -67,17 +68,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, userId }) 
           throw new Error('User information not found.');
         }
         
+        //check if they are admin or employee
         const isEmployee = currentAccount.ID.startsWith('E');
         const isAdmin = currentAccount.ID.startsWith('A');
         
         let additionalInfo = null;
         
+        //get the specific additional informtion from their specific database
         if (isAdmin) {
           additionalInfo = adminData.find((admin) => admin.ID === currentAccount.ID);
         } else if (isEmployee) {
           additionalInfo = employeeData.find((employee) => employee.ID === currentAccount.ID);
         }
         
+        //combine it with the rest of the info
         const combinedData: UserInformation = {
           id: currentAccount.ID,
           accountType: currentAccount.Account_type,
@@ -88,6 +92,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, userId }) 
           phoneNumber: additionalInfo ? additionalInfo.Phone_number : '',
         };
         
+        //set the user info so it can be retrieved 
         setUserData(combinedData);
         setError(null);
       } catch (err) {
@@ -111,7 +116,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, userId }) 
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error('use a UserProvider');
   }
   return context;
 };

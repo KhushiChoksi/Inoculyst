@@ -15,6 +15,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const [accountType, setAccountType] = useState(localStorage.getItem('accountType') || '');
   const [userID, setUserID] = useState(localStorage.getItem('userID') || "");
 
+  //saves information to local storage so it can be retrieved later and sets username and other things. 
   const updateAuth = (username: string, accountType: string) => {
     localStorage.setItem('username', username);
     localStorage.setItem('accountType', accountType);
@@ -26,6 +27,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
 
   };
   
+  //log out function. removes items from local storage and resets them empty. 
   const logout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('accountType');
@@ -45,7 +47,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('You need to wrap authContext within an AuthProvider or something error');
+    throw new Error('Use Authprovider in App.tsx');
   }
   return context;
 };

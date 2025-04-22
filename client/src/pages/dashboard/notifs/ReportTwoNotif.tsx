@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+//same as report one, but shows the upcoming expiry list
+
 interface UpcomingExpiryBatch {
     A_Upcoming_expiring_Batches: string;
 }
@@ -9,6 +11,8 @@ const ReportOneNotif: React.FC = () => {
   const [upcomingExpiry, setupcomingExpiry] = useState<UpcomingExpiryBatch[]>([]);
   const [message, setMessage] = useState("");
 
+
+  //get the list
   const getUpcomingExpiryBatches = async() => {
     try {
         const upcomingExpiryRes = await axios.get('http://localhost:8080/analytics/expiring-batches');
@@ -24,10 +28,12 @@ const ReportOneNotif: React.FC = () => {
     getUpcomingExpiryBatches();
   }, []); 
 
+  //if none, then show theres none
   if (upcomingExpiry.length === 0) {
     return <div className="text-gray-500"> No expired batches </div>;
   }
 
+  //return the design with the list
   return (
     <div>
 

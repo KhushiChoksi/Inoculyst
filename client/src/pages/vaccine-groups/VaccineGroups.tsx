@@ -4,6 +4,7 @@ import { useVaccineGroups } from '../../hooks/useVaccineGroups.tsx';
 const VaccineGroups: React.FC = () => {
     const {vaccinesWithIngredients, message, searchFunction, setSearchFunction} = useVaccineGroups();
 
+    //use the search function and make sure its doing everything with a lowercase so that its easier
     const filteredVaccines = vaccinesWithIngredients.filter(vaccine => {
         if(!searchFunction) return true;
         const toLowerCase = searchFunction.toLowerCase();
@@ -18,7 +19,10 @@ const VaccineGroups: React.FC = () => {
 
 
     return (
+
+       
         <div className="p-6 bg-[#F7F7F2] min-h-screen">
+             {/* search function */}
             <h1 className = "text-2xl font-bold mb-4">Vaccine Groups</h1>
             <p className = "text-gray-600 mb-8 ">List of Vaccine Groups </p>
             <div className = "mb-6">
@@ -28,6 +32,8 @@ const VaccineGroups: React.FC = () => {
                         value={searchFunction}
                         onChange={(e) => setSearchFunction(e.target.value)}/>
             </div>
+
+            {/* display the actual table */}
 
             <div className = "overflow-x-auto border border-gray-300 rounded-md">
                 <table className = "min-w-full divide-y divide-[gray-300]">
@@ -55,6 +61,7 @@ const VaccineGroups: React.FC = () => {
                             </th>
                         </tr>
                     </thead>
+                    {/* table contents using the search filter */}
                     <tbody className="bg-[#FFFFFF] divide-y divide-gray-200">
                         {filteredVaccines.map((vaccine, index) => (
                             <tr key={index} className="hover:bg-light_green">

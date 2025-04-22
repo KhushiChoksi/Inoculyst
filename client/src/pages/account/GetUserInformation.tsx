@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext.tsx';
 import axios from 'axios';
 
-
+//function to get the actual user information that is to be displayed
 const GetUserInformation: React.FC = () => {
   const { userData, error} = useUser();
 
@@ -17,10 +17,11 @@ const GetUserInformation: React.FC = () => {
           const res = await axios.get('http://localhost:8080/technician');
           const info = await res.data;
 
+
+          // if its a technician then display the cert ID as well
           const tech = info.find(
             (tech: { Technician_ID: string }) => tech.Technician_ID === userData.id
           );
-
           if (tech) {
             setTechnicianData(tech);
           }
@@ -39,10 +40,12 @@ const GetUserInformation: React.FC = () => {
 
 
 
-
+  //any error then display it
   if (error) {
     return <div className="text-center py-8 text-red-600">{error}</div>;
   }
+
+  //otherwise display all the information
     return (
         <div className="bg-light_screen/50 p-6 mb-8">
           <div className="grid md:grid-cols-2 gap-6">
@@ -80,6 +83,7 @@ const GetUserInformation: React.FC = () => {
             </div>
           </div>
 
+          {/* display the technician cert if its a tech */}
           {userData.accountType === "technician" && technicianData && (
             <div className="space-y-2 mt-6 md:col-span-2">
             <h3 className="text-ml font-bold mb-4">Certification Number</h3>

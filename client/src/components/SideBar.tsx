@@ -13,13 +13,11 @@ export default function SideBar() {
     const { username, accountType } = useAuthContext();
     const { userData, error} = useUser();
 
+    //nav bar links
     const createNavLink = (to, label, icon) => (
         <li className="my-2">
-            <NavLink
-                to={to}
-                className={({ isActive }) =>
-                    `flex items-center p-2.5 ${isActive ? 'bg-dark_green text-white' : 'text-white hover:text-light_green'}`}
-            >
+            <NavLink to={to}
+                    className={({ isActive }) => `flex items-center p-2.5 ${isActive ? 'bg-dark_green text-white' : 'text-white hover:text-light_green'}`} >
                 <div className="flex items-center">
                     <span className="mr-4">
                         {icon} 
@@ -97,11 +95,14 @@ export default function SideBar() {
 
     return (
         <nav className="bg-dark1 text-white fixed h-screen w-64 top-0 left-0 flex flex-col" >
+            {/* Inoculyst*/}
             <div className="bg-black p-6">
                 <h1 className="text-lg font-bold tracking-widest">
                     INOCULYST
                 </h1>
             </div>
+
+             {/* Display Name of user and their Account type*/}
 
             <div className="bg-dark1/30 p-6">
             <p className="font-semibold">{userData.firstName} {userData.lastName}</p>

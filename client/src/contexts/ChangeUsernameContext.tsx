@@ -10,9 +10,9 @@ interface ChangeUsernameForm {
 interface ChangeUsernameContextType {
   formUsername: ChangeUsernameForm;
   messageUsername: string;
-  handleInputChangeUsername: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSaveUsername: () => Promise<void>;
-  resetFormUsername: () => void;
+  handleInputChangeUsername: (e: React.ChangeEvent<HTMLInputElement>) => void; //function get the new username input
+  handleSaveUsername: () => Promise<void>; //function save the username
+  resetFormUsername: () => void; //function to reset the form
 }
 
 export const ChangeUsernameContext = createContext<ChangeUsernameContextType | null> (null);
@@ -34,6 +34,8 @@ export const ChangeUsernameProvider: React.FC<{children: React.ReactNode}> = ({c
     });
     setMessage("");
   };
+
+
   const handleInputChangeUsername = (e: React.ChangeEvent<HTMLInputElement> ) => {
     const {name, value} = e.target;
     setForm(prevForm => ({
@@ -71,8 +73,10 @@ export const ChangeUsernameProvider: React.FC<{children: React.ReactNode}> = ({c
       console.error("Username update error: ", error);
       setMessage('Username could not be saved. Try again');
     }
-    window.location.reload();
+    window.location.reload(); //reload page to show updated settings.
   };
+
+
   const value: ChangeUsernameContextType = {
     formUsername,
     messageUsername,
@@ -92,7 +96,7 @@ export const ChangeUsernameProvider: React.FC<{children: React.ReactNode}> = ({c
 export const useChangeUsername = () => {
   const context = useContext(ChangeUsernameContext);
   if (!context) {
-    throw new Error('useChangeUsername must be used within a ChangeUsernameProvider');
+    throw new Error('provider error');
   }
   return context;
 };
