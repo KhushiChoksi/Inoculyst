@@ -189,54 +189,85 @@ interface Request {
 const RequestTable: React.FC = () => {
   const [requests, setRequests] = useState<Request[]>([]);
 
+  // useEffect(() => {
+  //   const fetchRequests = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:8080/requests');
+  //       const result = await response.json();
+  //       setRequests(result);
+  //     } catch (error) {
+  //       console.error('Error fetching requests:', error);
+  //     }
+  //   };
+
+  //   fetchRequests();
+  // }, []);
+
   useEffect(() => {
-    const fetchRequests = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/requests');
-        const result = await response.json();
-        setRequests(result);
+        const [requestsRes, batchesRes] = await Promise.all([
+          fetch('http://localhost:8080/requests'),
+          fetch('http://localhost:8080/batches'),
+        ]);
+  
+        const requestsData = await requestsRes.json();
+        const batchesData = await batchesRes.json();
+  
+        const batchQuantityMap: Record<string, number> = {};
+        batchesData.forEach((batch: any) => {
+          batchQuantityMap[batch.Batch_Number] = batch.Batch_Quantity;
+        });
+  
+        const mergedRequests: Request[] = requestsData.map((req: any) => ({
+          id: req.Request_ID,
+          batchNumber: req.Batch_Number,
+          requestedQuantity: req.Batch_Quantity,
+          currentQuantity: batchQuantityMap[req.Batch_Number] || 0,
+          status: req.Status.toLowerCase(),
+        }));
+  
+        setRequests(mergedRequests);
       } catch (error) {
-        console.error('Error fetching requests:', error);
+        console.error('Error fetching requests or batches:', error);
       }
     };
-
-    fetchRequests();
+  
+    fetchData();
   }, []);
+  
 
   return (
-    <div className="bg-[#F7F7F2] min-h-screen p-10">
-      <div className="font-bold text-2xl mb-4">All Batch Update Requests</div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg shadow-md">
-          <thead>
-            <tr className="bg-dark1 text-white">
-              <th className="py-2 px-4 text-left">Request ID</th>
-              <th className="py-2 px-4 text-left">Batch Number</th>
-              <th className="py-2 px-4 text-left">Current Quantity</th>
-              <th className="py-2 px-4 text-left">Requested Quantity</th>
-              <th className="py-2 px-4 text-left">Status</th>
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white rounded-lg shadow-md">
+        <thead>
+          <tr className="bg-dark1 text-white">
+            <th className="py-2 px-4 text-left">Request ID</th>
+            <th className="py-2 px-4 text-left">Batch Number</th>
+            <th className="py-2 px-4 text-left">Current Quantity</th>
+            <th className="py-2 px-4 text-left">Requested Quantity</th>
+            <th className="py-2 px-4 text-left">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {requests.map((req) => (
+            <tr key={req.id} className="border-b">
+              <td className="py-2 px-4">{req.id}</td>
+              <td className="py-2 px-4">{req.batchNumber}</td>
+              <td className="py-2 px-4">{req.currentQuantity}</td>
+              <td className="py-2 px-4">{req.requestedQuantity}</td>
+              <td className="py-2 px-4 capitalize">{req.status}</td>
             </tr>
-          </thead>
-          <tbody>
-            {requests.map((req) => (
-              <tr key={req.id} className="border-b">
-                <td className="py-2 px-4">{req.id}</td>
-                <td className="py-2 px-4">{req.batchNumber}</td>
-                <td className="py-2 px-4">{req.currentQuantity}</td>
-                <td className="py-2 px-4">{req.requestedQuantity}</td>
-                <td className="py-2 px-4 capitalize">{req.status}</td>
-              </tr>
-            ))}
-            {requests.length === 0 && (
-              <tr>
-                <td colSpan={5} className="text-center py-4 text-gray-500">
-                  No requests found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+          ))}
+          {requests.length === 0 && (
+            <tr>
+              <td colSpan={5} className="text-center py-4 text-gray-500">
+                No requests found.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

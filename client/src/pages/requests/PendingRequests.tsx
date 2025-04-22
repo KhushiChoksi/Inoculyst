@@ -12,40 +12,46 @@
 //     );
 // }
 
-// import React from 'react';
-// import RequestTable from './components/RequestTable';
-// import { RequestsProvider } from '../../contexts/RequestsContext';
+import React, { useState } from 'react';
+import RequestTable from './components/RequestTable.tsx';
+import { RequestsProvider } from '../../contexts/RequestsContext.tsx';
 
-// const TechnicianRequests: React.FC = () => {
-//   // This would typically come from authentication context
-//   const technicianId = 'E001';
+const PendingRequests: React.FC = () => {
+  // This would typically come from authentication context
+  const technicianId = 'E001';
+  const [pendingRequests, setRequests] = useState<Request[]>([]);
+
+
+  const fetchAllRequests = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/requests`);
+      const result = await response.json();
+      setRequests(result);
+    } catch (error) {
+      console.error('Error fetching pending requests:', error);
+    }
+  };
   
-//   return (
-//     <RequestsProvider>
-//       <div className="bg-[#F7F7F2] min-h-screen p-6">
-//         <div className="max-w-7xl mx-auto">
-//           <h1 className="text-2xl font-bold mb-2">My Batch Update Requests</h1>
-//           <p className="text-gray-600 mb-6">View and track your batch update requests</p>
+  return (
+    <RequestsProvider>
+      <div className="p-6">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-2xl font-bold mb-2">Batch Update Requests</h1>
+          <RequestTable/>
           
-//           <div className="bg-white rounded-lg shadow p-6">
-//             <RequestTable 
-//               role="technician"
-//               technicianId={technicianId}
-//             />
-            
-//             <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
-//               <h3 className="font-medium text-gray-700 mb-2">Request Status Information</h3>
-//               <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-//                 <li><span className="font-medium text-yellow-700">Pending</span>: Your request is waiting for review</li>
-//                 <li><span className="font-medium text-green-700">Accepted</span>: Your request has been approved and the batch has been updated</li>
-//                 <li><span className="font-medium text-red-700">Rejected</span>: Your request was not approved</li>
-//               </ul>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </RequestsProvider>
-//   );
-// };
+          <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <h3 className="font-medium text-gray-700 mb-2">Request Status Information</h3>
+              <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                <li><span className="font-medium text-yellow-700">Pending</span>: The request is waiting for an admin's review.</li>
+                <li><span className="font-medium text-green-700">Accepted</span>: The request has been approved and the batch has been updated.</li>
+                <li><span className="font-medium text-red-700">Rejected</span>: The request was not approved.</li>
+              </ul>
+          </div>
 
-// export default TechnicianRequests;
+        </div>
+      </div>
+    </RequestsProvider>
+  );
+};
+
+export default PendingRequests;
