@@ -756,26 +756,62 @@ const RequestUpdateBatch: React.FC<Props> = ({ batch, onCancel }) => {
   // For demo purposes, hardcoding as E001
   const technicianId = 'E001';
   
-  const handleSubmit = async () => { //SOMETHING IS NOT WORKING HERE
+  // const handleSubmit = async () => { //SOMETHING IS NOT WORKING HERE
     
+  //   try {
+      
+  //     const response = await fetch('http://localhost:8080/requests/add-request', {
+      
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ quantity: quantity })
+  //     });
+
+  //     if (!response.ok) throw new Error("Failed to update");
+
+  //     setStatus("Batch quantity updated successfully.");
+  //   } catch (err) {
+  //     console.error("Update failed:", err);
+  //     setStatus("Update failed.");
+  //   }
+  
+  // };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError('');
     try {
-      
       const response = await fetch('http://localhost:8080/requests/add-request', {
-      
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quantity: quantity })
+        body: JSON.stringify({
+          technician_id: technicianId,
+          batch_number: batch.Batch_Number,
+          order_status: "Arrived", // or get this from batch if available
+          status: "Pending",
+          date_added: new Date().toISOString().split("T")[0],
+          batch_quantity: quantity,
+          expiry_date: "2025-04-26", // TODO: replace with actual batch expiry if you have it
+          vaccine_name: "[COVID-19] VAXZEVRIA", // TODO: replace with actual vaccine name
+          pharmacy_name: "PharmaPlus" // TODO: replace with actual pharmacy name
+        })
       });
-
-      if (!response.ok) throw new Error("Failed to update");
-
-      setStatus("Batch quantity updated successfully.");
-    } catch (err) {
-      console.error("Update failed:", err);
-      setStatus("Update failed.");
-    }
   
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to add request");
+      }
+  
+      setStatus("Request submitted successfully.");
+      setSuccess(true);
+    } catch (err: any) {
+      console.error("Update failed:", err.message);
+      setError(err.message || "Unknown error");
+    } finally {
+      setLoading(false);
+    }
   };
+  
   
   return (
     <div className="bg-[#F7F7F2] min-h-screen p-6">
