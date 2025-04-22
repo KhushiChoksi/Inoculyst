@@ -9,7 +9,7 @@ interface Props {
   };
 }
 
-const AdminBatchDetails: React.FC<Props> = ({ batch }) => {
+const TechnicianBatchDetails: React.FC<Props> = ({ batch }) => {
   const [vaccineDetails, setVaccineDetails] = useState<any | null>(null);
   const [ingredients, setIngredients] = useState<string[]>([]);
 
@@ -92,4 +92,4 @@ const AdminBatchDetails: React.FC<Props> = ({ batch }) => {
   );
 };
 
-export default AdminBatchDetails;
+export default TechnicianBatchDetails;
