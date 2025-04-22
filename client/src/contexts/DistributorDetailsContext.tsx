@@ -7,6 +7,8 @@ interface Distributor {
     Email: string;
 }
 
+
+//so that the functions can be used in a diff file
 interface DistributorDetailsContextProps {
     distributors: Distributor[];
     message: string;
@@ -29,6 +31,7 @@ interface DistributorDetailsProviderProps {
     children: ReactNode;
 }
 
+//get the information from the database
 export const DistributorDetailsProvider: React.FC<DistributorDetailsProviderProps> = ({ children }) => {
     const [distributors, setDistributors] = useState<Distributor[]>([]);
     const [message, setMessage] = useState("");
@@ -38,7 +41,7 @@ export const DistributorDetailsProvider: React.FC<DistributorDetailsProviderProp
         try {
             setMessage("");
             const response = await axios.get('http://localhost:8080/distributors');
-            setDistributors(response.data);
+            setDistributors(response.data); 
         }
         catch (error) {
             console.error("Error fetching distributors: ", error);
@@ -46,6 +49,7 @@ export const DistributorDetailsProvider: React.FC<DistributorDetailsProviderProp
         }
     };
 
+    
     const refreshDistributors = async() => {
         await getDistributors();
     }
