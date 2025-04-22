@@ -36,7 +36,8 @@ const PendingRequests: React.FC = () => {
     <RequestsProvider>
       <div className="p-6">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold mb-2">Batch Update Requests</h1>
+          <h1 className="text-2xl font-bold mb-4">View Requests</h1>
+          <p className="text-gray-600 mb-8">View and update the requests made by technicians.</p>    
           <RequestTable/>
           
           <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-200">

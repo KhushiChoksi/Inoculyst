@@ -129,17 +129,13 @@ const handleDeleteBatch = async () => {
           </>
         ) : (
           <>
-            <div className="flex items-center justify-between mt-4">
-              <div className="font-bold ml-6 text-2xl">Inventory</div>
-              {/* <button
-                onClick={handleAddNewBatch}
-                className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-dark_green transition-colors"
-              >
-                + Add New Batch
-              </button> */}
+            <div className="flex items-center justify-between p-6">
+              <div className="flex flex-col">
+                <h1 className="text-2xl font-bold mb-4">Inventory</h1>
+                <p className="text-gray-600 mb-6">List of batches in your inventory.</p>  
+              </div>
             </div>
-            <div className="font-normal text-sm mt-2 ml-6">List of batches available</div>
-            <div className="ml-10 mr-6 mt-4">
+            <div className="ml-6 mr-0 mt-0">
               <BatchTable onViewDetails={handleViewDetails} />
             </div>
           </>

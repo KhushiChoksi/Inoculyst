@@ -162,7 +162,8 @@ import React, { useEffect, useState } from 'react';
 
 interface Request {
   Batch_Number: string;
-  Requested_Quantity: number;
+  Request_ID: string;
+  Batch_Quantity: number;
   Status: string;
   Request_Type: string;
   Vaccine_Name: string;
@@ -171,12 +172,12 @@ interface Request {
 
 const EmployeeRequests: React.FC = () => {
   const [pendingRequests, setPendingRequests] = useState<Request[]>([]);
-  const technicianID = "T001";  // Replace with the actual technician's ID
+  const technicianID = "";
 
   useEffect(() => {
     const fetchPendingRequests = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/requests/pending?requestedBy=${technicianID}`);
+        const response = await fetch(`http://localhost:8080/requests/?requestedBy=${technicianID}`);
         const result = await response.json();
         setPendingRequests(result);
       } catch (error) {
@@ -195,8 +196,9 @@ const EmployeeRequests: React.FC = () => {
 
       if (response.ok) {
         alert('Request canceled!');
-        // Remove the canceled request from the state
-        setPendingRequests(pendingRequests.filter((r) => r.Batch_Number !== requestId));
+
+        // remove the canceled request from the state
+        setPendingRequests(pendingRequests.filter((r) => r.Request_ID !== requestId));
       } else {
         alert('Failed to cancel request.');
       }
@@ -207,10 +209,11 @@ const EmployeeRequests: React.FC = () => {
 
   return (
     <div className="p-8">
-      <h2 className="text-xl font-semibold mb-4">Your Pending Update Requests</h2>
+      <h2 className="text-xl font-semibold mb-4">Your Batch Update Requests</h2>
       <table className="table-auto w-full border border-gray-300">
         <thead>
           <tr>
+            <th className="px-4 py-2 text-left">Request ID</th>
             <th className="px-4 py-2 text-left">Batch Number</th>
             <th className="px-4 py-2 text-left">Requested Quantity</th>
             <th className="px-4 py-2 text-left">Vaccine Name</th>
@@ -222,16 +225,17 @@ const EmployeeRequests: React.FC = () => {
           {pendingRequests.length > 0 ? (
             pendingRequests.map((request) => (
               <tr key={request.Batch_Number} className="border-t border-gray-200">
+                <td className="px-4 py-2">{request.Request_ID}</td>
                 <td className="px-4 py-2">{request.Batch_Number}</td>
-                <td className="px-4 py-2">{request.Requested_Quantity}</td>
+                <td className="px-4 py-2">{request.Batch_Quantity}</td>
                 <td className="px-4 py-2">{request.Vaccine_Name}</td>
                 <td className="px-4 py-2">{request.Status}</td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => handleCancel(request.Batch_Number)}
+                    onClick={() => handleCancel(request.Request_ID)}
                     className="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700"
                   >
-                    Cancel
+                    Close
                   </button>
                 </td>
               </tr>
