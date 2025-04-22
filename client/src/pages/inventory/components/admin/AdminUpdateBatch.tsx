@@ -1,24 +1,34 @@
-import React, { useState } from "react"; //DOESNT WORK YET
+import React, { useState } from "react"; 
 
 interface Props {
   batch: {
     Batch_Number: string;
     Batch_Quantity: number;
   };
+  onCancel: () => void;
 }
 
-const AdminUpdateBatch: React.FC<Props> = ({ batch }) => {
+const AdminUpdateBatch: React.FC<Props> = ({ batch, onCancel }) => {
+
+// const AdminUpdateBatch: React.FC<Props> = ({ batch }) => {
   const [quantity, setQuantity] = useState(batch.Batch_Quantity);
   const [status, setStatus] = useState("");
 
+//   const handleBack = () => {
+//     //HERE(null);
+//   };
+
+const handleBack = () => {
+    onCancel();
+  };
+  
   const handleSubmit = async () => {
     try {
-    //   const response = await fetch(`http://localhost:8080/batches/update/${batch.Batch_Number}`, {
         const response = await fetch(`http://localhost:8080/batches/${batch.Batch_Number}/quantity`, {
 
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ batch_quantity: quantity })
+        body: JSON.stringify({ quantity: quantity })
       });
 
       if (!response.ok) throw new Error("Failed to update");
@@ -32,9 +42,9 @@ const AdminUpdateBatch: React.FC<Props> = ({ batch }) => {
 
   return (
     <div className="bg-[#F7F7F2] min-h-screen">
-      <div className="p-6"></div>
-      <div className="flex items-center mt-10">
-        <div className="font-normal indent-10 text-2xl">Inventory</div>
+      <div className=""></div>
+      <div className="flex items-center mt-4">
+        <div className="font-normal indent-6 text-2xl">Inventory</div>
         <div className="font-normal indent-10 text-2xl mx-2">&gt;</div>
         <div className="font-bold indent-10 text-2xl text-left mr-6">Update Batch</div>
       </div>
@@ -54,6 +64,12 @@ const AdminUpdateBatch: React.FC<Props> = ({ batch }) => {
         className="font-normal text-sm bg-dark1 text-white ml-10 px-4 py-3 rounded hover:bg-dark_green transition-colors"
       >
         Update Batch
+      </button>
+      <button
+        onClick={handleBack}
+        className="font-normal text-sm bg-dark1 text-white ml-10 px-4 py-3 rounded hover:bg-dark_green transition-colors"
+      >
+        ← Back to Inventory
       </button>
 
       {status && <div className="mt-4 ml-10 text-sm text-gray-600">{status}</div>}

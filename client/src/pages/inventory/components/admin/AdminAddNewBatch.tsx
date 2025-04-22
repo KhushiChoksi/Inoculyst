@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-export default function AdminAddNewBatch() {
+interface Props {
+    onCancel: () => void;
+  }
+
+// export default function AdminAddNewBatch() {
+export default function AdminAddNewBatch({ onCancel }: Props) {
   const [vaccineNames, setVaccineNames] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     order_status: "Ordered",
@@ -62,10 +67,10 @@ export default function AdminAddNewBatch() {
 
   return (
     <div className="bg-[#F7F7F2] min-h-screen">
-      <div className="p-6 "></div>
+      <div className=" "></div>
 
-      <div className="flex items-center mt-10">
-        <div className="font-normal indent-10 text-2xl">Inventory </div>
+      <div className="flex items-center mt-4">
+        <div className="font-normal indent-6 text-2xl">Inventory </div>
         <div className="font-normal indent-10 text-2xl mx-2">&gt;</div>
         <div className="font-bold indent-10 text-2xl text-left mr-6">Add New Batch</div>
       </div>
@@ -128,6 +133,12 @@ export default function AdminAddNewBatch() {
       >
         Add Batch
       </button>
+      <button
+  onClick={onCancel}
+  className="font-normal text-sm bg-dark1 text-white ml-4 px-4 py-3 rounded hover:bg-dark_green transition-colors"
+>
+← Back to Inventory
+</button>
 
       {submissionStatus && (
         <div className="mt-4 ml-10 text-sm text-gray-600">{submissionStatus}</div>
