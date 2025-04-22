@@ -17,6 +17,9 @@ export default function Dashboard() {
         expired_batches: 0,
         expiring_batches: 0
     });
+    const [lastRefreshed, setLastRefreshed] = useState<Date | null>(null);
+
+
 
     const getBatchCounts = async () => {
         try {
@@ -32,15 +35,41 @@ export default function Dashboard() {
         }
     };
 
+    const refreshAnalytics = async () => {
+
+        try {
+            await axios.post('http://localhost:8080/analytics/update/expired');
+            await axios.post('http://localhost:8080/analytics/update/upcoming');
+            await axios.post('http://localhost:8080/analytics/update/new');
+
+            await getBatchCounts();
+
+            setLastRefreshed(new Date());
+
+        }
+        catch (error) {
+            console.error("Error refreshing analytics:", error);
+        }
+
+    };
+
     useEffect(() => {
         getBatchCounts();
+        refreshAnalytics();
+
+        const interval = setInterval(() => {
+            refreshAnalytics();
+        }, 60000); // 10min ..... set to 6000 if you want to test it for one min scenarios. 
+        
+        return () => clearInterval(interval);
     }, []);
 
+    
     return (
         <div>
-            <div className=" p-6 bg-[#F7F7F2]">
+            <div className="p-6 bg-[#F7F7F2]">
                 <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-                <p className="text-gray-600 mb-8">A quick data overview of the inventory.</p>    
+                <p className="text-gray-600 mb-4">A quick data overview of the inventory.</p>  
             </div>
 
             <div className = "p-g bg-[#F7F7F2] flex items-center justify-center">
