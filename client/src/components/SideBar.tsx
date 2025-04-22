@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import useAuth from '../hooks/useAuth.tsx';
 import { useAuthContext } from '../contexts/AuthContext.tsx';
 import { useUser } from '../contexts/UserContext.tsx';
+import { TbVaccine, TbTruckReturn } from "react-icons/tb";
 
 // const accountType1 = localStorage.getItem('accountType');
 // const username = localStorage.getItem('username');
@@ -54,10 +55,17 @@ export default function SideBar() {
 
     const vaccineIcon = (
         <svg className="ml-4" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="16.5" y1="9.4" x2="7.5" y2="4.21" />  
+            {/* <line x1="16.5" y1="9.4" x2="7.5" y2="4.21" />  
             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />  
             <polyline points="3.27 6.96 12 12.01 20.73 6.96" />  
-            <line x1="12" y1="22.08" x2="12" y2="12" />  
+            <line x1="12" y1="22.08" x2="12" y2="12" />   */}
+            <TbVaccine size={25}/>
+        </svg>
+    );
+
+    const returnIcon = (
+        <svg className="ml-4" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <TbTruckReturn size={25}/>
         </svg>
     );
 
@@ -109,9 +117,9 @@ export default function SideBar() {
                     {createNavLink('/inventory', 'Inventory', inventoryIcon)}
                     {createNavLink('/requests', 'Pending Requests', requestsIcon)}
                     {createNavLink('/vaccine-groups', 'Vaccine Groups', vaccineIcon)}
-                    {createNavLink('/returns', 'Returns', vaccineIcon)}
-                    {createNavLink('/configure-accounts', 'Configure Accounts', configureIcon)}
+                    {createNavLink('/returns', 'Returns', returnIcon)}
                     {createNavLink('/distributor-details', 'Distributor Details', distributorIcon)}
+                    {createNavLink('/configure-accounts', 'Configure Accounts', configureIcon)}
                     </>
                 )}
                 
@@ -121,7 +129,7 @@ export default function SideBar() {
                     {createNavLink('/inventory', 'Inventory', inventoryIcon)}
                     {createNavLink('/requests', 'Pending Requests', requestsIcon)}
                     {createNavLink('/vaccine-groups', 'Vaccine Groups', vaccineIcon)}
-                    {createNavLink('/returns', 'Returns', vaccineIcon)}
+                    {createNavLink('/returns', 'Returns', returnIcon)}
                     {createNavLink('/distributor-details', 'Distributor Details', distributorIcon)}
                     </>
                 )}
@@ -131,6 +139,7 @@ export default function SideBar() {
                     <>
                     {createNavLink('/inventory', 'Inventory', inventoryIcon)}
                     {createNavLink('/requests', 'Pending Requests', requestsIcon)}
+                    {createNavLink('/vaccine-groups', 'Vaccine Groups', vaccineIcon)}
                     </>
                 )}
 
@@ -139,6 +148,7 @@ export default function SideBar() {
                 {accountType === 'assistant' && (
                     <>
                     {createNavLink('/inventory', 'Inventory', inventoryIcon)}
+                    {createNavLink('/vaccine-groups', 'Vaccine Groups', vaccineIcon)}
                     </>
                 )}
 
