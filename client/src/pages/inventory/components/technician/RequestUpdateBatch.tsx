@@ -716,14 +716,19 @@
 // export default RequestUpdateBatch;
 
 import React, { useState } from 'react';
-
 interface Props {
   batch: {
     Batch_Number: string;
+    Order_status: string;
+    Date_Added: string;
     Batch_Quantity: number;
+    Expiry_Date: string;
+    Vaccine_Name: string;
+    Pharmacy_Name: string;
   };
   onCancel: () => void;
 }
+
 
 // interface Batch {
 //   batch:{
@@ -777,40 +782,89 @@ const RequestUpdateBatch: React.FC<Props> = ({ batch, onCancel }) => {
   
   // };
 
+  // const handleSubmit = async () => {
+  //   setLoading(true);
+  //   setError('');
+  //   try {
+  //     const response = await fetch('http://localhost:8080/requests/add-request', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         technician_id: technicianId,
+  //         batch_number: batch.Batch_Number,
+  //         order_status: batch.Order_status,
+  //         status: "Pending",
+  //         date_added: batch.Date_Added,
+  //         batch_quantity: quantity,
+  //         expiry_date: batch.Expiry_Date,
+  //         vaccine_name: batch.Vaccine_Name,
+  //         pharmacy_name: batch.Pharmacy_Name
+  //       })
+        
+  //     });
+  
+  //     if (!response.ok) {
+  //       const contentType = response.headers.get("content-type");
+  //       if (contentType && contentType.includes("application/json")) {
+  //         const data = await response.json();
+  //         throw new Error(data.message || "Failed to add request");
+  //       } else {
+  //         const text = await response.text();
+  //         throw new Error(text || "Failed to add request");
+  //       }
+  //     }
+      
+  
+  //     setStatus("Request submitted successfully.");
+  //     setSuccess(true);
+  //   } catch (err: any) {
+  //     console.error("Update failed:", err.message);
+  //     setError(err.message || "Unknown error");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async () => {
     setLoading(true);
     setError('');
+    
+    const requestBody = {
+      technician_id: technicianId,
+      batch_number: batch.Batch_Number,
+      order_status: "Arrived", // adjust if dynamic
+      status: "Pending",
+      date_added: new Date().toISOString().split("T")[0], // e.g. "2025-04-22"
+      batch_quantity: quantity,
+      expiry_date: "2025-04-26", // adjust with real data
+      vaccine_name: "[COVID-19] VAXZEVRIA", // replace with real name
+      pharmacy_name: "PharmaPlus" // replace with real name
+    };
+  
+    console.log("Request payload:", requestBody); // 🔍 Check what you're sending
+  
     try {
       const response = await fetch('http://localhost:8080/requests/add-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          technician_id: technicianId,
-          batch_number: batch.Batch_Number,
-          order_status: "Arrived", // or get this from batch if available
-          status: "Pending",
-          date_added: new Date().toISOString().split("T")[0],
-          batch_quantity: quantity,
-          expiry_date: "2025-04-26", // TODO: replace with actual batch expiry if you have it
-          vaccine_name: "[COVID-19] VAXZEVRIA", // TODO: replace with actual vaccine name
-          pharmacy_name: "PharmaPlus" // TODO: replace with actual pharmacy name
-        })
+        body: JSON.stringify(requestBody),
       });
   
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Failed to add request");
+        const text = await response.text();
+        throw new Error(text || "Failed to add request");
       }
   
       setStatus("Request submitted successfully.");
       setSuccess(true);
     } catch (err: any) {
-      console.error("Update failed:", err.message);
+      console.error("Error inserting request:", err.message);
       setError(err.message || "Unknown error");
     } finally {
       setLoading(false);
     }
   };
+  
   
   
   return (
