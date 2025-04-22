@@ -1,9 +1,12 @@
 import React from 'react';
 import { useDistributorDetails } from '../../hooks/useDistributorsDetails.tsx';
+// uses the hook to use the context to display the details
+
 
 const DistributorDetails: React.FC = () => {
     const {distributors, message, searchFunction, setSearchFunction} = useDistributorDetails();
 
+    //use the search function and make sure its doing everything with a lowercase so that its easier
     const filteredDistributors = distributors.filter(distributor => {
         if(!searchFunction) return true;
         const toLowerCase = searchFunction.toLowerCase();
@@ -15,8 +18,10 @@ const DistributorDetails: React.FC = () => {
         );
     });
 
+
     return (
         <div className="p-6 bg-[#F7F7F2] min-h-screen">
+             {/* search function */}
             <h1 className="text-2xl font-bold mb-4">Distributor Details</h1>
             <p className="text-gray-600 mb-8">List of Distributors</p>
             <div className="mb-6">
@@ -27,6 +32,8 @@ const DistributorDetails: React.FC = () => {
                         onChange={(e) => setSearchFunction(e.target.value)}/>
             </div>
 
+
+            {/* display the actual table */}
             <div className="overflow-x-auto border border-gray-300 rounded-md">
                 <table className="min-w-full divide-y divide-[gray-300]">
                     <thead className="bg-[#FFFFFF]">
@@ -48,6 +55,7 @@ const DistributorDetails: React.FC = () => {
                             </th>
                         </tr>
                     </thead>
+                    {/* display the contents */}
                     <tbody className="bg-[#FFFFFF] divide-y divide-gray-200">
                         {filteredDistributors.map((distributor, index) => (
                             <tr key={index} className="hover:bg-light_green">

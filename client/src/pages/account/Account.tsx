@@ -5,6 +5,7 @@ import { useAuthContext } from '../../contexts/AuthContext.tsx';
 import PasswordUpdate from "./components/PasswordUsernameUpdate.tsx";
 import { ChangePasswordProvider } from '../../contexts/ChangePasswordContext.tsx';
 
+//set the account setting page and call functions from the contexts
 export default function Account() {
   const { username, accountType, userID } = useAuthContext();
   

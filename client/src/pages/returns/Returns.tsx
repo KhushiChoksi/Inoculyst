@@ -4,6 +4,7 @@ import { useReturns } from '../../hooks/useReturns.tsx';
 const Returns: React.FC = () => {
     const {returns, message, searchFunction, setSearchFunction} = useReturns();
 
+    //use the search function and make sure its doing everything with a lowercase so that its easier
     const filteredReturns = returns.filter(returnItem => {
         if(!searchFunction) return true;
         const toLowerCase = searchFunction.toLowerCase();
@@ -16,8 +17,10 @@ const Returns: React.FC = () => {
         );
     });
 
+    //display the table 
     return (
         <div className="p-6 bg-[#F7F7F2] min-h-screen">
+             {/* search function */}
             <h1 className="text-2xl font-bold mb-4">Returns</h1>
             <p className="text-gray-600 mb-8">List of Returns</p>
             <div className="mb-6">
@@ -54,6 +57,7 @@ const Returns: React.FC = () => {
                             </th>
                         </tr>
                     </thead>
+                    {/* table contents using the search filter */}
                     <tbody className="bg-[#FFFFFF] divide-y divide-gray-200">
                         {filteredReturns.map((returnItem, index) => (
                             <tr key={index} className="hover:bg-light_green">

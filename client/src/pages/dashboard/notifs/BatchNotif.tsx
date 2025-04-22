@@ -1,7 +1,7 @@
 import React from 'react';
 import { MdOutlineInventory } from "react-icons/md";
 
-
+// function to display the total match amount notifcation, uses count as a parameter. 
 interface batchNotif {
   count: number;
 }

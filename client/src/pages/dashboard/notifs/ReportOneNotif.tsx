@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+//this retrieves the list of all expired batches and displays their batch ids
+
+
 interface ExpiredBatch {
   A_Expired_Batches: string;
 }
@@ -9,6 +12,7 @@ const ReportOneNotif: React.FC = () => {
   const [expiredBatches, setExpiredBatches] = useState<ExpiredBatch[]>([]);
   const [message, setMessage] = useState("");
 
+  //get the list of expired batches
   const getExpiredBatches = async() => {
     try {
         const expiredBatchesRes = await axios.get('http://localhost:8080/analytics/expired-batches');
@@ -24,13 +28,14 @@ const ReportOneNotif: React.FC = () => {
     getExpiredBatches();
   }, []); 
 
+  //if theres none, then show theres no expired
   if (expiredBatches.length === 0) {
     return <div className="text-gray-500"> No expired batches </div>;
   }
 
+  //otherwise return the design layout with the info displayed
   return (
     <div>
-
         <ul className = "space-y-3">
             {expiredBatches.map((batch, index) => (
                 <li key={index} className="p-3 bg-red-50 border border-red-200 rounded-md flex items-center">

@@ -15,7 +15,7 @@ const Login: React.FC = () => {
 
 
   
-
+//display log in
 return (
   <div className="flex justify-center items-center min-h-screen bg-background">
     <div className="bg-white p-8 rounded-lg shadow-md w-[500px]">

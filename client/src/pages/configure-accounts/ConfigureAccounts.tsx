@@ -1,6 +1,7 @@
 import React from "react";
 import { ConfigureAccountsProvider, useConfigureAccounts } from "../../contexts/ConfigureAccountsContext.tsx";
 
+//function to show the form to configure accounts. calls the context to get the funtions to save things. 
 const ConfigureAccountsForm: React.FC = () => {
     const {
         users,
@@ -109,20 +110,23 @@ const ConfigureAccountsForm: React.FC = () => {
                         </div>
                     </div>
 
+                    {/* Save button */}
                     <div className="flex justify-center">
-                    <div className = "flex justify-center">
-                    <button className = "w-40  py-3 center p-3 bg-dark1 hover:bg-dark_green text-white rounded-md transition-colors"
-                            onClick={handleSave}
-                            disabled={!selectedUser}>
-                        Save Details
-                    </button>
-                    </div>
-
-                    {message && (
-                        <div className={"mt-4 p-2 rounded-md bg-red-100 text-red-700"}>
-                        {message}
+                        <div className = "flex justify-center">
+                            <button className = "w-40  py-3 center p-3 bg-dark1 hover:bg-dark_green text-white rounded-md transition-colors"
+                                    onClick={handleSave}
+                                    disabled={!selectedUser}>
+                                    
+                                    Save Details
+                            </button>
                         </div>
-                    )}
+
+                        {/* display the message */}
+                        {message && (
+                            <div className={"mt-4 p-2 rounded-md bg-red-100 text-red-700"}>
+                            {message}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
