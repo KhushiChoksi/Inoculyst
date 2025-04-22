@@ -30,6 +30,7 @@ interface ReturnsProviderProps {
     children: ReactNode;
 }
 
+//gets all the returns info from the database
 export const ReturnsProvider: React.FC<ReturnsProviderProps> = ({ children }) => {
     const [returns, setReturns] = useState<Return[]>([]);
     const [message, setMessage] = useState("");
