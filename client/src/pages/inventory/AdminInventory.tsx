@@ -3,6 +3,8 @@ import BatchTable from './components/BatchTable.tsx';
 import AdminBatchDetails from './components/admin/AdminBatchDetails.tsx';
 import AdminAddNewBatch from './components/admin/AdminAddNewBatch.tsx';
 import AdminUpdateBatch from './components/admin/AdminUpdateBatch.tsx';
+import AdminReturnBatch from "./components/admin/AdminReturnBatch.tsx";
+
 
 interface Batch {
   Batch_Number: string;
@@ -17,6 +19,10 @@ const AdminInventory: React.FC = () => {
   const [selectedBatch, setSelectedBatch] = useState<Batch | null>(null);
   const [isAddNewBatchVisible, setAddNewBatchVisible] = useState(false);
   const [isUpdateBatchVisible, setUpdateBatchVisible] = useState(false); 
+  const [selectedReturnBatch, setSelectedReturnBatch] = useState<string | null>(null);
+//   const adminID = localStorage.getItem("id"); ///////
+const adminID = "A002"
+
 
   const handleBack = () => {
     setSelectedBatch(null);
@@ -63,6 +69,16 @@ const handleDeleteBatch = async () => {
     }
   };
   
+  if (selectedReturnBatch) {
+    return (
+      <AdminReturnBatch
+        batchNumber={selectedReturnBatch}
+        adminID={adminID}
+        onCancel={() => setSelectedReturnBatch(null)}
+      />
+    );
+  }
+  
 
   return (
     <div className="bg-[#F7F7F2] min-h-screen">
@@ -80,7 +96,7 @@ const handleDeleteBatch = async () => {
                 Update Batch
               </button>
 
-              <button className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-dark_green transition-colors">
+              <button onClick={() => setSelectedReturnBatch(selectedBatch.Batch_Number)} className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-dark_green transition-colors">
                 Return Batch
               </button>
               <button onClick={handleDeleteBatch} className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-red1 transition-colors">
