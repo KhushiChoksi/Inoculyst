@@ -4,17 +4,18 @@ import TechnicianBatchDetails from './components/technician/TechnicianBatchDetai
 import RequestUpdateBatch from './components/technician/RequestUpdateBatch.tsx';
 
 
-interface Batch {
+interface TechnicianBatch {
   Batch_Number: string;
   Order_status: string;
   Date_Added: string;
   Batch_Quantity: number;
   Expiry_Date: string;
   Vaccine_Name: string;
+  Pharmacy_Name: string;
 }
 
 const TechnicianInventory: React.FC = () => {
-  const [selectedBatch, setSelectedBatch] = useState<Batch | null>(null);
+  const [selectedBatch, setSelectedBatch] = useState<TechnicianBatch | null>(null);
   const [isUpdateBatchVisible, setUpdateBatchVisible] = useState(false); 
 
 const adminID = "A002"
@@ -24,8 +25,13 @@ const adminID = "A002"
     setSelectedBatch(null);
   };
 
-  const handleViewDetails = (batch: Batch) => {
-    setSelectedBatch(batch);
+  // const handleViewDetails = (batch: TechnicianBatch) => {
+  //   setSelectedBatch(batch);
+  // };
+
+  const handleViewDetails = (batch: any) => {
+    const techBatch: TechnicianBatch = { ...batch, Pharmacy_Name: "Unknown" };
+    setSelectedBatch(techBatch);
   };
 
   const handleRequestUpdateBatch = () => {
@@ -34,7 +40,7 @@ const adminID = "A002"
 
 
 if (isUpdateBatchVisible && selectedBatch)
-    return <RequestUpdateBatch batch={selectedBatch} onCancel={() => setUpdateBatchVisible(false)} />;
+    return <RequestUpdateBatch batchh={selectedBatch} onCancel={() => setUpdateBatchVisible(false)} />;
   
 
   return (
