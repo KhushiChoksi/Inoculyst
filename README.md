@@ -44,7 +44,7 @@ Please note that you must have the listed technologies (Node.js, React, and MySQ
   FLUSH PRIVILEGES;
   ```
 - Later on, you can simply log into MySQL to access the database using the new user using this command: ` mysql -u inoculyst_user -p`. The password is `inoculyst`.
-- Test a query by doing something such as `SELECT * FROM BATCH;`. This should display the BATCH table with all the initial data.
+- Test a query using a command such as `SELECT * FROM BATCH;`. This should display the BATCH table with all the initial data.
 
 ##### If you ever need to reset the database, please follow the following steps:
 - Log into MySQL: `mysql -u inoculyst_user -p`. The password is `inoculyst`.
@@ -64,25 +64,26 @@ Note: Please ensure that the database is fully set up (using the above [steps](h
 - `cd server` (If you are already in the server directory, you may skip this step). 
 - `npm install`
 - `node index.js`
-  - This will start the server on localhost:8080. Please refer to the `ROUTES.md` file located in server/ROUTES.md to see all the routes in the server application. 
+  - This will start the server on localhost:8080. Please refer to the `ROUTES.md` file located in [server/ROUTES.md](https://github.com/KhushiChoksi/Inoculyst/blob/main/server/ROUTES.md) to see all the routes in the server application.
+    - Please note that not all routes were used in the frontend application. 
 
 ---------------------
 ### How to run client-side
 Note: First, start the Node.js server after following all the steps [above](https://github.com/KhushiChoksi/Inoculyst/edit/main/README.md#set-up-the-database-in-mysql), and then follow these steps below.
 #### Set up
-- `cd client`
-- `npm install --legacy-peer-deps`
+```
+cd client
+npm install --legacy-peer-deps
+```
 
 #### Running it
-- `cd client`
-- `npm start`
+```
+cd client
+npm start
+```
 
 This will start the development build in your browser.
 
-## Walkthrough example
-Here, we will highlight a walkthrough example that shows the features of our application:
-1. Login page
-2. 
 
 ## Technology stack and versions used
 SQL (MySQL), Node.js, Express.js, and React
