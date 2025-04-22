@@ -1,11 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useUser } from '../../contexts/UserContext.tsx';
+import axios from 'axios';
 
 
 const GetUserInformation: React.FC = () => {
   const { userData, error} = useUser();
-  
+
+  const [technicianData, setTechnicianData] = useState<{ Technician_ID: string, Certification_number: string } | null>(null);
+
+  useEffect(() => {
+    const getTechCert = async () => {
+      if (userData?.accountType === "technician") {
+        try {
+          const res = await axios.get('http://localhost:8080/technician');
+          const info = await res.data;
+
+          const tech = info.find(
+            (tech: { Technician_ID: string }) => tech.Technician_ID === userData.id
+          );
+
+          if (tech) {
+            setTechnicianData(tech);
+          }
+      }
+      catch (error) {
+        console.error("Error getting technician id", error);
+      }
+      }
+    };
+
+    getTechCert();
+  }, [userData]);
+
+
+
+
+
+
+
   if (error) {
     return <div className="text-center py-8 text-red-600">{error}</div>;
   }
@@ -45,6 +79,13 @@ const GetUserInformation: React.FC = () => {
               <p className="text-lg  text-gray-900">{userData.username}</p>
             </div>
           </div>
+
+          {userData.accountType === "technician" && technicianData && (
+            <div className="space-y-2 mt-6 md:col-span-2">
+            <h3 className="text-ml font-bold mb-4">Certification Number</h3>
+            <p className="text-lg text-gray-900">{technicianData.Certification_number}</p>
+          </div>
+        )}
           
         </div>
       );
