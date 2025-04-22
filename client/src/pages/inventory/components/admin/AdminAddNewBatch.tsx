@@ -4,7 +4,6 @@ interface Props {
     onCancel: () => void;
   }
 
-// export default function AdminAddNewBatch() {
 export default function AdminAddNewBatch({ onCancel }: Props) {
   const [vaccineNames, setVaccineNames] = useState<string[]>([]);
   const [formData, setFormData] = useState({
@@ -120,6 +119,7 @@ export default function AdminAddNewBatch({ onCancel }: Props) {
         <label className="block mb-1 text-sm font-normal text-dark2">Batch Quantity</label>
         <input
           type="number"
+          min="0"
           name="batch_quantity"
           value={formData.batch_quantity}
           onChange={handleChange}
@@ -137,7 +137,7 @@ export default function AdminAddNewBatch({ onCancel }: Props) {
   onClick={onCancel}
   className="font-normal text-sm bg-dark1 text-white ml-4 px-4 py-3 rounded hover:bg-dark_green transition-colors"
 >
-← Back to Inventory
+Back to Inventory
 </button>
 
       {submissionStatus && (

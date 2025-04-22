@@ -10,13 +10,9 @@ interface Props {
 
 const AdminUpdateBatch: React.FC<Props> = ({ batch, onCancel }) => {
 
-// const AdminUpdateBatch: React.FC<Props> = ({ batch }) => {
   const [quantity, setQuantity] = useState(batch.Batch_Quantity);
   const [status, setStatus] = useState("");
 
-//   const handleBack = () => {
-//     //HERE(null);
-//   };
 
 const handleBack = () => {
     onCancel();
@@ -53,6 +49,7 @@ const handleBack = () => {
         <label className="block mb-1 text-sm font-normal text-dark2">Batch Quantity</label>
         <input
           type="number"
+          min="0"
           value={quantity}
           onChange={(e) => setQuantity(parseInt(e.target.value))}
           className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-dark_green"
@@ -63,13 +60,13 @@ const handleBack = () => {
         onClick={handleSubmit}
         className="font-normal text-sm bg-dark1 text-white ml-10 px-4 py-3 rounded hover:bg-dark_green transition-colors"
       >
-        Update Batch
+        Confirm Update
       </button>
       <button
         onClick={handleBack}
         className="font-normal text-sm bg-dark1 text-white ml-10 px-4 py-3 rounded hover:bg-dark_green transition-colors"
       >
-        ← Back to Inventory
+        Back to Inventory
       </button>
 
       {status && <div className="mt-4 ml-10 text-sm text-gray-600">{status}</div>}

@@ -34,15 +34,34 @@ const AdminInventory: React.FC = () => {
     setUpdateBatchVisible(true); 
   };
 
-// if (isAddNewBatchVisible) return <AdminAddNewBatch />;
 if (isAddNewBatchVisible) {
     return <AdminAddNewBatch onCancel={() => setAddNewBatchVisible(false)} />;
   }
   
 
-// if (isUpdateBatchVisible && selectedBatch) return <AdminUpdateBatch batch={selectedBatch} />; 
 if (isUpdateBatchVisible && selectedBatch)
     return <AdminUpdateBatch batch={selectedBatch} onCancel={() => setUpdateBatchVisible(false)} />;
+  
+const handleDeleteBatch = async () => {
+    if (!selectedBatch) return;
+  
+    const confirmed = window.confirm("Are you sure you want to delete this batch?");
+    if (!confirmed) return;
+  
+    try {
+      const response = await fetch(`http://localhost:8080/batches/${selectedBatch.Batch_Number}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) throw new Error("Failed to delete batch");
+  
+      alert("Batch deleted successfully.");
+    //   setSelectedBatch(null); 
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("Failed to delete batch.");
+    }
+  };
   
 
   return (
@@ -58,17 +77,24 @@ if (isUpdateBatchVisible && selectedBatch)
                 onClick={handleUpdateBatch}
                 className="ml-auto font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-dark_green transition-colors"
               >
-                ✎ Update Batch
+                Update Batch
               </button>
-              
+
+              <button className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-dark_green transition-colors">
+                Return Batch
+              </button>
+              <button onClick={handleDeleteBatch} className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-red1 transition-colors">
+                Delete Batch
+              </button>
             </div>
+
             <div className="ml-10 mt-4">
               <AdminBatchDetails batch={selectedBatch} />
             </div>
             <button
               onClick={handleBack}
               className="float-right mt-4 font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-dark_green transition-colors">
-              ← Back to Inventory
+              Back to Inventory
             </button>
           </>
         ) : (
