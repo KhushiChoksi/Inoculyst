@@ -30,7 +30,7 @@ const ReportOneNotif: React.FC = () => {
 
   //if none, then show theres none
   if (upcomingExpiry.length === 0) {
-    return <div className="text-gray-500"> No expired batches </div>;
+    return <div className="text-gray-500"> No expiring batches </div>;
   }
 
   //return the design with the list
