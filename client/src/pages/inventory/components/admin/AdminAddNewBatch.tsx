@@ -47,12 +47,13 @@ export default function AdminAddNewBatch({ onCancel }: Props) {
     }
   
     try {
-      const response = await fetch('http://localhost:8080/batches/add-batch', {
+      const response = await fetch('http://localhost:8080/batches/add-batch', { //add batch route
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
   
+      //error checking
       if (!response.ok) throw new Error("failed to add");
   
       const result = await response.json();
@@ -73,7 +74,7 @@ export default function AdminAddNewBatch({ onCancel }: Props) {
         <div className="font-normal indent-10 text-2xl mx-2">&gt;</div>
         <div className="font-bold indent-10 text-2xl text-left mr-6">Add New Batch</div>
       </div>
-
+{/* ask for vaccine name, status, expiry and quantity so that a new batch with that info can be made */}
       <div className="flex space-x-10 mt-6 pl-10">
         <div className="mb-6">
           <label className="block mb-1 text-sm font-normal text-dark2">Vaccine Group</label>
@@ -99,7 +100,7 @@ export default function AdminAddNewBatch({ onCancel }: Props) {
             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-dark_green text-sm bg-white"
           >
             <option value="Ordered">Ordered</option>
-            <option value="Delivered">Delivered</option>
+            <option value="Delivered">Arrived</option>
           </select>
         </div>
       </div>

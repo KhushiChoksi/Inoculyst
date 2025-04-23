@@ -31,9 +31,6 @@ const RequestTable: React.FC = () => {
   const text = await updateResponse.text();
   console.log("Response body:", text);
 
-      // if (!updateResponse.ok) {
-      //   throw new Error("Failed to update stat");
-      // }
     } catch (error) {
       console.error('Error stat:', error);
       setLocalError('Failed to update stat.');
@@ -73,16 +70,12 @@ const RequestTable: React.FC = () => {
     try {const request = requests.find(req => req.Request_ID === requestId);
       if (!request) throw new Error("Request not found");
   
-      //const updateResponse = await fetch(`http://localhost:8080/batches/${request.Batch_Number}/quantity`, {
         const updateResponse = await fetch(`http://localhost:8080/requests/${requestId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        //body: JSON.stringify({ quantity: request.Batch_Quantity })
         body: JSON.stringify({status:'Rejected'})
       }); 
-      // if (!updateResponse.ok) {
-      //   throw new Error("Failed to update stat");
-      // }
+
     } catch (error) {
       console.error('Error stat:', error);
       setLocalError('Failed to update stat.');

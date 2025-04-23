@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/InventoryContext.tsx";
 
 import AdminInventory from './AdminInventory.tsx';
@@ -17,6 +16,7 @@ export default function Inventory() {
         }
       }, [setAccountType]);
 
+      //this shows the inventory page according to someones account type
     if (accountType === 'owner' || accountType === 'pharmacist') {
         return <AdminInventory />;
       } else if (accountType === 'assistant') {

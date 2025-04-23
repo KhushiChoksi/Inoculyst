@@ -25,70 +25,6 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
   };
 
   const technicianId = 'E001';
-  
-  // const handleSubmit = async () => { //SOMETHING IS NOT WORKING HERE
-    
-  //   try {
-      
-  //     const response = await fetch('http://localhost:8080/requests/add-request', {
-      
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ quantity: quantity })
-  //     });
-
-  //     if (!response.ok) throw new Error("Failed to update");
-
-  //     setStatus("Batch quantity updated successfully.");
-  //   } catch (err) {
-  //     console.error("Update failed:", err);
-  //     setStatus("Update failed.");
-  //   }
-  
-  // };
-
-  // const handleSubmit = async () => {
-  //   setLoading(true);
-  //   setError('');
-  //   try {
-  //     const response = await fetch('http://localhost:8080/requests/add-request', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({
-  //         technician_id: technicianId,
-  //         batch_number: batch.Batch_Number,
-  //         order_status: batch.Order_status,
-  //         status: "Pending",
-  //         date_added: batch.Date_Added,
-  //         batch_quantity: quantity,
-  //         expiry_date: batch.Expiry_Date,
-  //         vaccine_name: batch.Vaccine_Name,
-  //         pharmacy_name: batch.Pharmacy_Name
-  //       })
-        
-  //     });
-  
-  //     if (!response.ok) {
-  //       const contentType = response.headers.get("content-type");
-  //       if (contentType && contentType.includes("application/json")) {
-  //         const data = await response.json();
-  //         throw new Error(data.message || "Failed to add request");
-  //       } else {
-  //         const text = await response.text();
-  //         throw new Error(text || "Failed to add request");
-  //       }
-  //     }
-      
-  
-  //     setStatus("Request submitted successfully.");
-  //     setSuccess(true);
-  //   } catch (err: any) {
-  //     console.error("Update failed:", err.message);
-  //     setError(err.message || "Unknown error");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -105,18 +41,6 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
       vaccine_name: "[COVID-19] VAXZEVRIA",
       pharmacy_name: "PharmaPlus"
     };
-
-    // const requestBody = {
-    //     technician_id: technicianId,
-    //     batch_number: batch.Batch_Number,
-    //     order_status: batch.Order_status, 
-    //     status: "Pending",
-    //     date_added: new Date().toISOString().split("T")[0], // e.g. "2025-04-22"
-    //     batch_quantity: quantity,
-    //     expiry_date: batch.Expiry_Date, 
-    //     vaccine_name: batch.Vaccine_Name,
-    //     pharmacy_name: "PharmaPlus" 
-    //   };
   
     console.log("Request payload:", requestBody); 
   
@@ -168,11 +92,9 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
           </>
           
         ) : (
-          // <form onSubmit={handleSubmit}>
           <div>
             {error && (
               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                {/* {error} */}
                 A request already exists for this batch
               </div>
             )}
@@ -182,22 +104,10 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
                 <p className="text-gray-600">Batch Number:</p>
                 <p className="font-medium">{batch.Batch_Number}</p>
               </div>
-              {/* <div>
-                <p className="text-gray-600">Order Status:</p>
-                <p className="font-medium">{batch.Order_status}</p>
-              </div> */}
-              {/* <div>
-                <p className="text-gray-600">Vaccine:</p>
-                <p className="font-medium">{batch.Vaccine_Name}</p>
-              </div> */}
-              {/* <div>
-                <p className="text-gray-600">Expiry Date:</p>
-                <p className="font-medium">{new Date(batch.Expiry_Date).toLocaleDateString()}</p>
-              </div> */}
+        
             </div>
             
             <div className="mb-6">
-              {/* <label className="block text-gray-700 mb-2">Current Quantity: {batch.Batch_Quantity}</label> */}
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="quantity">
                 New Quantity:
               </label>
@@ -227,7 +137,7 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
               >Submit Request
               </button>
             </div>
-          </div> //</form>
+          </div>
         )}
       </div>
     </div>

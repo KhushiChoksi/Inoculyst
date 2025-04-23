@@ -25,10 +25,6 @@ const adminID = "A002"
     setSelectedBatch(null);
   };
 
-  // const handleViewDetails = (batch: TechnicianBatch) => {
-  //   setSelectedBatch(batch);
-  // };
-
   const handleViewDetails = (batch: any) => {
     const techBatch: TechnicianBatch = { ...batch, Pharmacy_Name: "Unknown" };
     setSelectedBatch(techBatch);

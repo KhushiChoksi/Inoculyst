@@ -8,7 +8,7 @@ interface Props {
     Vaccine_Name: string;
   };
 }
-
+ 
 const AssistantBatchDetails: React.FC<Props> = ({ batch }) => {
   const [vaccineDetails, setVaccineDetails] = useState<any | null>(null);
   const [ingredients, setIngredients] = useState<string[]>([]);

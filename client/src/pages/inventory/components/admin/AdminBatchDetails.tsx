@@ -41,8 +41,6 @@ const AdminBatchDetails: React.FC<Props> = ({ batch }) => {
     fetchDetails();
   }, [batch]);
 
-  if (!vaccineDetails) return <div>Loading...</div>;
-
   return (
     <div>
       <div className="mt-10">

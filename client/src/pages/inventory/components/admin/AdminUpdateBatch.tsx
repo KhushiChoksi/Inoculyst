@@ -73,5 +73,4 @@ const handleBack = () => {
     </div>
   );
 };
-
 export default AdminUpdateBatch;

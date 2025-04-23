@@ -1,24 +1,6 @@
-// import React from "react";
-
-// export default function Inventory() {
-//     return (
-//         <div> 
-//         <div className='bg-background p-6 h-20'></div>
-//         <div className='flex items-center justify-between mt-10'>
-//         <div className='font-bold indent-10 text-2xl'>Inventory </div>
-//              </div>
-//              <div className='font-normal text-sm mt-2 indent-10'>List of batches available</div>
-//         </div>
-//     );
-// }
-
 import React, { useState } from 'react';
 import BatchTable from './components/BatchTable.tsx';
 import AssistantBatchDetails from './components/assistant/AssistantBatchDetails.tsx';
-// import AdminAddNewBatch from './components/admin/AdminAddNewBatch.tsx';
-// import AdminUpdateBatch from './components/admin/AdminUpdateBatch.tsx';
-// import AdminReturnBatch from "./components/admin/AdminReturnBatch.tsx";
-
 
 interface Batch {
   Batch_Number: string;
@@ -34,7 +16,6 @@ const AssistantInventory: React.FC = () => {
   const [isAddNewBatchVisible, setAddNewBatchVisible] = useState(false);
   const [isUpdateBatchVisible, setUpdateBatchVisible] = useState(false); 
   const [selectedReturnBatch, setSelectedReturnBatch] = useState<string | null>(null);
-//   const adminID = localStorage.getItem("id"); ///////
 const adminID = "A002"
 
 
@@ -54,14 +35,6 @@ const adminID = "A002"
     setUpdateBatchVisible(true); 
   };
 
-// if (isAddNewBatchVisible) {
-//     return <AdminAddNewBatch onCancel={() => setAddNewBatchVisible(false)} />;
-//   }
-  
-
-// if (isUpdateBatchVisible && selectedBatch)
-//     return <AdminUpdateBatch batch={selectedBatch} onCancel={() => setUpdateBatchVisible(false)} />;
-  
 const handleDeleteBatch = async () => {
     if (!selectedBatch) return;
   
@@ -76,22 +49,11 @@ const handleDeleteBatch = async () => {
       if (!response.ok) throw new Error("Failed to delete batch");
   
       alert("Batch deleted successfully.");
-    //   setSelectedBatch(null); 
     } catch (err) {
       console.error("Delete failed:", err);
       alert("Failed to delete batch.");
     }
   };
-  
-//   if (selectedReturnBatch) {
-//     return (
-//       <AdminReturnBatch
-//         batchNumber={selectedReturnBatch}
-//         adminID={adminID}
-//         onCancel={() => setSelectedReturnBatch(null)}
-//       />
-//     );
-//   }
   
 
   return (
@@ -103,19 +65,7 @@ const handleDeleteBatch = async () => {
               <div className="font-normal indent-6 text-2xl">Inventory</div>
               <div className="font-normal indent-10 text-2xl mx-2">&gt;</div>
               <div className="font-bold indent-10 text-2xl text-left mr-6">Batch Details</div>
-              {/* <button
-                onClick={handleUpdateBatch}
-                className="ml-auto font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-dark_green transition-colors"
-              >
-                Update Batch
-              </button> */}
-
-              {/* <button onClick={() => setSelectedReturnBatch(selectedBatch.Batch_Number)} className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-dark_green transition-colors">
-                Return Batch
-              </button> */}
-              {/* <button onClick={handleDeleteBatch} className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-red1 transition-colors">
-                Delete Batch
-              </button> */}
+             
             </div>
 
             <div className="ml-10 mt-4">
