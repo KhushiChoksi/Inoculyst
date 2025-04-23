@@ -16,4 +16,14 @@ Forms:
 
 
 Dropdown select:
-- https://flowbite.com/docs/forms/select/ 
+- https://flowbite.com/docs/forms/select/
+
+- https://hackmamba.io/blog/2020/12/aggregate-multiple-api-requests-with-promise-all/
+- https://dykraf.com/blog/how-to-use-promise-in-reactjs-useeffect
+
+
+- https://tailwindcss.com/
+- https://www.geeksforgeeks.org/tailwind-css/
+- https://flowbite.com/docs/components/navbar/
+
+- 
