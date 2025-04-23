@@ -103,3 +103,8 @@ SQL (MySQL), Node.js, Express.js, and React
 ### Server-Side Installs
 - npm install mysql2 (and npm install mysql), we are using mysql2 though
 - npm install cors
+
+## Sources
+View these files to view the sources:
+1. https://github.com/KhushiChoksi/Inoculyst/blob/main/client/SOURCES.md
+2. https://github.com/KhushiChoksi/Inoculyst/blob/main/server/SOURCES.md
