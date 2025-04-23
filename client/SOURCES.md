@@ -20,9 +20,14 @@ Forms:
 Dropdown select:
 - https://flowbite.com/docs/forms/select/
 
+Tables:
+- https://www.youtube.com/watch?v=MINQoCSBmds 
+
+Login:
+-https://www.youtube.com/watch?v=8QgQKRcAUvM&t=569s 
+
 
 - https://tailwindcss.com/
 - https://www.geeksforgeeks.org/tailwind-css/
 - https://flowbite.com/docs/components/navbar/
 
-- 
