@@ -208,6 +208,7 @@ const handleDeleteBatch = async () => {
       console.error("Delete failed:", err);
       alert("Failed to delete batch.");
     }
+    window.location.reload();
   };
   
   if (selectedReturnBatch) {
