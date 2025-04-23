@@ -108,3 +108,4 @@ SQL (MySQL), Node.js, Express.js, and React
 View these files to view the sources:
 1. https://github.com/KhushiChoksi/Inoculyst/blob/main/client/SOURCES.md
 2. https://github.com/KhushiChoksi/Inoculyst/blob/main/server/SOURCES.md
+3. As well as any other official documentation for TypeScript, JavaScript, React, Node.js, and Express.js
