@@ -422,10 +422,248 @@
 
 // export default RequestTable;
 
+// import React, { useState } from 'react';
+// import { useRequests } from '../../../contexts/RequestsContext.tsx';
+// import { useAuthContext } from '../../../contexts/AuthContext.tsx';
+// import AdminUpdateBatch from '../../inventory/components/admin/AdminUpdateBatch';
+
+// const RequestTable: React.FC = () => {
+//   const { 
+//     requests, 
+//     loading, 
+//     error, 
+//     updateRequestStatus,
+//     deleteRequest,
+//     refreshRequests 
+//   } = useRequests();
+  
+//   const { accountType, userID } = useAuthContext();
+//   const [actionInProgress, setActionInProgress] = useState<string | null>(null);
+//   const [localError, setLocalError] = useState<string | null>(null);
+
+//   // const handleAccept = async (requestId: string) => {
+//   //   try {
+//   //     setActionInProgress(requestId);
+//   //     setLocalError(null);
+//   //     await updateRequestStatus(requestId, 'Accepted');
+//   //     // After updating, refresh the requests to get the latest data
+//   //     await refreshRequests();
+//   //     // No page reload needed - let React handle UI updates
+      
+      
+//   //   } catch (error) {
+//   //     console.error('Error accepting request:', error);
+//   //     setLocalError('Failed to update request status');
+//   //   } finally {
+//   //     setActionInProgress(null);
+//   //   }
+//   // };
+
+//   const handleAccept = async (requestId: string) => {
+//     try {
+//       setActionInProgress(requestId);
+//       setLocalError(null);
+  
+//       const request = requests.find(req => req.Request_ID === requestId);
+//       if (!request) throw new Error("Request not found");
+  
+//       const updateResponse = await fetch(`http://localhost:8080/batches/${request.Batch_Number}/quantity`, {
+//         method: 'PUT',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ quantity: request.Batch_Quantity })
+//       });
+  
+//       if (!updateResponse.ok) {
+//         throw new Error("Failed to update batch quantity");
+//       }
+  
+//       await updateRequestStatus(requestId, 'Accepted');
+  
+//       await refreshRequests();
+//     } catch (error) {
+//       console.error('Error accepting request:', error);
+//       setLocalError('Failed to accept and update batch.');
+//     } finally {
+//       setActionInProgress(null);
+//     }
+//   };
+  
+
+//   const handleReject = async (requestId: string) => {
+//     try {
+//       setActionInProgress(requestId);
+//       setLocalError(null);
+//       await updateRequestStatus(requestId, 'Rejected');
+//       // After updating, refresh the requests to get the latest data
+//       await refreshRequests();
+//     } catch (error) {
+//       console.error('Error rejecting request:', error);
+//       setLocalError('Failed to update request status');
+//     } finally {
+//       setActionInProgress(null);
+//     }
+//   };
+
+//   const handleDelete = async (requestId: string) => {
+//     try {
+//       setActionInProgress(requestId);
+//       setLocalError(null);
+//       await deleteRequest(requestId);
+//       // After deleting, refresh the requests to get the latest data
+//       await refreshRequests();
+//     } catch (error) {
+//       console.error('Error deleting request:', error);
+//       setLocalError('Failed to delete request');
+//     } finally {
+//       setActionInProgress(null);
+//     }
+//   };
+
+//   if (loading) {
+//     return <div className="text-center py-8">Loading requests...</div>;
+//   }
+
+//   return (
+//     <div className="overflow-x-auto">
+//       {localError && (
+//         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+//           {localError}
+//         </div>
+//       )}
+//       {error && (
+//         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+//           {error}
+//         </div>
+//       )}
+//       <table className="min-w-full bg-white">
+//         <thead>
+//           <tr className="bg-dark1 text-white">
+//             <th className="py-2 px-4 text-left">Request ID</th>
+//             <th className="py-2 px-4 text-left">Batch Number</th>
+//             <th className="py-2 px-4 text-left">Requested Quantity</th>
+//             <th className="py-2 px-4 text-left">Status</th>
+//             <th className="py-2 px-4 text-left">Order Status</th>
+//             <th className="py-2 px-4 text-left">Date Added</th>
+//             <th className="py-2 px-4 text-left">Actions</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {requests.length > 0 ? (
+//             requests.map((req) => (
+//               <tr key={req.Request_ID} className="border-b hover:bg-gray-50">
+//                 <td className="py-2 px-4">{req.Request_ID}</td>
+//                 <td className="py-2 px-4">{req.Batch_Number}</td>
+//                 <td className="py-2 px-4">{req.Batch_Quantity}</td>
+//                 <td className={`py-2 px-4 capitalize font-medium ${
+//                   req.Status === 'Pending' ? 'text-yellow-700' : 
+//                   req.Status === 'Accepted' ? 'text-green-700' : 'text-red-700'
+//                 }`}>
+//                   {req.Status}
+//                 </td>
+//                 <td className="py-2 px-4">{req.Order_status}</td>
+//                 <td className="py-2 px-4">
+//                   {new Date(req.Date_Added).toLocaleDateString()}
+//                 </td>
+//                 <td className="py-2 px-4">
+//                   {/* Admin actions: Accept/Reject for pending requests */}
+//                   {(accountType === 'owner' || accountType === 'pharmacist') && req.Status === 'Pending' && (
+//                     <div className="flex space-x-2">
+//                       <button
+//                         onClick={() => handleAccept(req.Request_ID)}
+//                         disabled={actionInProgress === req.Request_ID}
+//                         className={`${
+//                           actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-green-600 hover:bg-green-700'
+//                         } text-white w-8 h-8 rounded flex items-center justify-center`}
+//                         title="Accept Request"
+//                       >
+//                         {actionInProgress === req.Request_ID ? (
+//                           <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+//                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+//                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+//                           </svg>
+//                         ) : (
+//                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+//                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+//                           </svg>
+//                         )}
+//                       </button>
+//                       <button
+//                         onClick={() => handleReject(req.Request_ID)}
+//                         disabled={actionInProgress === req.Request_ID}
+//                         className={`${
+//                           actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-red-600 hover:bg-red-700'
+//                         } text-white w-8 h-8 rounded flex items-center justify-center`}
+//                         title="Reject Request"
+//                       >
+//                         {actionInProgress === req.Request_ID ? (
+//                           <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+//                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+//                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+//                           </svg>
+//                         ) : (
+//                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+//                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+//                           </svg>
+//                         )}
+//                       </button>
+//                     </div>
+//                   )}
+                  
+//                   {/* Technician actions: Delete for accepted/rejected requests */}
+//                   {accountType === 'technician' && userID === req.Technician_ID && 
+//                    (req.Status === 'Accepted' || req.Status === 'Rejected') && (
+//                     <button
+//                       onClick={() => handleDelete(req.Request_ID)}
+//                       disabled={actionInProgress === req.Request_ID}
+//                       className={`${
+//                         actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-gray-600 hover:bg-gray-700'
+//                       } text-white w-8 h-8 rounded flex items-center justify-center`}
+//                       title="Delete Request"
+//                     >
+//                       {actionInProgress === req.Request_ID ? (
+//                         <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+//                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+//                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+//                         </svg>
+//                       ) : (
+//                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+//                         </svg>
+//                       )}
+//                     </button>
+//                   )}
+//                 </td>
+//               </tr>
+//             ))
+//           ) : (
+//             <tr>
+//               <td colSpan={7} className="text-center py-4 text-gray-500">
+//                 No requests found.
+//               </td>
+//             </tr>
+//           )}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+// export default RequestTable;
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////WORKS?
+
 import React, { useState } from 'react';
 import { useRequests } from '../../../contexts/RequestsContext.tsx';
 import { useAuthContext } from '../../../contexts/AuthContext.tsx';
-import AdminUpdateBatch from '../../inventory/components/admin/AdminUpdateBatch';
 
 const RequestTable: React.FC = () => {
   const { 
@@ -441,79 +679,171 @@ const RequestTable: React.FC = () => {
   const [actionInProgress, setActionInProgress] = useState<string | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
 
-  // const handleAccept = async (requestId: string) => {
-  //   try {
-  //     setActionInProgress(requestId);
-  //     setLocalError(null);
-  //     await updateRequestStatus(requestId, 'Accepted');
-  //     // After updating, refresh the requests to get the latest data
-  //     await refreshRequests();
-  //     // No page reload needed - let React handle UI updates
-      
-      
-  //   } catch (error) {
-  //     console.error('Error accepting request:', error);
-  //     setLocalError('Failed to update request status');
-  //   } finally {
-  //     setActionInProgress(null);
-  //   }
-  // };
-
   const handleAccept = async (requestId: string) => {
+
+    ////////////////
+    try {const request = requests.find(req => req.Request_ID === requestId);
+      if (!request) throw new Error("Request not found");
+  
+      //const updateResponse = await fetch(`http://localhost:8080/batches/${request.Batch_Number}/quantity`, {
+        const updateResponse = await fetch(`http://localhost:8080/requests/${requestId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        //body: JSON.stringify({ quantity: request.Batch_Quantity })
+        body: JSON.stringify({status:'Accepted'})
+      }); 
+
+      console.log("Status response:", updateResponse.status);
+  const text = await updateResponse.text();
+  console.log("Response body:", text);
+
+      if (!updateResponse.ok) {
+        throw new Error("Failed to update stat");
+      }
+    } catch (error) {
+      console.error('Error stat:', error);
+      setLocalError('Failed to update stat.');
+    } finally {
+      setActionInProgress(null);
+      await refreshRequests();
+    } 
+    ///////////
+
+    // await updateRequestStatus(requestId, 'Accepted');
+
     try {
       setActionInProgress(requestId);
       setLocalError(null);
   
-      // Get the request details
       const request = requests.find(req => req.Request_ID === requestId);
       if (!request) throw new Error("Request not found");
   
-      // Step 1: Update the batch quantity (same as AdminUpdateBatch)
       const updateResponse = await fetch(`http://localhost:8080/batches/${request.Batch_Number}/quantity`, {
+        //const updateResponse = await fetch(`http://localhost:8080/requests/${requestId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quantity: request.Batch_Quantity })
+        //body: JSON.stringify({status:'Accepted'})
       });
   
       if (!updateResponse.ok) {
         throw new Error("Failed to update batch quantity");
       }
   
-      // Step 2: Mark request as accepted
-      await updateRequestStatus(requestId, 'Accepted');
+      // await updateRequestStatus(requestId, 'Accepted');
   
-      // Step 3: Refresh requests to update UI
-      await refreshRequests();
+      // await refreshRequests();
     } catch (error) {
-      console.error('Error accepting request:', error);
-      setLocalError('Failed to accept and update batch.');
+      console.error('Error batch:', error);
+      setLocalError('Failed  update batch.');
     } finally {
       setActionInProgress(null);
-    }
+    } 
+
+  ///   try {const request = requests.find(req => req.Request_ID === requestId);
+  //     if (!request) throw new Error("Request not found");
+  
+  //     //const updateResponse = await fetch(`http://localhost:8080/batches/${request.Batch_Number}/quantity`, {
+  //       const updateResponse = await fetch(`http://localhost:8080/requests/${requestId}/status`, {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       //body: JSON.stringify({ quantity: request.Batch_Quantity })
+  //       body: JSON.stringify({status:'Accepted'})
+  //     }); 
+
+  //     console.log("Status response:", updateResponse.status);
+  // const text = await updateResponse.text();
+  // console.log("Response body:", text);
+
+  //     if (!updateResponse.ok) {
+  //       throw new Error("Failed to update stat");
+  //     }
+  //   } catch (error) {
+  //     console.error('Error stat:', error);
+  //     setLocalError('Failed to update stat.');
+  //   } finally {
+  //     setActionInProgress(null);
+  //     await refreshRequests();
+  ///   } 
+
   };
+  // const handleAccept = async (requestId: string) => {
+  //   try {
+  //     setActionInProgress(requestId);
+  //     setLocalError(null);
+  
+  //     const request = requests.find(req => req.Request_ID === requestId);
+  //     if (!request) throw new Error("Request not found");
+  
+  //     await updateRequestStatus(requestId, 'Accepted');
+  
+  //     const quantityResponse = await fetch(`http://localhost:8080/batches/${request.Batch_Number}/quantity`, {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ quantity: request.Batch_Quantity })
+  //     });
+  
+  //     if (!quantityResponse.ok) {
+  //       const errorText = await quantityResponse.text();
+  //       console.error('Batch update failed:', errorText);
+  //       throw new Error("Failed to update batch quantity");
+  //     }
+  
+  //     await refreshRequests();
+  //   } catch (error) {
+  //     console.error('Error accepting request:', error);
+  //     setLocalError('Failed to accept and update batch.');
+  //   } finally {
+  //     setActionInProgress(null);
+  //   }
+  // };
   
 
   const handleReject = async (requestId: string) => {
-    try {
-      setActionInProgress(requestId);
-      setLocalError(null);
-      await updateRequestStatus(requestId, 'Rejected');
-      // After updating, refresh the requests to get the latest data
-      await refreshRequests();
+    // try {
+    //   setActionInProgress(requestId);
+    //   setLocalError(null);
+    //   await updateRequestStatus(requestId, 'Rejected');
+    //   await refreshRequests();
+    // } catch (error) {
+    //   console.error('Error rejecting request:', error);
+    //   setLocalError('Failed to update request status');
+    // } finally {
+    //   setActionInProgress(null);
+    // }
+
+    try {const request = requests.find(req => req.Request_ID === requestId);
+      if (!request) throw new Error("Request not found");
+  
+      //const updateResponse = await fetch(`http://localhost:8080/batches/${request.Batch_Number}/quantity`, {
+        const updateResponse = await fetch(`http://localhost:8080/requests/${requestId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        //body: JSON.stringify({ quantity: request.Batch_Quantity })
+        body: JSON.stringify({status:'Rejected'})
+      }); 
+      if (!updateResponse.ok) {
+        throw new Error("Failed to update stat");
+      }
     } catch (error) {
-      console.error('Error rejecting request:', error);
-      setLocalError('Failed to update request status');
+      console.error('Error stat:', error);
+      setLocalError('Failed to update stat.');
     } finally {
       setActionInProgress(null);
-    }
+      await refreshRequests();
+    } 
+
   };
+
+
+
+
 
   const handleDelete = async (requestId: string) => {
     try {
       setActionInProgress(requestId);
       setLocalError(null);
       await deleteRequest(requestId);
-      // After deleting, refresh the requests to get the latest data
       await refreshRequests();
     } catch (error) {
       console.error('Error deleting request:', error);
@@ -569,7 +899,6 @@ const RequestTable: React.FC = () => {
                   {new Date(req.Date_Added).toLocaleDateString()}
                 </td>
                 <td className="py-2 px-4">
-                  {/* Admin actions: Accept/Reject for pending requests */}
                   {(accountType === 'owner' || accountType === 'pharmacist') && req.Status === 'Pending' && (
                     <div className="flex space-x-2">
                       <button
@@ -613,7 +942,6 @@ const RequestTable: React.FC = () => {
                     </div>
                   )}
                   
-                  {/* Technician actions: Delete for accepted/rejected requests */}
                   {accountType === 'technician' && userID === req.Technician_ID && 
                    (req.Status === 'Accepted' || req.Status === 'Rejected') && (
                     <button
@@ -653,3 +981,200 @@ const RequestTable: React.FC = () => {
 };
 
 export default RequestTable;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// import React, { useState } from 'react';
+// import { useRequests } from '../../../contexts/RequestsContext.tsx';
+// import { useAuthContext } from '../../../contexts/AuthContext.tsx';
+
+// const RequestTable: React.FC = () => {
+//   const { 
+//     requests, 
+//     loading, 
+//     error, 
+//     updateRequestStatus,
+//     deleteRequest,
+//     refreshRequests 
+//   } = useRequests();
+  
+//   const { accountType, userID } = useAuthContext();
+//   const [actionInProgress, setActionInProgress] = useState<string | null>(null);
+//   const [localError, setLocalError] = useState<string | null>(null);
+
+//   const handleAccept = async (requestId: string) => {
+//     try {
+//       setActionInProgress(requestId);
+//       setLocalError(null);
+//       await updateRequestStatus(requestId, 'Accepted');
+//       // After updating, refresh the requests to get the latest data
+//       await refreshRequests();
+//       // No page reload needed - let React handle UI updates
+//     } catch (error) {
+//       console.error('Error accepting request:', error);
+//       setLocalError('Failed to update request status');
+//     } finally {
+//       setActionInProgress(null);
+//     }
+//   };
+
+//   const handleReject = async (requestId: string) => {
+//     try {
+//       setActionInProgress(requestId);
+//       setLocalError(null);
+//       await updateRequestStatus(requestId, 'Rejected');
+//       // After updating, refresh the requests to get the latest data
+//       await refreshRequests();
+//     } catch (error) {
+//       console.error('Error rejecting request:', error);
+//       setLocalError('Failed to update request status');
+//     } finally {
+//       setActionInProgress(null);
+//     }
+//   };
+
+//   const handleDelete = async (requestId: string) => {
+//     try {
+//       setActionInProgress(requestId);
+//       setLocalError(null);
+//       await deleteRequest(requestId);
+//       // After deleting, refresh the requests to get the latest data
+//       await refreshRequests();
+//     } catch (error) {
+//       console.error('Error deleting request:', error);
+//       setLocalError('Failed to delete request');
+//     } finally {
+//       setActionInProgress(null);
+//     }
+//   };
+
+//   if (loading) {
+//     return <div className="text-center py-8">Loading requests...</div>;
+//   }
+
+//   return (
+//     <div className="overflow-x-auto">
+//       {localError && (
+//         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+//           {localError}
+//         </div>
+//       )}
+//       {error && (
+//         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+//           {error}
+//         </div>
+//       )}
+//       <table className="min-w-full bg-white">
+//         <thead>
+//           <tr className="bg-dark1 text-white">
+//             <th className="py-2 px-4 text-left">Request ID</th>
+//             <th className="py-2 px-4 text-left">Batch Number</th>
+//             <th className="py-2 px-4 text-left">Requested Quantity</th>
+//             <th className="py-2 px-4 text-left">Status</th>
+//             <th className="py-2 px-4 text-left">Order Status</th>
+//             <th className="py-2 px-4 text-left">Date Added</th>
+//             <th className="py-2 px-4 text-left">Actions</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {requests.length > 0 ? (
+//             requests.map((req) => (
+//               <tr key={req.Request_ID} className="border-b hover:bg-gray-50">
+//                 <td className="py-2 px-4">{req.Request_ID}</td>
+//                 <td className="py-2 px-4">{req.Batch_Number}</td>
+//                 <td className="py-2 px-4">{req.Batch_Quantity}</td>
+//                 <td className={`py-2 px-4 capitalize font-medium ${
+//                   req.Status === 'Pending' ? 'text-yellow-700' : 
+//                   req.Status === 'Accepted' ? 'text-green-700' : 'text-red-700'
+//                 }`}>
+//                   {req.Status}
+//                 </td>
+//                 <td className="py-2 px-4">{req.Order_status}</td>
+//                 <td className="py-2 px-4">
+//                   {new Date(req.Date_Added).toLocaleDateString()}
+//                 </td>
+//                 <td className="py-2 px-4">
+//                   {/* Admin actions: Accept/Reject for pending requests */}
+//                   {(accountType === 'owner' || accountType === 'pharmacist') && req.Status === 'Pending' && (
+//                     <div className="flex space-x-2">
+//                       <button
+//                         onClick={() => handleAccept(req.Request_ID)}
+//                         disabled={actionInProgress === req.Request_ID}
+//                         className={`${
+//                           actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-green-600 hover:bg-green-700'
+//                         } text-white w-8 h-8 rounded flex items-center justify-center`}
+//                         title="Accept Request"
+//                       >
+//                         {actionInProgress === req.Request_ID ? (
+//                           <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+//                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+//                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+//                           </svg>
+//                         ) : (
+//                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+//                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+//                           </svg>
+//                         )}
+//                       </button>
+//                       <button
+//                         onClick={() => handleReject(req.Request_ID)}
+//                         disabled={actionInProgress === req.Request_ID}
+//                         className={`${
+//                           actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-red-600 hover:bg-red-700'
+//                         } text-white w-8 h-8 rounded flex items-center justify-center`}
+//                         title="Reject Request"
+//                       >
+//                         {actionInProgress === req.Request_ID ? (
+//                           <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+//                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+//                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+//                           </svg>
+//                         ) : (
+//                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+//                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+//                           </svg>
+//                         )}
+//                       </button>
+//                     </div>
+//                   )}
+                  
+//                   {/* Technician actions: Delete for accepted/rejected requests */}
+//                   {accountType === 'technician' && userID === req.Technician_ID && 
+//                    (req.Status === 'Accepted' || req.Status === 'Rejected') && (
+//                     <button
+//                       onClick={() => handleDelete(req.Request_ID)}
+//                       disabled={actionInProgress === req.Request_ID}
+//                       className={`${
+//                         actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-gray-600 hover:bg-gray-700'
+//                       } text-white w-8 h-8 rounded flex items-center justify-center`}
+//                       title="Delete Request"
+//                     >
+//                       {actionInProgress === req.Request_ID ? (
+//                         <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+//                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+//                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+//                         </svg>
+//                       ) : (
+//                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+//                         </svg>
+//                       )}
+//                     </button>
+//                   )}
+//                 </td>
+//               </tr>
+//             ))
+//           ) : (
+//             <tr>
+//               <td colSpan={7} className="text-center py-4 text-gray-500">
+//                 No requests found.
+//               </td>
+//             </tr>
+//           )}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+// export default RequestTable;

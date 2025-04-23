@@ -204,7 +204,7 @@ export const RequestsProvider: React.FC<RequestsProviderProps> = ({ children }) 
       // Use the correct endpoint for updating status
       await axios.put(`http://localhost:8080/requests/${requestId}/status`, { status });
 
-      // If status is "Accepted", update batch table
+      //If status is "Accepted", update batch table
       if (status === 'Accepted') {
         await axios.post('http://localhost:8080/requests/update-batch-with-requests');
         
