@@ -1,13 +1,27 @@
-import React from "react";
+import React from 'react';
+import RequestTable from './components/RequestTable.tsx';
+import { RequestsProvider } from '../../contexts/RequestsContext.tsx';
+import { useAuthContext } from '../../contexts/AuthContext.tsx';
 
-export default function Requests() {
-    return (
-        <div> 
-        <div className='bg-background p-6 h-20'></div>
-        <div className='flex items-center justify-between mt-10'>
-        <div className='font-bold indent-10 text-2xl'>Pending Requests </div>
-             </div>
-             <div className='font-normal text-sm mt-4 indent-10'>List of pending requests</div>
+const Requests: React.FC = () => {
+  const { accountType } = useAuthContext();
+  
+  return ( //same method for showing pages as inventory
+    <RequestsProvider>
+      <div className="p-6">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-2xl font-bold mb-4">View Requests</h1>
+          {accountType === 'owner' || 'pharmacist' ? (
+            <p className="text-gray-600 mb-8">View all requests in the system.</p>
+          ) : (
+            <p className="text-gray-600 mb-8">View your requests and their current status.</p>
+          )}
+          <RequestTable />
+        
         </div>
-    );
-}
+      </div>
+    </RequestsProvider>
+  );
+};
+
+export default Requests;
