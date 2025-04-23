@@ -1,4 +1,7 @@
 - https://www.w3schools.com/w3css/defaulT.asp
+- https://tailwindcss.com/
+- https://www.geeksforgeeks.org/tailwind-css/
+- https://flowbite.com/docs/components/navbar/
 
 How to use Axios and fetch aata:
 - https://medium.com/@roshan.waa/fetching-and-modifying-data-in-react-js-with-axios-and-tailwind-css-623c7f87bab6
@@ -27,7 +30,7 @@ Login:
 -https://www.youtube.com/watch?v=8QgQKRcAUvM&t=569s 
 
 
-- https://tailwindcss.com/
-- https://www.geeksforgeeks.org/tailwind-css/
-- https://flowbite.com/docs/components/navbar/
 
+LocalStorage:
+- https://webdesign.tutsplus.com/preserve-menu-state-with-local-storage--cms-36610t
+- https://blog.logrocket.com/storing-retrieving-javascript-objects-localstorage/ 
