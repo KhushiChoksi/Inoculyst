@@ -112,7 +112,7 @@ const RequestTable: React.FC = () => {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto border border-gray-300 rounded-md">
       {localError && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {localError}
@@ -123,28 +123,28 @@ const RequestTable: React.FC = () => {
           {error}
         </div>
       )}
-      <table className="min-w-full bg-white">
-        <thead>
-          <tr className="bg-dark1 text-white">
-            <th className="py-2 px-4 text-left">Request ID</th>
-            <th className="py-2 px-4 text-left">Batch Number</th>
-            <th className="py-2 px-4 text-left">Requested Quantity</th>
-            <th className="py-2 px-4 text-left">Status</th>
-            <th className="py-2 px-4 text-left">Order Status</th>
-            <th className="py-2 px-4 text-left">Date Added</th>
-            <th className="py-2 px-4 text-left">Actions</th>
+      <table className="min-w-full divide-y divide-[gray-300">
+        <thead className="bg-[#FFFFFF]">
+          <tr>
+            <th className="px-6 py-3 text-left text-s font-medium text-black-500 tracking-wider cursor-pointer">Request ID</th>
+            <th className="px-6 py-3 text-left text-s font-medium text-black-500 tracking-wider cursor-pointer">Batch Number</th>
+            <th className="px-6 py-3 text-left text-s font-medium text-black-500 tracking-wider cursor-pointer">Requested Quantity</th>
+            <th className="px-6 py-3 text-left text-s font-medium text-black-500 tracking-wider cursor-pointer">Status</th>
+            <th className="px-6 py-3 text-left text-s font-medium text-black-500 tracking-wider cursor-pointer">Order Status</th>
+            <th className="px-6 py-3 text-left text-s font-medium text-black-500 tracking-wider cursor-pointer">Date Added</th>
+            <th className="px-6 py-3 text-left text-s font-medium text-black-500 tracking-wider cursor-pointer">Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-[#FFFFFF] divide-y divide-gray-200">
           {requests.length > 0 ? (
             requests.map((req) => (
-              <tr key={req.Request_ID} className="border-b hover:bg-gray-50">
-                <td className="py-2 px-4">{req.Request_ID}</td>
-                <td className="py-2 px-4">{req.Batch_Number}</td>
-                <td className="py-2 px-4">{req.Batch_Quantity}</td>
+              <tr key={req.Request_ID} className="hover:bg-light_green">
+                <td className="px-6 py-4 whitespace-nowrap">{req.Request_ID}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{req.Batch_Number}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{req.Batch_Quantity}</td>
                 <td className={`py-2 px-4 capitalize font-medium ${
-                  req.Status === 'Pending' ? 'text-yellow-700' : 
-                  req.Status === 'Accepted' ? 'text-green-700' : 'text-red-700'
+                  req.Status === 'Pending' ? 'text-[#C89F52]' : 
+                  req.Status === 'Accepted' ? 'text-[#899878]' : 'text-[#C85952]'
                 }`}>
                   {req.Status}
                 </td>
@@ -159,7 +159,7 @@ const RequestTable: React.FC = () => {
                         onClick={() => handleAccept(req.Request_ID)}
                         disabled={actionInProgress === req.Request_ID}
                         className={`${
-                          actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-green-600 hover:bg-green-700'
+                          actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-[#899878] hover:bg-[#4F5E3E]'
                         } text-white w-8 h-8 rounded flex items-center justify-center`}
                         title="Accept Request"
                       >
@@ -178,7 +178,7 @@ const RequestTable: React.FC = () => {
                         onClick={() => handleReject(req.Request_ID)}
                         disabled={actionInProgress === req.Request_ID}
                         className={`${
-                          actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-red-600 hover:bg-red-700'
+                          actionInProgress === req.Request_ID ? 'bg-gray-400' : 'bg-[#C85952] hover:bg-[#7E3E3A]'
                         } text-white w-8 h-8 rounded flex items-center justify-center`}
                         title="Reject Request"
                       >
