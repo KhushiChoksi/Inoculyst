@@ -52,17 +52,7 @@ const Requests: React.FC = () => {
             <p className="text-gray-600 mb-8">View your requests and their current status.</p>
           )}
           <RequestTable />
-          <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <h3 className="font-medium text-gray-700 mb-2">Request Status Information</h3>
-            <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-              <li><span className="font-medium text-yellow-700">Pending</span>: The request is waiting for an admin's review.</li>
-              <li><span className="font-medium text-green-700">Accepted</span>: The request has been approved and the batch has been updated.</li>
-              <li><span className="font-medium text-red-700">Rejected</span>: The request was not approved.</li>
-              {accountType === 'technician' && (
-                <li className="mt-2">You can delete accepted or rejected requests to remove them from your view.</li>
-              )}
-            </ul>
-          </div>
+        
         </div>
       </div>
     </RequestsProvider>
