@@ -97,7 +97,7 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
     const requestBody = {
       technician_id: technicianId,
       batch_number: batch.Batch_Number,
-      order_status: "Arrived", // adjust if dynamic
+      order_status: "Arrived",
       status: "Pending",
       date_added: new Date().toISOString().split("T")[0], 
       batch_quantity: quantity,
@@ -142,23 +142,38 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
     }
   };
   
-  
-  
   return (
     <div className="bg-[#F7F7F2] min-h-screen p-6">
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-6">Update Batch Request</h2>
+      <div className="max-w-2xl p-2">
+        <div className = "flex justify-between">
+      <div className="font-normal text-2xl">Inventory</div>
+      <div className="pl-4 font-normal text-2xl">&gt;</div>
+      <div className="pl-4 font-normal text-2xl">Batch Details</div>
+      <div className="pl-4 font-normal text-2xl mx-2">&gt;</div>
+        <div className="pl-4 text-2xl font-bold mb-6">Update Batch Request</div>
+        </div>
         
         {success ? (
+          <>
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-            Request submitted successfully! Redirecting...
-          </div>
+            Request submitted successfully!
+          </div> 
+          <button
+                type="button"
+                onClick={onCancel}
+                className="px-4 py-2 bg-dark1 text-white rounded hover:bg-dark_green"
+              >
+                Back To Inventory
+              </button>
+          </>
+          
         ) : (
           // <form onSubmit={handleSubmit}>
           <div>
             {error && (
               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                {error}
+                {/* {error} */}
+                A request already exists for this batch
               </div>
             )}
             
@@ -192,12 +207,12 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
                 value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 min={1}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 required
               />
             </div>
             
-            <div className="flex justify-end space-x-4">
+            <div className="flex space-x-4">
               <button
                 type="button"
                 onClick={onCancel}
@@ -210,7 +225,6 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
                 disabled={loading}
                 className="px-4 py-2 bg-dark1 text-white rounded hover:bg-dark_green transition-colors"
               >Submit Request
-                {/* {loading ? 'Submitting...' : 'Submit Request'} */}
               </button>
             </div>
           </div> //</form>

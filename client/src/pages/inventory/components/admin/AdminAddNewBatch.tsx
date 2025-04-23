@@ -8,7 +8,7 @@ export default function AdminAddNewBatch({ onCancel }: Props) {
   const [vaccineNames, setVaccineNames] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     order_status: "Ordered",
-    date_added: new Date().toISOString().split("T")[0],
+    date_added: new Date().toLocaleDateString('en-CA'),
     batch_quantity: 0,
     expiry_date: "",
     vaccine_name: "",
