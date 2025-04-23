@@ -123,18 +123,18 @@ const RequestUpdateBatch: React.FC<Props> = ({ batchh: batch, onCancel }) => {
             </div>
             
             <div className="flex space-x-4">
-              <button
-                type="button"
-                onClick={onCancel}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-              <button onClick={handleSubmit}
+            <button onClick={handleSubmit}
                 type="submit"
                 disabled={loading}
                 className="px-4 py-2 bg-dark1 text-white rounded hover:bg-dark_green transition-colors"
               >Submit Request
+              </button>
+              <button
+                type="button"
+                onClick={onCancel}
+                className="px-4 py-2 bg-red1 text-white rounded hover:text-dark1"
+              >
+                Cancel
               </button>
             </div>
           </div>

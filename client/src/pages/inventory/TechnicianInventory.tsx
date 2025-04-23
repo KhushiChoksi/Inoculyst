@@ -50,9 +50,9 @@ if (isUpdateBatchVisible && selectedBatch)
               <div className="font-bold indent-4 text-2xl text-left mr-6">Batch Details</div>
               <button
                 onClick={handleRequestUpdateBatch}
-                className="ml-auto font-normal text-sm bg-dark_green text-white mr-6 px-4 py-3 rounded hover:bg-dark1 transition-colors"
+                className="ml-auto font-normal text-sm bg-dark_green text-white mr-10 px-4 py-3 rounded hover:bg-dark1 transition-colors"
               >
-                Update Request
+                Request to Update
               </button>
 
             </div>

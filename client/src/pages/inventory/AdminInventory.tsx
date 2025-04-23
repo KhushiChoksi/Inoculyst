@@ -98,7 +98,7 @@ const handleDeleteBatch = async () => {
               <button onClick={() => setSelectedReturnBatch(selectedBatch.Batch_Number)} className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-red1 transition-colors">
                 Return Batch
               </button>
-              <button onClick={handleDeleteBatch} className="font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-red1 transition-colors">
+              <button onClick={handleDeleteBatch} className="font-normal text-sm bg-dark1 text-white mr-9 px-4 py-3 rounded hover:bg-red1 transition-colors">
                 Delete Batch
               </button>
             </div>
