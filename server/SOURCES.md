@@ -13,7 +13,6 @@
 - https://stackoverflow.com/questions/71337385/how-to-make-my-route-to-work-with-my-controller-in-nodejs 
 - https://pasanabeysekara.medium.com/building-a-node-js-crud-app-with-express-js-mysql-step-by-step-guide-bb7d86114084  
 - https://www.digitalocean.com/community/tutorials/nodejs-req-object-in-expressjs 
-
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring 
 - https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql 
 
