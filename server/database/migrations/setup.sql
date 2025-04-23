@@ -81,9 +81,7 @@ CREATE TABLE IF NOT EXISTS VACCINE (
   Vaccine_Name VARCHAR(100) NOT NULL,
   Brand_Name VARCHAR(100) NOT NULL,
   Diseases VARCHAR(100),
-  -- Batch_Number char(10),
   PRIMARY KEY(Vaccine_Name)
-  -- FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON UPDATE CASCADE
 );
 
 -- table: INVENTORY
@@ -126,7 +124,7 @@ CREATE TABLE IF NOT EXISTS REQUEST (
 -- table: BATCH_PENDING_REQUESTS
 CREATE TABLE IF NOT EXISTS BATCH_PENDING_REQUESTS (
   Batch_Number CHAR(10) NOT NULL,
-  Request_ID CHAR(10) NOT NULL,           -- this was B_Pending_Requests
+  Request_ID CHAR(10) NOT NULL,           -- this was B_Pending_Requests (just changed name for readability)
   Technician_ID CHAR(10) NOT NULL,
   PRIMARY KEY(Batch_Number, Request_ID, Technician_ID),
   FOREIGN KEY(Batch_Number) REFERENCES BATCH(Batch_Number) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -191,9 +189,3 @@ CREATE TABLE VACCINE_ACTIVE_INGREDIENTS (
   PRIMARY KEY(Vaccine_Name, V_Active_Ingredients),
   FOREIGN KEY(Vaccine_Name) REFERENCES VACCINE(Vaccine_Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-
--- (make sure you are in `server` folder)
--- run this to initalize: mysql -u root -p < database/migrations/setup.sql
--- pass is inoculyst.
--- set up details for this user account is in discord

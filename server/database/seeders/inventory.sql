@@ -1,4 +1,4 @@
--- Create Vaccines
+-- create vaccines
 INSERT INTO VACCINE (Vaccine_Name, Brand_Name, Diseases)
 VALUES ('[Pneu-C-7] Prevnar', 'Pfizer Canada Inc.', 'Pneumococcal disease'); -- https://nvc-cnv.canada.ca/en/tradename/7651000087105
 INSERT INTO VACCINE_ACTIVE_INGREDIENTS (Vaccine_Name, V_Active_Ingredients)
@@ -24,11 +24,11 @@ VALUES ('[Batx] BAT (Cang)', 'Cangene Corporation', 'Poisoning caused by Clostri
 INSERT INTO VACCINE_ACTIVE_INGREDIENTS (Vaccine_Name, V_Active_Ingredients)
 VALUES ('[Batx] BAT (Cang)', 'Botulism antitoxin');
 
--- Create Inventory
+-- create inventory
 INSERT INTO INVENTORY (Pharmacy_Name)
 VALUES ('PharmaPlus');
 
--- Insert Batches 
+-- insert batches 
 INSERT INTO BATCH (Batch_number, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
 VALUES ('BA001', 'Arrived', '2025-03-31', 6, '2026-03-04', '[Pneu-C-7] Prevnar', 'PharmaPlus');
 
@@ -69,8 +69,7 @@ INSERT INTO BATCH (Batch_number, Order_status, Date_Added, Batch_Quantity, Expir
 VALUES ('BA013', 'Arrived', '2025-04-20', 11, '2030-04-19', '[Pneu-C-7] Prevnar', 'PharmaPlus');
 
 
-
--- Create Batch Requests made by Technician
+-- create batch requests made by technician E001
 INSERT INTO REQUEST (Request_ID, Technician_ID, Batch_Number, Status, Order_status, Date_Added, Batch_Quantity, Expiry_Date, Vaccine_Name, Pharmacy_Name)
 VALUES ('E001BA001', 'E001', 'BA001', 'Pending', 'Arrived', '2025-03-31', 10, '2026-03-04', '[Pneu-C-7] Prevnar', 'PharmaPlus');
 
@@ -81,7 +80,7 @@ INSERT INTO REQUEST (Request_ID, Technician_ID, Batch_Number, Status, Order_stat
 VALUES ('E001BA010', 'E001', 'BA010', 'Accepted', 'Arrived', '2025-03-31', 1, '2025-04-19', '[COVID-19] VAXZEVRIA', 'PharmaPlus');
 
 
--- Insert into BATCH_PENDING_REQUESTS only if Status == 'Pending'
+-- insert into BATCH_PENDING_REQUESTS table only if Status == 'Pending'
 INSERT INTO BATCH_PENDING_REQUESTS (Batch_Number, Request_ID, Technician_ID)
 SELECT r.Batch_Number, r.Request_ID, r.Technician_ID
 FROM REQUEST r

@@ -9,7 +9,7 @@ INSERT INTO RETURNED_BATCHES (Return_ID, Admin_ID, Distributor_Name, Batch_Numbe
 VALUES ('A002BA004', 'A002', 'We Sell Vaccines', 'BA004');
 
 
--- delete returned batches from batch table (due to cascade property, the batch should get deleted from other tables)
+-- delete returned batches from batch table (due to cascade property, the batch should get deleted from other child tables)
 DELETE FROM BATCH
 WHERE Batch_Number IN (
   SELECT Batch_Number

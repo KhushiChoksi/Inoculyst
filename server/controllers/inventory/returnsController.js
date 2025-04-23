@@ -1,5 +1,6 @@
 const db = require('../../db');
 
+// retrieve all returned batches
 exports.getAllReturnedBatches = (req, res) => {
     db.query('SELECT * FROM RETURNED_BATCHES', (err, results) => {
         if (err) return res.status(500).send('Error getting all returned batches');
@@ -8,15 +9,6 @@ exports.getAllReturnedBatches = (req, res) => {
 };
 
 // insert a returned batch and delete it from batch table
-/* SAMPLE CURL request
-curl -X POST http://localhost:8080/returns/add-returned-batch \
-  -H "Content-Type: application/json" \
-  -d '{
-    "admin_id": "A002",
-    "distributor_name": "We Sell Vaccines",
-    "batch_number": "BA001"
-}'
-*/
 exports.addReturnedBatch = (req, res) => {
   const { 
       admin_id, 
@@ -26,7 +18,7 @@ exports.addReturnedBatch = (req, res) => {
 
   const return_id = admin_id + batch_number;
   
-  // query to insert into RETURNED_BATCHES
+  // query to insert into RETURNED_BATCHES table
   const insertQuery = `
     INSERT INTO RETURNED_BATCHES (Return_ID, Admin_ID, Distributor_Name, Batch_Number)
     VALUES (?, ?, ?, ?)

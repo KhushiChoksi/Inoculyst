@@ -1,5 +1,4 @@
 const db = require('../../db');
-const batchController = require('./batchController');
 
 // get all requests regardless of status
 exports.getAllRequests = (req, res) => {
@@ -41,23 +40,7 @@ exports.updatePendingRequestsTable = (req, res) => {
     });
 };
 
-
-
 // insert a request
-/* SAMPLE CURL request
-curl -X POST http://localhost:8080/requests/add-request \
-  -H "Content-Type: application/json" \
-  -d '{
-    "technician_id": "E001",
-    "batch_number": "BA00",
-    "order_status": "Arrived",
-    "date_added": "2025-03-31",
-    "batch_quantity": 10,
-    "expiry_date": "2025-04-26",
-    "vaccine_name": "[COVID-19] VAXZEVRIA",
-    "pharmacy_name": "PharmaPlus"
-}'
-*/
 exports.addNewRequest = (req, res) => {
     const {
         technician_id,
@@ -73,7 +56,7 @@ exports.addNewRequest = (req, res) => {
 
     const request_id = technician_id + batch_number;
 
-    // check if this request already exists
+    // query to check if this request already exists
     const checkExistingQuery = `SELECT * FROM REQUEST WHERE Request_ID = ?`;
 
     db.query(checkExistingQuery, [request_id], (err, existingResults) => {
@@ -153,8 +136,10 @@ exports.updateBatchFromAcceptedRequests = (req, res) => {
 exports.deleteRequest = (req, res) => {
     const { id } = req.params;
   
-    // delete from BATCH
-    db.query('DELETE FROM REQUEST WHERE Request_ID = ?', [id], (err, results) => {
+    deleteQuery = 'DELETE FROM REQUEST WHERE Request_ID = ?';
+
+    // delete from REQUEST table
+    db.query(deleteQuery, [id], (err, results) => {
         if (err) {
             return db.rollback(() => {
                 console.error('Error deleting from REQUEST:', err);

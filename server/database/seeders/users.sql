@@ -1,4 +1,3 @@
-
 -- Owner: Alice Jones
 INSERT INTO ADMIN (ID, First_name, Last_name, Email, Phone_number)
 VALUES ('A001', 'Alice', 'Jones', 'alicejones@inoculyst.com', '1234567890');

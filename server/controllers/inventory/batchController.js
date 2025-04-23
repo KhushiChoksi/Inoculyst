@@ -54,19 +54,8 @@ exports.updateBatchVaccineType = (req, res) => {
 };
 
 
-/* 
-SAMPLE CURL insert
-curl -X POST http://localhost:8080/batches/add-batch \
-  -H "Content-Type: application/json" \
-  -d '{
-    "order_status": "Arrived",
-    "date_added": "2025-04-19",
-    "batch_quantity": 5,
-    "expiry_date": "2029-08-23",
-    "vaccine_name": "[Inf] Vaxigrip",
-    "pharmacy_name": "PharmaPlus"
-}'
 
+/*
 - https://www.geeksforgeeks.org/how-to-add-unique-id-to-each-record-in-your-local-custom-database-in-node-js
 - https://stackoverflow.com/questions/73795994/how-to-create-a-custom-id-using-auto-increment-at-the-time-of-table-creation-in 
 */
@@ -123,8 +112,10 @@ exports.addNewBatch = (req, res) => {
 exports.deleteBatch = (req, res) => {
   const { id } = req.params;
 
-  // delete from BATCH
-  db.query('DELETE FROM BATCH WHERE Batch_Number = ?', [id], (err, results) => {
+  deleteQuery = 'DELETE FROM BATCH WHERE Batch_Number = ?';
+
+  // query to delete from BATCH table
+  db.query(deleteQuery, [id], (err, results) => {
     if (err) {
       return db.rollback(() => {
         console.error('Error deleting from BATCH:', err);

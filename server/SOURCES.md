@@ -9,11 +9,15 @@
 - https://devdotcode.com/how-to-add-routes-to-insert-data-into-mysql-database-related-tables-in-node-js-api/ 
 - https://stackoverflow.com/questions/71337385/how-to-make-my-route-to-work-with-my-controller-in-nodejs 
 - https://pasanabeysekara.medium.com/building-a-node-js-crud-app-with-express-js-mysql-step-by-step-guide-bb7d86114084  
+- https://www.digitalocean.com/community/tutorials/nodejs-req-object-in-expressjs 
+
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring 
+- https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql 
 
 ### Transactions
 - https://developers.redhat.com/articles/2023/07/31/how-handle-transactions-nodejs-reference-architecture
 - https://sehannrathnayake.medium.com/how-to-handle-mysql-database-transactions-with-nodejs-b7a2bf1fd203 
-- https://blog.logrocket.com/build-rest-api-node-express-mysql/ (also has more than transactions)
+- https://blog.logrocket.com/build-rest-api-node-express-mysql/
 
 ### Date function in MySQL
 - https://www.tutorialspoint.com/mysql/mysql-date-time-functions.htm 

@@ -1,5 +1,6 @@
 const db = require('../../db');
 
+// retrieve all accounts
 exports.getAllAccounts = (req, res) => {
   db.query('SELECT * FROM ACCOUNT', (err, results) => {
     if (err) return res.status(500).send('Error getting accounts');
@@ -8,14 +9,6 @@ exports.getAllAccounts = (req, res) => {
 };
 
 // update account type (assistant to technician only)
-/* sample CURL request to test
-curl -X PUT http://localhost:8080/account/E003/account-type \
-  -H "Content-Type: application/json" \
-  -d '{
-    "account_type": "technician",
-    "certification_number": "CERT444555"
-  }'
-*/
 exports.updateAccountType = (req, res) => {
   const { id } = req.params;
   const { 
