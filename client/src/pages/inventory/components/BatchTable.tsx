@@ -31,7 +31,7 @@ const BatchTable: React.FC<Props> = ({ onViewDetails }) => {
   }, []);
 
   return (
-    <div className="overflow-x-auto border border-gray-300 rounded-md">
+    <div className="overflow-x-auto border border-gray-300 rounded-md mr-6">
       <table className="min-w-full divide-y divide-[gray-300]">
         <thead className='bg-[#FFFFFF]'>
           <tr>

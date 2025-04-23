@@ -61,10 +61,10 @@ const handleDeleteBatch = async () => {
       <div className="">
         {selectedBatch ? (
           <>
-            <div className="flex mt-4">
+            <div className="flex mt-4 p-2">
               <div className="font-normal indent-6 text-2xl">Inventory</div>
-              <div className="font-normal indent-10 text-2xl mx-2">&gt;</div>
-              <div className="font-bold indent-10 text-2xl text-left mr-6">Batch Details</div>
+              <div className="font-normal indent-4 text-2xl mx-2">&gt;</div>
+              <div className="font-bold indent-4 text-2xl text-left mr-6">Batch Details</div>
              
             </div>
 
@@ -73,7 +73,7 @@ const handleDeleteBatch = async () => {
             </div>
             <button
               onClick={handleBack}
-              className="float-right mt-4 font-normal text-sm bg-dark1 text-white mr-6 px-4 py-3 rounded hover:bg-dark_green transition-colors">
+              className="float-right mt-4 font-normal text-sm bg-dark1 text-white mr-10 px-4 py-3 rounded hover:bg-dark_green transition-colors">
               Back to Inventory
             </button>
           </>

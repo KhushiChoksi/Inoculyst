@@ -98,7 +98,7 @@ const handleReturn = async () => {
       </button>
       <button
         onClick={onCancel}
-        className="ml-4 font-normal text-sm bg-gray-400 text-white px-4 py-3 rounded hover:bg-gray-500 transition-colors"
+        className="ml-4 font-normal text-sm bg-red1 text-white px-4 py-3 rounded hover:text-dark1 transition-colors"
       >
         Cancel
       </button>
