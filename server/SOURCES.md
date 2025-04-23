@@ -1,4 +1,7 @@
 ### Others/General
+- https://www.youtube.com/watch?v=fPuLnzSjPLE
+- https://www.geeksforgeeks.org/how-to-connect-to-a-mysql-database-using-the-mysql2-package-in-node-js
+- https://expressjs.com/en/guide/routing.html 
 - https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Express_Nodejs/Introduction 
 - https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Express_Nodejs/routes 
 - https://medium.com/@mahendramahara/organize-your-express-js-backend-server-with-routes-and-controllers-cb86d26db224 

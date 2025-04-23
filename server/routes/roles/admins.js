@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../../controllers/roles/adminController');
 
+// retrieve all admins
 router.get('/', controller.getAllAdmins);
 
 // update information

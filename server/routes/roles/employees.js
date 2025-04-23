@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../../controllers/roles/employeeController');
 
+// retrieve all employees
 router.get('/', controller.getAllEmployees);
 
 // update information

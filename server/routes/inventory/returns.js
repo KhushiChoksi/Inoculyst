@@ -5,7 +5,7 @@ const controller = require('../../controllers/inventory/returnsController');
 // retrieve returned batch information
 router.get('/', controller.getAllReturnedBatches);
 
-// add returns to
+// add returned batch
 router.post('/add-returned-batch', controller.addReturnedBatch);
 
 module.exports = router;

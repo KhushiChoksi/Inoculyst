@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../../controllers/roles/accountController');
 
+// retrieve all accounts
 router.get('/', controller.getAllAccounts);
 
 // update account information
